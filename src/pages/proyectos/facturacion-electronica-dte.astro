@@ -1,0 +1,59 @@
+---
+import {
+  IconArrowUpRight,
+  IconBolt,
+  IconBrain,
+  IconCode,
+  IconReceiptTax,
+  IconTargetArrow,
+  IconUserCheck,
+} from '@tabler/icons-react';
+import { getProjectBySlug } from '../../data/projects';
+import ProjectPageFrame from './_ProjectPageFrame.astro';
+
+const project = getProjectBySlug('facturacion-electronica-dte');
+const eyebrow = 'font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]';
+const card = 'rounded-[6px] border border-[#26352c] bg-[#16211b]/75 p-5';
+---
+
+<ProjectPageFrame project={project} icon={IconReceiptTax} intro="Sistema fiscal en produccion para emitir, respaldar y enviar documentos tributarios electronicos dentro de una operacion real.">
+  <Fragment slot="details">
+    <article class={card}>
+      <IconTargetArrow className="mb-4 text-[#5faf7b]" size={24} stroke={1.7} aria-hidden="true" />
+      <p class={eyebrow}>01 · Problema operativo</p>
+      <p class="mt-3 leading-relaxed text-[#9baaa0]">{project.problem}</p>
+    </article>
+
+    <article class={card}>
+      <IconBolt className="mb-4 text-[#5faf7b]" size={24} stroke={1.7} aria-hidden="true" />
+      <p class={eyebrow}>02 · Solucion fiscal</p>
+      <p class="mt-3 leading-relaxed text-[#9baaa0]">{project.solution}</p>
+    </article>
+
+    <article class={card}>
+      <IconCode className="mb-4 text-[#5faf7b]" size={24} stroke={1.7} aria-hidden="true" />
+      <p class={eyebrow}>03 · Integraciones criticas</p>
+      <ul class="mt-3 grid gap-2.5 p-0">
+        {project.features.map((feature) => <li class="list-none leading-relaxed text-[#9baaa0] before:mr-2 before:text-[#5faf7b] before:content-['+']">{feature}</li>)}
+      </ul>
+    </article>
+
+    <article class={card}>
+      <IconUserCheck className="mb-4 text-[#5faf7b]" size={24} stroke={1.7} aria-hidden="true" />
+      <p class={eyebrow}>04 · Mi rol</p>
+      <p class="mt-3 leading-relaxed text-[#9baaa0]">{project.role}</p>
+    </article>
+
+    <article class={card}>
+      <IconBrain className="mb-4 text-[#5faf7b]" size={24} stroke={1.7} aria-hidden="true" />
+      <p class={eyebrow}>05 · Experiencia de emision</p>
+      <p class="mt-3 leading-relaxed text-[#9baaa0]">{project.ux}</p>
+    </article>
+
+    <article class={card}>
+      <IconArrowUpRight className="mb-4 text-[#5faf7b]" size={24} stroke={1.7} aria-hidden="true" />
+      <p class={eyebrow}>06 · Aprendizaje principal</p>
+      <p class="mt-3 leading-relaxed text-[#9baaa0]">{project.learnings}</p>
+    </article>
+  </Fragment>
+</ProjectPageFrame>

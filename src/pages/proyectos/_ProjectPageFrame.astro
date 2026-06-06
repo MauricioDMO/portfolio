@@ -1,0 +1,65 @@
+---
+import { IconArrowLeft, IconMail } from '@tabler/icons-react';
+import ButtonLink from '../../components/ButtonLink.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import Layout from '../../layouts/Layout.astro';
+import type { Project } from '../../data/projects';
+import ProjectImageFrame from '../../sections/projects/components/ProjectImageFrame.astro';
+
+type Props = {
+  project: Project;
+  icon: any;
+  intro?: string;
+};
+
+const { project, icon: ProjectIcon, intro = project.summary } = Astro.props;
+const eyebrow = 'font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]';
+const card = 'rounded-[6px] border border-[#26352c] bg-[#16211b]/75';
+---
+
+<Layout title={`${project.title} | MauricioDMO`} description={project.summary}>
+  <SiteHeader variant="project" />
+
+  <main>
+    <section class="mx-auto w-[min(calc(100%-2rem),1120px)] py-20 md:py-24">
+      <ProjectIcon className="mb-6 text-[#5faf7b]" size={38} stroke={1.7} aria-hidden="true" />
+      <p class={eyebrow}>{project.eyebrow}</p>
+      <h1 class="mt-5 max-w-[900px] text-[clamp(3rem,8vw,7rem)] leading-[0.92] tracking-[-0.08em] text-[#e8eee9]" transition:name={`project-title-${project.slug}`}>{project.title}</h1>
+      <p class="mt-7 max-w-[760px] text-[clamp(1.08rem,1.8vw,1.35rem)] leading-[1.65] text-[#9baaa0]">{intro}</p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <ButtonLink href="/#proyectos">
+          <IconArrowLeft size={18} stroke={1.8} aria-hidden="true" />
+          Volver a proyectos
+        </ButtonLink>
+        <ButtonLink href="mailto:hola@mauriciodmo.com" variant="primary">
+          <IconMail size={18} stroke={1.8} aria-hidden="true" />
+          Hablemos de un proyecto
+        </ButtonLink>
+      </div>
+      <div class="mt-10">
+        <ProjectImageFrame project={project} />
+      </div>
+    </section>
+
+    <section class="border-t border-[#26352c]/60 py-18">
+      <div class="mx-auto grid w-[min(calc(100%-2rem),1120px)] items-start gap-7 md:grid-cols-[0.75fr_1.25fr]">
+        <aside class={`${card} sticky top-24 p-5 max-md:static`}>
+          <p class={eyebrow}>impacto</p>
+          <ul class="mt-5 grid gap-2.5 p-0">
+            {project.impact.map((item) => <li class="list-none leading-relaxed text-[#9baaa0] before:mr-2 before:text-[#5faf7b] before:content-['+']">{item}</li>)}
+          </ul>
+          <ul class="mt-5 flex flex-wrap gap-2" aria-label={`Stack de ${project.title}`}>
+            {project.stack.map((item) => <li class="list-none rounded-full border border-white/10 px-2.5 py-1.5 font-mono text-xs text-[#9baaa0]">{item}</li>)}
+          </ul>
+        </aside>
+
+        <div class="grid gap-3.5">
+          <slot name="details" />
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter label={project.title} homeLink />
+</Layout>
