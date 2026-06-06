@@ -10,59 +10,70 @@ import SectionHeader from "../../components/SectionHeader.astro";
 import TechPill from "../../components/TechPill.astro";
 import StackCard from "./components/StackCard.astro";
 
-const stack = [
+type StackItem = [title: string, text: string, Icon: typeof IconCode];
+type StackLogo = [name: string, src: string, href: string];
+
+const stack: StackItem[] = [
   [
     "Frontend",
-    "Interfaces con Next.js, Astro, React y Tailwind, cuidando estados, responsive, accesibilidad basica y flujos que reduzcan friccion para usuarios operativos.",
+    "Interfaces con Next.js, Astro, React y Tailwind, cuidando estados, responsive, experiencia de usuario, accesibilidad y flujos que reduzcan fricción para usuarios operativos.",
     IconCode,
   ],
   [
     "Backend",
-    "APIs con Node.js y Express, autenticacion con JWT, reglas de negocio, validaciones e integraciones que conectan el sistema con servicios externos.",
+    "APIs con Node.js y Express, autenticación con JWT, reglas de negocio, validaciones e integraciones que conectan el sistema con servicios de terceros.",
     IconServer,
   ],
   [
     "Datos",
-    "Modelado y consultas con PostgreSQL, Turso, Prisma cuando tiene sentido, priorizando consistencia, trazabilidad y mantenimiento.",
+    "Modelado y consultas con PostgreSQL, Turso, Prisma, priorizando consistencia, trazabilidad y mantenimiento. Los datos son el corazón del sistema, no una parte olvidada.",
     IconDatabase,
   ],
   [
     "Operacion",
-    "Despliegues, almacenamiento, Git, Linux, Bash, Docker y servicios cloud para que las soluciones no se queden solo en local.",
+    "Despliegues, almacenamiento, Git, Linux, Bash, Docker y servicios cloud. La infraestructura es parte del sistema, no un extra, y la mantengo con el mismo cuidado que el resto del software.",
     IconTool,
   ],
   [
     "Proceso",
-    "Uso herramientas como OpenCode, Obsidian e IA para documentar, depurar, revisar arquitectura y sostener mejor el aprendizaje del proyecto.",
+    "Elijo herramientas que ayuden a construir sistemas claros, rapidos y mantenibles. No me caso con ninguna tecnologia, sino que busco la mejor para cada proyecto y contexto.",
     IconSparkles,
   ],
 ];
 
-const stackLogos = [
-  ["Next.js", "/svg/nextjs_icon_dark.svg"],
-  ["Node.js", "/svg/nodejs.svg"],
-  ["Express.js", "/svg/expressjs_dark.svg"],
-  ["PostgreSQL", "/svg/postgresql.svg"],
-  ["Turso", "/svg/turso-dark.svg"],
-  ["Astro", "/svg/astro-icon-dark.svg"],
-  ["React", "/svg/react_dark.svg"],
-  ["Tailwind CSS", "/svg/tailwindcss.svg"],
-  ["AWS", "/svg/aws_dark.svg"],
-  ["GitHub", "/svg/github_dark.svg"],
-  ["Git", "/svg/git.svg"],
-  ["Docker", "/svg/docker.svg"],
-  ["Vercel", "/svg/vercel_dark.svg"],
-  ["JWT", "/svg/jwt.svg"],
-  ["Prisma", "/svg/prisma_dark.svg"],
-  ["Vite", "/svg/vite.svg"],
-  ["pnpm", "/svg/pnpm_dark.svg"],
-  ["OpenCode", "/svg/opencode-dark.svg"],
-  ["Obsidian", "/svg/obsidian.svg"],
-  ["Linux", "/svg/linux.svg"],
-  ["Bash", "/svg/bash_dark.svg"],
-  ["JavaScript", "/svg/javascript.svg"],
-  ["TypeScript", "/svg/typescript.svg"],
-  ["HTML5", "/svg/html5.svg"],
+const stackLogos: StackLogo[] = [
+  ["Next.js", "/svg/nextjs_icon_dark.svg", "https://nextjs.org/"],
+  ["Node.js", "/svg/nodejs.svg", "https://nodejs.org/"],
+  ["Express.js", "/svg/expressjs_dark.svg", "https://expressjs.com/"],
+  ["PostgreSQL", "/svg/postgresql.svg", "https://www.postgresql.org/"],
+  ["Turso", "/svg/turso-dark.svg", "https://turso.tech/"],
+  ["Astro", "/svg/astro-icon-dark.svg", "https://astro.build/"],
+  ["React", "/svg/react_dark.svg", "https://react.dev/"],
+  ["Tailwind CSS", "/svg/tailwindcss.svg", "https://tailwindcss.com/"],
+  ["AWS", "/svg/aws_dark.svg", "https://aws.amazon.com/"],
+  ["GitHub", "/svg/github_dark.svg", "https://github.com/"],
+  ["Git", "/svg/git.svg", "https://git-scm.com/"],
+  ["Docker", "/svg/docker.svg", "https://www.docker.com/"],
+  ["Vercel", "/svg/vercel_dark.svg", "https://vercel.com/"],
+  ["JWT", "/svg/jwt.svg", "https://jwt.io/"],
+  ["Prisma", "/svg/prisma_dark.svg", "https://www.prisma.io/"],
+  ["Vite", "/svg/vite.svg", "https://vite.dev/"],
+  ["pnpm", "/svg/pnpm_dark.svg", "https://pnpm.io/"],
+  ["OpenCode", "/svg/opencode-dark.svg", "https://opencode.ai/"],
+  ["Obsidian", "/svg/obsidian.svg", "https://obsidian.md/"],
+  ["Linux", "/svg/linux.svg", "https://www.linux.org/"],
+  ["Bash", "/svg/bash_dark.svg", "https://www.gnu.org/software/bash/"],
+  [
+    "JavaScript",
+    "/svg/javascript.svg",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+  ],
+  ["TypeScript", "/svg/typescript.svg", "https://www.typescriptlang.org/"],
+  [
+    "HTML5",
+    "/svg/html5.svg",
+    "https://developer.mozilla.org/en-US/docs/Web/HTML",
+  ],
 ];
 ---
 
@@ -74,8 +85,15 @@ const stackLogos = [
       description="Uso herramientas modernas sin convertirlas en el centro del portafolio. La prioridad es elegir tecnologia que ayude a construir sistemas claros, rapidos y mantenibles."
     />
 
-    <div class="mb-8 flex flex-wrap gap-3" aria-label="Tecnologias utilizadas">
-      {stackLogos.map(([name, src]) => <TechPill name={name} src={src} />)}
+    <div
+      class="mb-8 flex flex-wrap gap-5 justify-center"
+      aria-label="Tecnologias utilizadas"
+    >
+      {
+        stackLogos.map(([name, src, href]) => (
+          <TechPill name={name} src={src} href={href} />
+        ))
+      }
     </div>
 
     <div class="grid gap-3 md:grid-cols-6">

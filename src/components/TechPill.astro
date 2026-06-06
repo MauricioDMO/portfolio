@@ -2,14 +2,32 @@
 type Props = {
   name: string;
   src: string;
+  href: string;
 };
 
-const { name, src } = Astro.props;
+const { name, src, href } = Astro.props;
 ---
 
-<span class="group inline-flex min-h-16 items-center gap-3 rounded-full border border-[#26352c] bg-[#111a15]/80 px-5 py-3 text-[#e8eee9] shadow-[0_18px_60px_rgba(0,0,0,0.18)] transition hover:-translate-y-0.5 hover:border-[#5faf7b]/70 hover:bg-[#16211b]">
-  <span class="grid size-11 place-items-center rounded-full border border-white/10 bg-[#0d1210]/70 transition group-hover:border-[#5faf7b]/40">
-    <img class="h-7 w-7 object-contain" src={src} alt="" loading="lazy" decoding="async" aria-hidden="true" />
+<a
+  class="group inline-flex min-h-16 items-center gap-2 rounded-xl border border-[#26352c] bg-[#111a15]/80 p-2 text-[#e8eee9] shadow-[0_18px_60px_rgba(0,0,0,0.18)] transition hover:-translate-y-0.5 hover:border-[#5faf7b]/70 hover:bg-[#16211b] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#5faf7b]"
+  href={href}
+  target="_blank"
+  rel="noreferrer"
+  aria-label={`Ver pagina web de ${name}`}
+>
+  <span
+    class="grid size-11 place-items-center rounded border border-white/10 bg-[#0d1210]/70 transition group-hover:border-[#5faf7b]/40"
+  >
+    <img
+      class="h-7 w-7 object-contain"
+      src={src}
+      alt=""
+      loading="lazy"
+      decoding="async"
+      aria-hidden="true"
+    />
   </span>
-  <span class="font-mono text-sm uppercase tracking-[0.08em] text-[#c9d6ce]">{name}</span>
-</span>
+  <span class="font-mono text-sm uppercase tracking-[0.08em] text-[#c9d6ce]"
+    >{name}</span
+  >
+</a>
