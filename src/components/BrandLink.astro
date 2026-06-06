@@ -1,0 +1,17 @@
+---
+type Props = {
+  label?: string;
+};
+
+const { label = 'Inicio MauricioDMO' } = Astro.props;
+---
+
+<a
+  class="inline-flex items-center gap-2.5 font-bold tracking-[-0.04em] text-[#e8eee9] no-underline"
+  href="/"
+  aria-label={label}
+  transition:name="brand"
+>
+  <span class="grid size-7 place-items-center rounded border border-[#26352c] font-mono text-xs text-[#5faf7b]">md</span>
+  <span>MauricioDMO</span>
+</a>

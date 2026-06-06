@@ -1,0 +1,94 @@
+---
+import {
+  IconCode,
+  IconDatabase,
+  IconServer,
+  IconSparkles,
+  IconTool,
+} from "@tabler/icons-react";
+import SectionHeader from "../../components/SectionHeader.astro";
+import TechPill from "../../components/TechPill.astro";
+import StackCard from "./components/StackCard.astro";
+
+const stack = [
+  [
+    "Frontend",
+    "Interfaces con Next.js, Astro, React y Tailwind, cuidando estados, responsive, accesibilidad basica y flujos que reduzcan friccion para usuarios operativos.",
+    IconCode,
+  ],
+  [
+    "Backend",
+    "APIs con Node.js y Express, autenticacion con JWT, reglas de negocio, validaciones e integraciones que conectan el sistema con servicios externos.",
+    IconServer,
+  ],
+  [
+    "Datos",
+    "Modelado y consultas con PostgreSQL, Turso, Prisma cuando tiene sentido, priorizando consistencia, trazabilidad y mantenimiento.",
+    IconDatabase,
+  ],
+  [
+    "Operacion",
+    "Despliegues, almacenamiento, Git, Linux, Bash, Docker y servicios cloud para que las soluciones no se queden solo en local.",
+    IconTool,
+  ],
+  [
+    "Proceso",
+    "Uso herramientas como OpenCode, Obsidian e IA para documentar, depurar, revisar arquitectura y sostener mejor el aprendizaje del proyecto.",
+    IconSparkles,
+  ],
+];
+
+const stackLogos = [
+  ["Next.js", "/svg/nextjs_icon_dark.svg"],
+  ["Node.js", "/svg/nodejs.svg"],
+  ["Express.js", "/svg/expressjs_dark.svg"],
+  ["PostgreSQL", "/svg/postgresql.svg"],
+  ["Turso", "/svg/turso-dark.svg"],
+  ["Astro", "/svg/astro-icon-dark.svg"],
+  ["React", "/svg/react_dark.svg"],
+  ["Tailwind CSS", "/svg/tailwindcss.svg"],
+  ["AWS", "/svg/aws_dark.svg"],
+  ["GitHub", "/svg/github_dark.svg"],
+  ["Git", "/svg/git.svg"],
+  ["Docker", "/svg/docker.svg"],
+  ["Vercel", "/svg/vercel_dark.svg"],
+  ["JWT", "/svg/jwt.svg"],
+  ["Prisma", "/svg/prisma_dark.svg"],
+  ["Vite", "/svg/vite.svg"],
+  ["pnpm", "/svg/pnpm_dark.svg"],
+  ["OpenCode", "/svg/opencode-dark.svg"],
+  ["Obsidian", "/svg/obsidian.svg"],
+  ["Linux", "/svg/linux.svg"],
+  ["Bash", "/svg/bash_dark.svg"],
+  ["JavaScript", "/svg/javascript.svg"],
+  ["TypeScript", "/svg/typescript.svg"],
+  ["HTML5", "/svg/html5.svg"],
+];
+---
+
+<section class="border-t border-[#26352c]/60 py-18" id="stack">
+  <div class="mx-auto w-[min(calc(100%-2rem),1120px)]">
+    <SectionHeader
+      eyebrow="Stack tecnico"
+      title="Tecnologia al servicio del proceso."
+      description="Uso herramientas modernas sin convertirlas en el centro del portafolio. La prioridad es elegir tecnologia que ayude a construir sistemas claros, rapidos y mantenibles."
+    />
+
+    <div class="mb-8 flex flex-wrap gap-3" aria-label="Tecnologias utilizadas">
+      {stackLogos.map(([name, src]) => <TechPill name={name} src={src} />)}
+    </div>
+
+    <div class="grid gap-3 md:grid-cols-6">
+      {
+        stack.map(([title, text, Icon], index) => (
+          <StackCard
+            title={title}
+            text={text}
+            Icon={Icon}
+            offset={index === 3}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>

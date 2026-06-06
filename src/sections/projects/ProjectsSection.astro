@@ -1,0 +1,19 @@
+---
+import SectionHeader from '../../components/SectionHeader.astro';
+import { featuredProjects } from '../../data/projects';
+import ProjectCard from './components/ProjectCard.astro';
+---
+
+<section class="border-t border-[#26352c]/60 py-18" id="proyectos">
+  <div class="mx-auto w-[min(calc(100%-2rem),1120px)]">
+    <SectionHeader
+      eyebrow="Proyectos destacados"
+      title="Casos reales, no solo capturas bonitas."
+      description="Cada proyecto muestra contexto, decisiones e impacto. El stack importa, pero la parte fuerte es entender el proceso y convertirlo en una herramienta mantenible."
+    />
+
+    <div class="grid gap-4 md:grid-cols-2">
+      {featuredProjects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </div>
+</section>

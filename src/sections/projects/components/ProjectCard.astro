@@ -1,0 +1,46 @@
+---
+import {
+  IconBuildingStore,
+  IconPackage,
+  IconReceiptTax,
+  IconShieldCheck,
+} from '@tabler/icons-react';
+import type { Project } from '../../../data/projects';
+import ProjectImageFrame from './ProjectImageFrame.astro';
+
+type Props = {
+  project: Project;
+};
+
+const { project } = Astro.props;
+const projectIcons = {
+  'facturacion-electronica-dte': IconReceiptTax,
+  'sistema-inventario': IconPackage,
+  'sistema-rma-garantias': IconShieldCheck,
+  'construfijaciones-web': IconBuildingStore,
+};
+const ProjectIcon = projectIcons[project.slug];
+---
+
+<a
+  class="group relative flex min-h-[520px] flex-col overflow-hidden rounded-[6px] border border-[#26352c] bg-gradient-to-b from-[#16211b]/95 to-[#111a15]/95 p-4 no-underline transition hover:-translate-y-0.5 hover:border-[#5faf7b]/70 hover:from-[#192a20]/95 hover:to-[#111a15]/95 max-sm:min-h-0"
+  href={`/proyectos/${project.slug}/`}
+>
+  <ProjectImageFrame project={project} compact />
+  <div class="flex flex-1 flex-col p-2">
+    <div class="flex items-start justify-between gap-4">
+      <p class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]">{project.eyebrow}</p>
+      <ProjectIcon className="text-[#5faf7b]" size={28} stroke={1.7} aria-hidden="true" />
+    </div>
+    <h3 class="mt-4 max-w-[520px] text-[clamp(1.5rem,3vw,2.25rem)] leading-[1.05] tracking-[-0.055em] text-[#e8eee9]" transition:name={`project-title-${project.slug}`}>
+      {project.title}
+    </h3>
+    <p class="mt-4 leading-relaxed text-[#9baaa0]">{project.summary}</p>
+    <ul class="mt-5 grid gap-2.5 p-0">
+      {project.impact.slice(0, 2).map((item) => <li class="list-none text-[#9baaa0] before:mr-2 before:text-[#5faf7b] before:content-['+']">{item}</li>)}
+    </ul>
+    <ul class="mt-auto flex flex-wrap gap-2 pt-6" aria-label={`Stack de ${project.title}`}>
+      {project.stack.slice(0, 5).map((item) => <li class="list-none rounded-full border border-white/10 px-2.5 py-1.5 font-mono text-xs text-[#9baaa0]">{item}</li>)}
+    </ul>
+  </div>
+</a>

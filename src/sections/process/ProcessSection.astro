@@ -1,0 +1,141 @@
+---
+import {
+  IconBrain,
+  IconCode,
+  IconRefresh,
+  IconRoute,
+  IconSearch,
+} from "@tabler/icons-react";
+import SectionHeader from "../../components/SectionHeader.astro";
+import ProcessCard from "./components/ProcessCard.astro";
+
+const process = [
+  {
+    title: "Entender",
+    text: "Antes de construir, busco entender el proceso real, quienes lo usan, que decisiones toman y donde aparecen las fricciones que el software puede resolver.",
+    Icon: IconSearch,
+  },
+  {
+    title: "Razonar",
+    text: "Analizo que necesita resolverse primero, que puede simplificarse y que decisiones tecnicas tienen sentido para que la solucion no se vuelva innecesariamente pesada.",
+    Icon: IconBrain,
+  },
+  {
+    title: "Plantear",
+    text: "Diseno una solucion clara y mantenible, con una estructura que responda al contexto del proyecto y deje espacio para crecer sin perder orden.",
+    Icon: IconRoute,
+  },
+  {
+    title: "Implementar",
+    text: "Construyo interfaces, APIs, logica de negocio y despliegues funcionales, cuidando que cada pieza sea util, legible y facil de conectar con el resto del sistema.",
+    Icon: IconCode,
+  },
+  {
+    title: "Mejorar",
+    text: "Observo el uso real del sistema, identifico puntos que todavia pueden ser mas claros o eficientes y ajusto la solucion con criterio practico.",
+    Icon: IconRefresh,
+  },
+];
+
+const revealDurationMs = 300;
+const revealDelayStepMs = revealDurationMs / 2;
+---
+
+<section class="border-t border-[#26352c]/60 py-18" id="proceso">
+  <div class="mx-auto w-[min(calc(100%-2rem),1120px)]">
+    <SectionHeader
+      eyebrow="Como trabajo"
+      title="Curiosidad, razonamiento y ejecucion."
+      description="Mi proceso busca evitar construir por impulso. Empiezo con curiosidad para entender el contexto, uso razonamiento tecnico para separar lo importante de lo accesorio y ejecuto con foco en soluciones simples, mantenibles y utiles en uso real."
+    />
+
+    <div class="grid gap-3 md:grid-cols-4">
+      {
+        process.map((step, index) => (
+          <ProcessCard
+            index={index}
+            title={step.title}
+            text={step.text}
+            Icon={step.Icon}
+            class={
+              index === process.length - 1
+                ? "md:col-span-2 md:col-start-2"
+                : "md:col-span-2"
+            }
+            revealDelay={`${index * revealDelayStepMs}ms`}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  const initProcessReveal = () => {
+    const cards = document.querySelectorAll<HTMLElement>(
+      "#proceso [data-process-reveal]",
+    );
+
+    if (!cards.length) return;
+
+    const revealCards = () => {
+      cards.forEach((card) =>
+        card.setAttribute("data-process-visible", "true"),
+      );
+    };
+
+    if (!("IntersectionObserver" in window)) {
+      revealCards();
+      return;
+    }
+
+    const triggerCard = cards[0];
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          revealCards();
+          observer.disconnect();
+        });
+      },
+      {
+        rootMargin: "0px 0px -14% 0px",
+        threshold: 0.25,
+      },
+    );
+
+    observer.observe(triggerCard);
+  };
+
+  document.addEventListener("astro:page-load", initProcessReveal);
+  initProcessReveal();
+</script>
+
+<style>
+  :global(#proceso [data-process-reveal]) {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 520ms ease var(--reveal-delay),
+      transform 640ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay),
+      border-color 180ms ease,
+      background-color 180ms ease;
+    will-change: opacity, transform;
+  }
+
+  :global(#proceso [data-process-reveal][data-process-visible="true"]) {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(#proceso [data-process-reveal]) {
+      opacity: 1;
+      transform: none;
+      transition: none;
+      will-change: auto;
+    }
+  }
+</style>

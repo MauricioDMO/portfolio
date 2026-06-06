@@ -1,0 +1,34 @@
+---
+import type { Project } from '../../../data/projects';
+
+type Props = {
+  project: Project;
+  compact?: boolean;
+};
+
+const { project, compact = false } = Astro.props;
+---
+
+<div class={`relative overflow-hidden rounded-[6px] border border-[#26352c] bg-[#0d1210]/70 ${compact ? 'mb-5 aspect-[16/9]' : 'aspect-[16/9]'}`}>
+  {project.image ? (
+    <img
+      class="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
+      src={project.image.src}
+      alt={project.image.alt}
+      loading="lazy"
+      decoding="async"
+    />
+  ) : (
+    <div class="flex h-full flex-col justify-between bg-[linear-gradient(135deg,rgba(95,175,123,0.14),transparent_45%),linear-gradient(180deg,rgba(22,33,27,0.9),rgba(13,18,16,0.95))] p-4">
+      <div class="flex items-center justify-between gap-4">
+        <span class="font-mono text-[0.68rem] uppercase tracking-[0.08em] text-[#5faf7b]">captura pendiente</span>
+        <span class="rounded-full border border-white/10 px-2.5 py-1 font-mono text-[0.65rem] uppercase tracking-[0.08em] text-[#9baaa0]">{project.eyebrow}</span>
+      </div>
+      <div class="space-y-2" aria-hidden="true">
+        <span class="block h-2 w-4/5 rounded-full bg-[#5faf7b]/25"></span>
+        <span class="block h-2 w-2/3 rounded-full bg-white/10"></span>
+        <span class="block h-2 w-1/2 rounded-full bg-white/10"></span>
+      </div>
+    </div>
+  )}
+</div>

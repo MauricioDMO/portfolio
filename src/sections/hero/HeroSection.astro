@@ -1,0 +1,31 @@
+---
+import { IconArrowUpRight, IconMail } from '@tabler/icons-react';
+import ButtonLink from '../../components/ButtonLink.astro';
+import HeroSignalCard from './components/HeroSignalCard.astro';
+---
+
+<section class="mx-auto grid w-[min(calc(100%-2rem),1120px)] items-end gap-12 py-24 md:grid-cols-[1.2fr_0.8fr] md:py-28">
+  <div>
+    <p class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]">Full-Stack Developer · Sistemas internos · UX util</p>
+    <h1 class="mt-5 max-w-[850px] text-[clamp(3rem,8vw,7rem)] leading-[0.92] tracking-[-0.08em] text-[#e8eee9]" transition:name="page-title">
+      Software practico para procesos reales.
+    </h1>
+    <p class="mt-7 max-w-[680px] text-[clamp(1.08rem,1.8vw,1.35rem)] leading-[1.65] text-[#9baaa0]">
+      Soy MauricioDMO, Full-Stack Developer. Diseno y construyo sistemas web que ayudan a ordenar
+      operaciones, reducir tareas repetitivas y mejorar la experiencia de quienes usan el software
+      todos los dias.
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <ButtonLink href="#proyectos" variant="primary">
+        Ver casos de estudio
+        <IconArrowUpRight size={18} stroke={1.8} aria-hidden="true" />
+      </ButtonLink>
+      <ButtonLink href="mailto:hola@mauriciodmo.com">
+        <IconMail size={18} stroke={1.8} aria-hidden="true" />
+        Trabajemos juntos
+      </ButtonLink>
+    </div>
+  </div>
+
+  <HeroSignalCard />
+</section>
