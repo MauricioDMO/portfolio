@@ -1,25 +1,146 @@
+---
+const focusAreas = [
+  {
+    label: "Frontend principal",
+    text: "Interfaces claras con React, Next.js, TypeScript, Tailwind y Astro cuando el proyecto necesita una experiencia rapida, moderna y enfocada.",
+  },
+  {
+    label: "Sistemas internos",
+    text: "Herramientas para ordenar informacion, reducir tareas manuales y hacer que los procesos diarios sean mas faciles de seguir.",
+  },
+  {
+    label: "Automatizacion",
+    text: "Soluciones que eliminan pasos repetitivos, conectan flujos y ayudan a que el equipo invierta menos tiempo en trabajo operativo.",
+  },
+  {
+    label: "Infra en progreso",
+    text: "Estoy fortaleciendo despliegues, servicios cloud, Linux, Docker y operaciones para entender mejor el ciclo completo del software.",
+  },
+];
+
+const profile = [
+  ["Nombre", "Mauricio Martinez"],
+  ["Foco", "Frontend con criterio full-stack"],
+  ["Trabajo", "Sistemas internos, automatizacion y presencia web"],
+  ["Forma", "Rapidez, responsabilidad y aprendizaje continuo"],
+];
+---
+
 <section class="border-t border-[#26352c]/60 py-18" id="sobre-mi">
-  <div class="mx-auto grid w-[min(calc(100%-2rem),1120px)] gap-4 md:grid-cols-[1fr_0.6fr]">
-    <article class="rounded-[6px] border border-[#26352c] bg-[#16211b]/75 p-5">
-      <p class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]">Sobre mi</p>
-      <h2 class="mt-4 text-2xl tracking-[-0.04em] text-[#e8eee9]">Desarrollador Full-Stack de El Salvador.</h2>
-      <p class="mt-3 leading-relaxed text-[#9baaa0]">
-        Me interesa construir software que tenga utilidad real: sistemas internos, automatizacion de
-        procesos, herramientas web y soluciones que reduzcan trabajo repetitivo.
-      </p>
-      <p class="mt-3 leading-relaxed text-[#9baaa0]">
-        Soy autodidacta, estudio Ingenieria en Ciencias de la Computacion y me gusta aprender de
-        otras personas, de los proyectos y de los problemas reales. Creo que el buen software
-        empieza por entender bien lo que se quiere resolver.
-      </p>
-    </article>
-    <article class="rounded-[6px] border border-[#26352c] bg-[#16211b]/75 p-5">
-      <p class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]">IA con criterio</p>
-      <p class="mt-3 leading-relaxed text-[#9baaa0]">
-        Uso herramientas de IA como apoyo profesional para documentacion tecnica, depuracion,
-        revision de arquitectura, generacion de pruebas y analisis de soluciones. No como reemplazo
-        del criterio tecnico, sino como una herramienta mas dentro del proceso.
-      </p>
-    </article>
+  <div class="mx-auto w-[min(calc(100%-2rem),1120px)]">
+    <div class="grid gap-4">
+      <article
+        class="relative overflow-hidden rounded-md border border-[#26352c] bg-[#16211b]/75 p-6 md:p-8"
+      >
+        <div
+          class="pointer-events-none absolute -right-24 -top-28 h-72 w-72 rounded-full bg-[#5faf7b]/10 blur-3xl"
+          aria-hidden="true"
+        >
+        </div>
+        <div
+          class="pointer-events-none absolute bottom-0 left-8 top-0 w-px bg-linear-to-b from-transparent via-[#5faf7b]/35 to-transparent"
+          aria-hidden="true"
+        >
+        </div>
+
+        <div class="relative pl-5 md:pl-8 mx-auto max-w-3xl">
+          <p
+            class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]"
+          >
+            Sobre mi
+          </p>
+          <h2
+            class="mt-5 max-w-190 text-[clamp(2.25rem,5vw,4.8rem)] leading-[0.95] tracking-[-0.07em] text-[#e8eee9]"
+          >
+            Construyo interfaces y sistemas que ordenan procesos reales.
+          </h2>
+
+          <div
+            class="mt-7 max-w-175 space-y-4 text-[1.02rem] leading-relaxed text-[#9baaa0]"
+          >
+            <p>
+              Soy Mauricio Martinez, desarrollador principalmente frontend con
+              experiencia construyendo herramientas web para operaciones reales:
+              sistemas internos, automatización de procesos y presencia web
+              clara para negocios.
+            </p>
+            <p>
+              Me interesa trabajar donde el software tiene impacto practico:
+              reducir pasos manuales, ordenar información, mejorar flujos
+              repetitivos y convertir procesos dispersos en experiencias mas
+              simples de usar.
+            </p>
+            <p>
+              Mi forma de trabajar combina criterio técnico, aprendizaje
+              continuo y responsabilidad. Me gusta entender el contexto antes de
+              construir, elegir herramientas con sentido y entregar soluciones
+              que se puedan mantener, mejorar y usar en el dia a dia.
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <aside class="grid gap-4 md:grid-cols-2">
+        <article
+          class="rounded-md border border-[#26352c] bg-[#101912]/90 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.22)]"
+        >
+          <p
+            class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]"
+          >
+            Perfil operativo
+          </p>
+          <dl class="mt-5 divide-y divide-[#26352c]/75">
+            {
+              profile.map(([label, value]) => (
+                <div class="grid gap-1 py-3 first:pt-0 last:pb-0 sm:grid-cols-[0.36fr_0.64fr]">
+                  <dt class="font-mono text-[0.7rem] uppercase tracking-[0.08em] text-[#6f8175]">
+                    {label}
+                  </dt>
+                  <dd class="text-sm leading-relaxed text-[#d5ded8]">
+                    {value}
+                  </dd>
+                </div>
+              ))
+            }
+          </dl>
+        </article>
+
+        <article
+          class="rounded-md border border-[#5faf7b]/35 bg-[#18271f]/80 p-5"
+        >
+          <p
+            class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]"
+          >
+            IA con criterio
+          </p>
+          <p class="mt-3 leading-relaxed text-[#9baaa0]">
+            Uso IA para investigar, acelerar escritura de código, proponer
+            refactors y revisar alternativas, siempre con validación posterior.
+          </p>
+          <p class="mt-3 leading-relaxed text-[#9baaa0]">
+            La delegación ayuda a ganar velocidad; el criterio técnico decide
+            que se queda, que se va y como se integra.
+          </p>
+          <p class="mt-3 leading-relaxed text-[#9baaa0]">
+            La IA es una herramienta mas, no un reemplazo del juicio humano.
+          </p>
+        </article>
+      </aside>
+    </div>
+
+    <div class="mt-4 grid gap-3 md:grid-cols-4">
+      {
+        focusAreas.map((area, index) => (
+          <article class="rounded-md border border-[#26352c] bg-[#121d17]/80 p-5 transition-colors hover:border-[#5faf7b]/45 hover:bg-[#16241c]">
+            <p class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]">
+              {area.label}
+            </p>
+            <p class="mt-3 text-sm leading-relaxed text-[#9baaa0]">
+              {area.text}
+            </p>
+          </article>
+        ))
+      }
+    </div>
   </div>
 </section>
