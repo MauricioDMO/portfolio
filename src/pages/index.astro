@@ -8,9 +8,43 @@ import HeroSection from '../sections/hero/HeroSection.astro';
 import ProcessSection from '../sections/process/ProcessSection.astro';
 import ProjectsSection from '../sections/projects/ProjectsSection.astro';
 import StackSection from '../sections/stack/StackSection.astro';
+import { site } from '../data/site';
+
+const title = site.title;
+const description =
+  'Desarrollador web full-stack para landings, sitios web y sistemas internos que reducen trabajo manual, ordenan procesos y mejoran experiencias digitales.';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: site.name,
+    url: site.url,
+    inLanguage: site.language,
+    description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: site.fullName,
+    alternateName: site.name,
+    url: site.url,
+    email: `mailto:${site.email}`,
+    jobTitle: 'Desarrollador web full-stack',
+    knowsAbout: [
+      'Desarrollo web',
+      'Frontend',
+      'Sistemas internos',
+      'Automatizacion de procesos',
+      'Astro',
+      'Next.js',
+      'TypeScript',
+    ],
+  },
+];
 ---
 
-<Layout>
+<Layout title={title} description={description} pathname="/" structuredData={structuredData}>
   <SiteHeader />
   <main>
     <HeroSection />
