@@ -58,6 +58,8 @@ export const facturacionElectronicaDte: Project = {
     'Sistema web para emitir, firmar, enviar, respaldar y consultar Documentos Tributarios Electrónicos dentro de una operación real.',
   intro:
     'Plataforma fiscal en producción que conecta un sistema legado con el flujo moderno de facturación electrónica, reduciendo trabajo manual y mejorando la trazabilidad.',
+  url: '',
+  repo: '',
   icon: 'file-invoice',
   images: [
     {

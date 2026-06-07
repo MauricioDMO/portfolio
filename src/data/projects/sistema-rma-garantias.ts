@@ -50,6 +50,8 @@ export const sistemaRmaGarantias: Project = {
     'Sistema para registrar, documentar y dar seguimiento a procesos de garantía y devolución con mayor orden operativo.',
   intro:
     'Herramienta interna para que cada garantía tenga contexto, estado, evidencia y continuidad durante todo el ciclo de revisión.',
+  url: '',
+  repo: '',
   icon: 'shield-check',
   images: [
     {

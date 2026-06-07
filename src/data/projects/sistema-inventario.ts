@@ -52,6 +52,8 @@ export const sistemaInventario: Project = {
     'Sistema interno para realizar conteos de inventario, consultar productos y registrar diferencias sin depender de Excel ni detener la operación.',
   intro:
     'Herramienta operativa para contar inventario con mayor claridad, sincronización en tiempo real y menos trabajo manual.',
+  url: '',
+  repo: '',
   icon: 'package',
   images: [
     {

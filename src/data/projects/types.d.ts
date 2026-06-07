@@ -61,6 +61,8 @@ export type Project = {
   eyebrow: string;
   summary: string;
   intro?: string;
+  url: string;
+  repo: string;
   icon: ProjectIconKey;
   images?: {
     src: string;

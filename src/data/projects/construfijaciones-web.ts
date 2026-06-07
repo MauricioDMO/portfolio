@@ -50,6 +50,8 @@ export const construfijacionesWeb: Project = {
     'Sitio web corporativo y comercial orientado a presentar la empresa, sus productos, marcas e información de contacto de forma clara.',
   intro:
     'Sitio comercial pensado para ordenar la presencia digital de la empresa y hacer más fácil entender su oferta.',
+  url: 'https://construfijaciones.com',
+  repo: '',
   icon: 'building-store',
   images: [
     {
