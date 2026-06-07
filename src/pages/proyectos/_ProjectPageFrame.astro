@@ -13,6 +13,7 @@ import SiteHeader from "../../components/SiteHeader.astro";
 import Layout from "../../layouts/Layout.astro";
 import type { Project } from "../../data/projects";
 import Carousel from "../../components/Carousel.tsx";
+import { site } from "../../data/site";
 
 type Props = {
   project: Project;
@@ -27,9 +28,63 @@ const navItems = project.details.map((detail, index) => ({
   number: formatNumber(index),
   label: detail.eyebrow,
 }));
+const projectPath = `/proyectos/${project.slug}/`;
+const projectUrl = new URL(projectPath, site.url).toString();
+const projectImage = project.images?.[0]?.src;
+const projectDescription = project.intro ?? project.summary;
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.title,
+    headline: project.title,
+    description: projectDescription,
+    url: projectUrl,
+    image: projectImage ? new URL(projectImage, site.url).toString() : undefined,
+    author: {
+      "@type": "Person",
+      name: site.fullName,
+      alternateName: site.name,
+      url: site.url,
+    },
+    keywords: project.stack.join(", "),
+    inLanguage: site.language,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Inicio",
+        item: site.url,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Proyectos",
+        item: new URL("/#proyectos", site.url).toString(),
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: project.title,
+        item: projectUrl,
+      },
+    ],
+  },
+];
 ---
 
-<Layout title={`${project.title} | MauricioDMO`} description={project.summary}>
+<Layout
+  title={`${project.title} | MauricioDMO`}
+  description={projectDescription}
+  pathname={projectPath}
+  image={projectImage}
+  type="article"
+  structuredData={structuredData}
+>
   <SiteHeader variant="project" />
 
   <main>
