@@ -1,16 +1,35 @@
 ---
 import { ClientRouter } from "astro:transitions";
+import { site } from "../data/site";
 import "../styles/global.css";
 
 type Props = {
   title?: string;
   description?: string;
+  pathname?: string;
+  image?: string;
+  type?: "website" | "article";
+  robots?: string;
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
 };
 
 const {
-  title = "MauricioDMO | Software práctico para procesos reales",
-  description = "Portafolio de MauricioDMO, Full-Stack Developer enfocado en sistemas internos, automatización y experiencias web útiles.",
+  title = site.title,
+  description = site.description,
+  pathname = Astro.url.pathname,
+  image,
+  type = "website",
+  robots = "index, follow, max-image-preview:large",
+  structuredData,
 } = Astro.props;
+
+const canonicalUrl = new URL(pathname, site.url).toString();
+const imageUrl = image ? new URL(image, site.url).toString() : undefined;
+const jsonLd = Array.isArray(structuredData)
+  ? structuredData
+  : structuredData
+    ? [structuredData]
+    : [];
 ---
 
 <!doctype html>
@@ -19,12 +38,31 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <meta name="author" content={site.fullName} />
+    <meta name="robots" content={robots} />
+    <meta name="theme-color" content="#0d1210" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content={site.locale} />
+    {imageUrl && <meta property="og:image" content={imageUrl} />}
+    {imageUrl && <meta property="og:image:alt" content={title} />}
+    <meta name="twitter:card" content={imageUrl ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {imageUrl && <meta name="twitter:image" content={imageUrl} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
+    {
+      jsonLd.map((item) => (
+        <script type="application/ld+json" set:html={JSON.stringify(item)} />
+      ))
+    }
     <ClientRouter />
     <title>{title}</title>
   </head>
