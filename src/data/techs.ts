@@ -30,6 +30,12 @@ export const techs = {
     href: 'https://www.typescriptlang.org/',
     color: '#3178c6',
   },
+  zod: {
+    name: 'Zod',
+    icon: '/svg/zod.svg',
+    href: 'https://zod.dev/',
+    color: '#7c3aed',
+  },
   javascript: {
     name: 'JavaScript',
     icon: '/svg/javascript.svg',
@@ -47,6 +53,12 @@ export const techs = {
     icon: '/svg/expressjs_dark.svg',
     href: 'https://expressjs.com/',
     color: '#ffffff',
+  },
+  socketio: {
+    name: 'Socket.IO',
+    icon: '/svg/socketio-icon-dark.svg',
+    href: 'https://socket.io/',
+    color: '#010101',
   },
   postgresql: {
     name: 'PostgreSQL',
@@ -108,11 +120,29 @@ export const techs = {
     href: 'https://www.docker.com/',
     color: '#2496ed',
   },
+  cloudflare: {
+    name: 'Cloudflare',
+    icon: '/svg/cloudflare.svg',
+    href: 'https://pages.cloudflare.com/',
+    color: '#f38020',
+  },
   pnpm: {
     name: 'pnpm',
     icon: '/svg/pnpm_dark.svg',
     href: 'https://pnpm.io/',
     color: '#f69220',
+  },
+  eslint: {
+    name: 'ESLint',
+    icon: '/svg/eslint-icon-dark.svg',
+    href: 'https://eslint.org/',
+    color: '#4b32c3',
+  },
+  playwright: {
+    name: 'Playwright',
+    icon: '/svg/playwright.svg',
+    href: 'https://playwright.dev/',
+    color: '#45ba4b',
   },
   bash: {
     name: 'Bash',
@@ -123,7 +153,7 @@ export const techs = {
   linux: {
     name: 'Linux',
     icon: '/svg/linux.svg',
-    href: 'https://www.linux.org/',
+    href: 'https://linux.org/',
     color: '#fcc624',
   },
   vercel: {
