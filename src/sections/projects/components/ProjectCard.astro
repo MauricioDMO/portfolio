@@ -1,5 +1,6 @@
 ---
 import {
+  IconArrowUpRight,
   IconBuildingStore,
   IconPackage,
   IconReceiptTax,
@@ -25,11 +26,11 @@ const impact =
   project.details
     .find((detail) => detail.id === 'impacto')
     ?.content.find((block) => 'list' in block && Array.isArray(block.list));
+const projectHost = project.url ? new URL(project.url).hostname.replace(/^www\./, '') : '';
 ---
 
-<a
-  class="group relative flex min-h-[520px] flex-col overflow-hidden rounded-[6px] border border-[#26352c] bg-gradient-to-b from-[#16211b]/95 to-[#111a15]/95 p-4 no-underline transition hover:-translate-y-0.5 hover:border-[#5faf7b]/70 hover:from-[#192a20]/95 hover:to-[#111a15]/95 max-sm:min-h-0"
-  href={`/proyectos/${project.slug}/`}
+<article
+  class="group relative flex min-h-[520px] flex-col overflow-hidden rounded-[6px] border border-[#26352c] bg-gradient-to-b from-[#16211b]/95 to-[#111a15]/95 p-4 transition hover:-translate-y-0.5 hover:border-[#5faf7b]/70 hover:from-[#192a20]/95 hover:to-[#111a15]/95 max-sm:min-h-0"
 >
   <div class="flex flex-1 flex-col p-2">
     <div class="flex items-start justify-between gap-4">
@@ -53,5 +54,17 @@ const impact =
     <ul class="mt-5 grid gap-2.5 p-0">
       {impact?.list.slice(0, 2).map((item) => <li class="list-none text-[#9baaa0] before:mr-2 before:text-[#5faf7b] before:content-['+']">{item}</li>)}
     </ul>
+    <div class="mt-auto flex flex-wrap gap-3 pt-6">
+      <a class="inline-flex items-center gap-2 rounded-full border border-[#5faf7b]/35 bg-[#5faf7b]/10 px-3.5 py-2 font-mono text-xs uppercase tracking-[0.08em] text-[#d7eadc] no-underline transition hover:border-[#5faf7b]/70 hover:bg-[#5faf7b]/16" href={`/proyectos/${project.slug}/`}>
+        Ver caso completo
+        <IconArrowUpRight className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" size={16} stroke={1.8} aria-hidden="true" />
+      </a>
+      {project.url ? (
+        <a class="inline-flex items-center gap-2 rounded-full border border-[#26352c] bg-[#0d1210]/70 px-3.5 py-2 font-mono text-xs text-[#c4d0c8] no-underline transition hover:border-[#5faf7b]/60 hover:text-[#e8eee9]" href={project.url} target="_blank" rel="noopener noreferrer">
+          {projectHost}
+          <IconArrowUpRight size={16} stroke={1.8} aria-hidden="true" />
+        </a>
+      ) : null}
+    </div>
   </div>
-</a>
+</article>
