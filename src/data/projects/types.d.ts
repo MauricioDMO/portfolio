@@ -10,15 +10,42 @@ export type ProjectIconKey =
   | 'receipt-tax'
   | 'shield-check'
   | 'target-arrow'
-  | 'user-check';
+  | 'user-check'
+  | 'database'
+  | 'file-invoice'
+  | 'cloud-upload'
+  | 'mail-forward'
+  | 'lock'
+  | 'history'
+  | 'search'
+  | 'refresh'
+  | 'device-desktop-analytics'
+  | 'route'
+  | 'clipboard-list'
+  | 'stack-2'
+  | 'plug-connected'
+  | 'server'
+  | 'brand-docker'
+  | 'robot'
+  | 'file-type-pdf'
+  | 'tags'
+  | 'forms'
+  | 'truck-delivery'
+  | 'photo'
+  | 'brand-astro'
+  | 'layout-dashboard'
+  | 'users-group'
+  | 'chart-bar'
+  | 'file-spreadsheet'
+  | 'lifebuoy';
 
 export type ProjectDetailContent =
   | {
-      text: string;
-    }
+    text: string;
+  }
   | {
-      list: string[];
-    };
+    list: string[];
+  };
 
 export type ProjectDetail = {
   id: string;

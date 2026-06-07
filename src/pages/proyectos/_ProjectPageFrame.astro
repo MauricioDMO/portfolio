@@ -1,47 +1,24 @@
 ---
 import {
   IconArrowLeft,
-  IconArrowUpRight,
-  IconBolt,
-  IconBrain,
-  IconBuildingStore,
-  IconCode,
   IconMail,
-  IconPackage,
-  IconReceiptTax,
-  IconShieldCheck,
-  IconTargetArrow,
-  IconUserCheck,
 } from "@tabler/icons-react";
 import ButtonLink from "../../components/ButtonLink.astro";
 import ProjectDetailSection from "../../components/ProjectDetailSection.astro";
 import ProjectDetailsNav from "../../components/ProjectDetailsNav.tsx";
+import ProjectIcon from "../../components/ProjectIcon";
 import ProjectTools from "../../components/ProjectTools.astro";
 import SiteFooter from "../../components/SiteFooter.astro";
 import SiteHeader from "../../components/SiteHeader.astro";
 import Layout from "../../layouts/Layout.astro";
-import type { Project, ProjectIconKey } from "../../data/projects";
+import type { Project } from "../../data/projects";
 import Carousel from "../../components/Carousel.tsx";
 
 type Props = {
   project: Project;
 };
 
-const icons: Record<ProjectIconKey, any> = {
-  "arrow-up-right": IconArrowUpRight,
-  bolt: IconBolt,
-  brain: IconBrain,
-  "building-store": IconBuildingStore,
-  code: IconCode,
-  package: IconPackage,
-  "receipt-tax": IconReceiptTax,
-  "shield-check": IconShieldCheck,
-  "target-arrow": IconTargetArrow,
-  "user-check": IconUserCheck,
-};
-
 const { project } = Astro.props;
-const ProjectIcon = icons[project.icon];
 const intro = project.intro ?? project.summary;
 const eyebrow = "font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]";
 const formatNumber = (index: number) => index.toString().padStart(2, "0");
@@ -63,6 +40,7 @@ const navItems = project.details.map((detail, index) => ({
         <div>
           <div class="flex items-center gap-3">
             <ProjectIcon
+              icon={project.icon}
               className="text-[#5faf7b]"
               size={38}
               stroke={1.7}
@@ -138,15 +116,13 @@ const navItems = project.details.map((detail, index) => ({
         <div>
           {
             project.details.map((detail, index) => {
-              const DetailIcon = detail.icon ? icons[detail.icon] : undefined;
-
               return (
                 <ProjectDetailSection
                   id={detail.id}
                   number={formatNumber(index)}
                   eyebrow={detail.eyebrow}
                   title={detail.title}
-                  icon={DetailIcon}
+                  icon={detail.icon}
                 >
                   {detail.content.map((block) =>
                     "list" in block ? (
@@ -159,7 +135,7 @@ const navItems = project.details.map((detail, index) => ({
                       </ul>
                     ) : (
                       <p>{block.text}</p>
-                    )
+                    ),
                   )}
                 </ProjectDetailSection>
               );
@@ -192,7 +168,7 @@ const navItems = project.details.map((detail, index) => ({
             variant="primary"
           >
             <IconMail size={18} stroke={1.8} aria-hidden="true" />
-            Empecemos una conversacion
+            Empecemos una conversación
           </ButtonLink>
         </div>
       </div>

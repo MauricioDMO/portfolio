@@ -2,19 +2,19 @@ export type { Project, ProjectDetail, ProjectDetailContent, ProjectIconKey } fro
 
 export { facturacionElectronicaDte } from './facturacion-electronica-dte';
 export { sistemaInventario } from './sistema-inventario';
-export { sistemaRmaGarantiass } from './sistema-rma-garantias';
+export { sistemaRmaGarantias } from './sistema-rma-garantias';
 export { construfijacionesWeb } from './construfijaciones-web';
 
 import type { Project } from './types';
 import { facturacionElectronicaDte } from './facturacion-electronica-dte';
 import { sistemaInventario } from './sistema-inventario';
-import { sistemaRmaGarantiass } from './sistema-rma-garantias';
+import { sistemaRmaGarantias } from './sistema-rma-garantias';
 import { construfijacionesWeb } from './construfijaciones-web';
 
 export const projects: Project[] = [
   facturacionElectronicaDte,
   sistemaInventario,
-  sistemaRmaGarantiass,
+  sistemaRmaGarantias,
   construfijacionesWeb,
 ];
 

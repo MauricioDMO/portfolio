@@ -1,13 +1,16 @@
 ---
+import ProjectIcon from './ProjectIcon';
+import type { ProjectIconKey } from '../data/projects';
+
 type Props = {
   id: string;
   number: string;
   eyebrow: string;
   title: string;
-  icon?: any;
+  icon?: ProjectIconKey;
 };
 
-const { id, number, eyebrow, title, icon: Icon } = Astro.props;
+const { id, number, eyebrow, title, icon } = Astro.props;
 ---
 
 <article
@@ -16,8 +19,9 @@ const { id, number, eyebrow, title, icon: Icon } = Astro.props;
 >
   <div class="flex items-start gap-4">
     {
-      Icon ? (
-        <Icon
+      icon ? (
+        <ProjectIcon
+          icon={icon}
           className="mt-1 shrink-0 text-[#5faf7b]"
           size={24}
           stroke={1.7}
