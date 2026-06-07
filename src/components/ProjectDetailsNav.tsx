@@ -51,11 +51,15 @@ export default function ProjectDetailsNav({ items }: ProjectDetailsNavProps) {
 
   useEffect(() => {
     const activeItem = itemRefs.current[activeId];
+    const navList = activeItem?.closest('ol');
 
-    activeItem?.scrollIntoView({
+    if (!activeItem || !navList || navList.scrollWidth <= navList.clientWidth) {
+      return;
+    }
+
+    navList.scrollTo({
+      left: activeItem.offsetLeft - navList.clientWidth / 2 + activeItem.clientWidth / 2,
       behavior: 'smooth',
-      block: 'nearest',
-      inline: 'center',
     });
   }, [activeId]);
 
