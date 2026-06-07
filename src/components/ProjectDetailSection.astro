@@ -1,0 +1,41 @@
+---
+type Props = {
+  id: string;
+  number: string;
+  eyebrow: string;
+  title: string;
+  icon?: any;
+};
+
+const { id, number, eyebrow, title, icon: Icon } = Astro.props;
+---
+
+<article
+  id={id}
+  class="scroll-mt-36 border-t border-[#26352c]/70 py-10 first:border-t-0 first:pt-0 md:py-14"
+>
+  <div class="flex items-start gap-4">
+    {
+      Icon ? (
+        <Icon
+          className="mt-1 shrink-0 text-[#5faf7b]"
+          size={24}
+          stroke={1.7}
+          aria-hidden="true"
+        />
+      ) : null
+    }
+    <div class="min-w-0">
+      <p class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]">
+        {number} · {eyebrow}
+      </p>
+      <h2 class="mt-3 max-w-180 text-[clamp(1.9rem,4vw,3.15rem)] leading-[1.02] tracking-[-0.06em] text-[#edf4ef]">
+        {title}
+      </h2>
+    </div>
+  </div>
+
+  <div class="mt-6 max-w-175 pl-0 text-[1.05rem] leading-[1.9] text-[#b9c7be] md:pl-10 [&_li]:text-[#b9c7be] [&_p]:text-[#b9c7be]">
+    <slot />
+  </div>
+</article>

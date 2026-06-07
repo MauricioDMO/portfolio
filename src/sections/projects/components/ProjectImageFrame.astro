@@ -7,16 +7,19 @@ type Props = {
 };
 
 const { project, compact = false } = Astro.props;
+const projectImage = project.images?.[0];
+const transitionName = `project-image-${project.slug}`;
 ---
 
 <div class={`relative overflow-hidden rounded-[6px] border border-[#26352c] bg-[#0d1210]/70 ${compact ? 'mb-5 aspect-[16/9]' : 'aspect-[16/9]'}`}>
-  {project.image ? (
+  {projectImage ? (
     <img
       class="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
-      src={project.image.src}
-      alt={project.image.alt}
+      src={projectImage.src}
+      alt={projectImage.alt}
       loading="lazy"
       decoding="async"
+      transition:name={transitionName}
     />
   ) : (
     <div class="flex h-full flex-col justify-between bg-[linear-gradient(135deg,rgba(95,175,123,0.14),transparent_45%),linear-gradient(180deg,rgba(22,33,27,0.9),rgba(13,18,16,0.95))] p-4">

@@ -1,21 +1,55 @@
 ---
-import { IconArrowLeft, IconMail } from '@tabler/icons-react';
-import ButtonLink from '../../components/ButtonLink.astro';
-import SiteFooter from '../../components/SiteFooter.astro';
-import SiteHeader from '../../components/SiteHeader.astro';
-import Layout from '../../layouts/Layout.astro';
-import type { Project } from '../../data/projects';
-import ProjectImageFrame from '../../sections/projects/components/ProjectImageFrame.astro';
+import {
+  IconArrowLeft,
+  IconArrowUpRight,
+  IconBolt,
+  IconBrain,
+  IconBuildingStore,
+  IconCode,
+  IconMail,
+  IconPackage,
+  IconReceiptTax,
+  IconShieldCheck,
+  IconTargetArrow,
+  IconUserCheck,
+} from "@tabler/icons-react";
+import ButtonLink from "../../components/ButtonLink.astro";
+import ProjectDetailSection from "../../components/ProjectDetailSection.astro";
+import ProjectDetailsNav from "../../components/ProjectDetailsNav.tsx";
+import ProjectTools from "../../components/ProjectTools.astro";
+import SiteFooter from "../../components/SiteFooter.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+import Layout from "../../layouts/Layout.astro";
+import type { Project, ProjectIconKey } from "../../data/projects";
+import Carousel from "../../components/Carousel.tsx";
 
 type Props = {
   project: Project;
-  icon: any;
-  intro?: string;
 };
 
-const { project, icon: ProjectIcon, intro = project.summary } = Astro.props;
-const eyebrow = 'font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]';
-const card = 'rounded-[6px] border border-[#26352c] bg-[#16211b]/75';
+const icons: Record<ProjectIconKey, any> = {
+  "arrow-up-right": IconArrowUpRight,
+  bolt: IconBolt,
+  brain: IconBrain,
+  "building-store": IconBuildingStore,
+  code: IconCode,
+  package: IconPackage,
+  "receipt-tax": IconReceiptTax,
+  "shield-check": IconShieldCheck,
+  "target-arrow": IconTargetArrow,
+  "user-check": IconUserCheck,
+};
+
+const { project } = Astro.props;
+const ProjectIcon = icons[project.icon];
+const intro = project.intro ?? project.summary;
+const eyebrow = "font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]";
+const formatNumber = (index: number) => index.toString().padStart(2, "0");
+const navItems = project.details.map((detail, index) => ({
+  id: detail.id,
+  number: formatNumber(index),
+  label: detail.eyebrow,
+}));
 ---
 
 <Layout title={`${project.title} | MauricioDMO`} description={project.summary}>
@@ -23,39 +57,143 @@ const card = 'rounded-[6px] border border-[#26352c] bg-[#16211b]/75';
 
   <main>
     <section class="mx-auto w-[min(calc(100%-2rem),1120px)] py-20 md:py-24">
-      <ProjectIcon className="mb-6 text-[#5faf7b]" size={38} stroke={1.7} aria-hidden="true" />
-      <p class={eyebrow}>{project.eyebrow}</p>
-      <h1 class="mt-5 max-w-[900px] text-[clamp(3rem,8vw,7rem)] leading-[0.92] tracking-[-0.08em] text-[#e8eee9]" transition:name={`project-title-${project.slug}`}>{project.title}</h1>
-      <p class="mt-7 max-w-[760px] text-[clamp(1.08rem,1.8vw,1.35rem)] leading-[1.65] text-[#9baaa0]">{intro}</p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <ButtonLink href="/#proyectos">
-          <IconArrowLeft size={18} stroke={1.8} aria-hidden="true" />
-          Volver a proyectos
-        </ButtonLink>
-        <ButtonLink href="mailto:hola@mauriciodmo.com" variant="primary">
-          <IconMail size={18} stroke={1.8} aria-hidden="true" />
-          Hablemos de un proyecto
-        </ButtonLink>
+      <div
+        class="grid gap-7 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start lg:gap-16"
+      >
+        <div>
+          <div class="flex items-center gap-3">
+            <ProjectIcon
+              className="text-[#5faf7b]"
+              size={38}
+              stroke={1.7}
+              aria-hidden="true"
+            />
+            <p class={eyebrow}>{project.eyebrow}</p>
+          </div>
+          <h1
+            class="mt-6 max-w-225 text-[clamp(3rem,8vw,7rem)] leading-[0.92] tracking-[-0.08em] text-[#e8eee9]"
+            transition:name={`project-title-${project.slug}`}
+          >
+            {project.title}
+          </h1>
+          <p
+            class="mt-7 max-w-190 text-[clamp(1.08rem,1.8vw,1.35rem)] leading-[1.65] text-[#c4d0c8]"
+          >
+            {intro}
+          </p>
+        </div>
+
+        <div
+          class="flex flex-wrap gap-3 justify-center items-center lg:flex-col h-full lg:items-start lg:pt-1"
+        >
+          <ButtonLink href="/#proyectos" class="lg:mx-auto">
+            <IconArrowLeft size={18} stroke={1.8} aria-hidden="true" />
+            Volver a proyectos
+          </ButtonLink>
+          <ButtonLink
+            href="mailto:mauriciodmoprogrammer@gmail.com"
+            variant="primary"
+          >
+            <IconMail size={18} stroke={1.8} aria-hidden="true" />
+            Hablemos de un proyecto
+          </ButtonLink>
+        </div>
       </div>
-      <div class="mt-10">
-        <ProjectImageFrame project={project} />
+
+      <div
+        class="mt-8 grid gap-8 lg:grid-cols-[260px_minmax(0,1fr)] lg:items-start lg:gap-12"
+      >
+        <div class="grid gap-7">
+          <ProjectTools
+            stack={project.stack}
+            label={`Stack de ${project.title}`}
+          />
+        </div>
+
+        <Carousel
+          images={project.images || []}
+          infinity={true}
+          transitionName={`project-image-${project.slug}`}
+          client:load
+        />
+      </div>
+    </section>
+
+    <section class="border-t border-[#26352c]/60 pb-20">
+      <div
+        class="sticky top-18 z-10 bg-[#0d1210]/90 pt-9 backdrop-blur-xl md:hidden"
+      >
+        <div class="mx-auto w-[min(calc(100%-2rem),1120px)]">
+          <ProjectDetailsNav items={navItems} client:load />
+        </div>
+      </div>
+
+      <div
+        class="mx-auto grid w-[min(calc(100%-2rem),1120px)] gap-10 pt-14 md:grid-cols-[190px_minmax(0,760px)] md:gap-14 lg:grid-cols-[210px_minmax(0,820px)]"
+      >
+        <aside class="sticky top-28 hidden self-start md:block">
+          <ProjectDetailsNav items={navItems} client:load />
+        </aside>
+
+        <div>
+          {
+            project.details.map((detail, index) => {
+              const DetailIcon = detail.icon ? icons[detail.icon] : undefined;
+
+              return (
+                <ProjectDetailSection
+                  id={detail.id}
+                  number={formatNumber(index)}
+                  eyebrow={detail.eyebrow}
+                  title={detail.title}
+                  icon={DetailIcon}
+                >
+                  {detail.content.map((block) =>
+                    "list" in block ? (
+                      <ul class="mt-5 grid gap-3 p-0 first:mt-0">
+                        {block.list.map((item) => (
+                          <li class="list-none border-l border-[#5faf7b]/40 pl-4 leading-relaxed">
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p>{block.text}</p>
+                    )
+                  )}
+                </ProjectDetailSection>
+              );
+            })
+          }
+        </div>
       </div>
     </section>
 
     <section class="border-t border-[#26352c]/60 py-18">
-      <div class="mx-auto grid w-[min(calc(100%-2rem),1120px)] items-start gap-7 md:grid-cols-[0.75fr_1.25fr]">
-        <aside class={`${card} sticky top-24 p-5 max-md:static`}>
-          <p class={eyebrow}>impacto</p>
-          <ul class="mt-5 grid gap-2.5 p-0">
-            {project.impact.map((item) => <li class="list-none leading-relaxed text-[#9baaa0] before:mr-2 before:text-[#5faf7b] before:content-['+']">{item}</li>)}
-          </ul>
-          <ul class="mt-5 flex flex-wrap gap-2" aria-label={`Stack de ${project.title}`}>
-            {project.stack.map((item) => <li class="list-none rounded-full border border-white/10 px-2.5 py-1.5 font-mono text-xs text-[#9baaa0]">{item}</li>)}
-          </ul>
-        </aside>
+      <div
+        class="mx-auto grid w-[min(calc(100%-2rem),1120px)] gap-7 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-10"
+      >
+        <div>
+          <p class={eyebrow}>Trabajemos juntos</p>
+          <h2
+            class="mt-4 max-w-180 text-[clamp(2.2rem,5vw,4.8rem)] leading-[0.95] tracking-[-0.07em] text-[#e8eee9]"
+          >
+            Si tu proyecto necesita avanzar con criterio, hablemos.
+          </h2>
+          <p class="mt-5 max-w-160 text-lg leading-[1.7] text-[#c4d0c8]">
+            Puedo ayudarte a convertir una idea, proceso interno o problema
+            operativo en una herramienta clara, rápida y mantenible.
+          </p>
+        </div>
 
-        <div class="grid gap-3.5">
-          <slot name="details" />
+        <div class="h-full flex items-center justify-center">
+          <ButtonLink
+            href="mailto:mauriciodmoprogrammer@gmail.com"
+            variant="primary"
+          >
+            <IconMail size={18} stroke={1.8} aria-hidden="true" />
+            Empecemos una conversacion
+          </ButtonLink>
         </div>
       </div>
     </section>

@@ -1,0 +1,46 @@
+---
+import { techs, type TechKey } from '../data/techs';
+
+type Props = {
+  stack: TechKey[];
+  label: string;
+  limit?: number;
+  compact?: boolean;
+  class?: string;
+};
+
+const {
+  stack,
+  label,
+  limit,
+  compact = false,
+  class: className = '',
+} = Astro.props;
+const items = typeof limit === 'number' ? stack.slice(0, limit) : stack;
+const textColor = compact ? 'text-[#9baaa0]' : 'text-[#b9c7be]';
+---
+
+<div class={className}>
+  <p class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]">
+    herramientas
+  </p>
+  <ul class="mt-3 flex flex-wrap gap-2 p-0" aria-label={label}>
+    {
+      items.map((item) => {
+        const tech = techs[item];
+
+        return (
+          <li class="list-none">
+            <span
+              class={`inline-flex items-center gap-1.5 rounded-full border border-white/10 px-2.5 py-1.5 font-mono text-xs ${textColor}`}
+              style={`--tech-color: ${tech.color}`}
+            >
+              <img class="size-3.5 object-contain" src={tech.icon} alt="" aria-hidden="true" />
+              <span>{tech.name}</span>
+            </span>
+          </li>
+        );
+      })
+    }
+  </ul>
+</div>
