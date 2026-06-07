@@ -3,10 +3,13 @@ import { defineConfig } from 'astro/config';
 
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react()],
+  site: process.env.PUBLIC_SITE_URL ?? process.env.SITE_URL ?? 'https://mauriciodmo.com',
+
+  integrations: [react(), sitemap()],
 
   vite: {
     plugins: [tailwindcss()]
