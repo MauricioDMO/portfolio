@@ -1,8 +1,5 @@
 ---
-import {
-  IconArrowLeft,
-  IconMail,
-} from "@tabler/icons-react";
+import { IconArrowLeft, IconExternalLink, IconMail } from "@tabler/icons-react";
 import ButtonLink from "../../components/ButtonLink.astro";
 import ProjectDetailSection from "../../components/ProjectDetailSection.astro";
 import ProjectDetailsNav from "../../components/ProjectDetailsNav.tsx";
@@ -40,7 +37,9 @@ const structuredData = [
     headline: project.title,
     description: projectDescription,
     url: projectUrl,
-    image: projectImage ? new URL(projectImage, site.url).toString() : undefined,
+    image: projectImage
+      ? new URL(projectImage, site.url).toString()
+      : undefined,
     author: {
       "@type": "Person",
       name: site.fullName,
@@ -123,6 +122,14 @@ const structuredData = [
             <IconArrowLeft size={18} stroke={1.8} aria-hidden="true" />
             Volver a proyectos
           </ButtonLink>
+          {
+            project.url ? (
+              <ButtonLink href={project.url} target="_blank" class="lg:mx-auto">
+                <IconExternalLink size={18} stroke={1.8} aria-hidden="true" />
+                Ver proyecto en vivo
+              </ButtonLink>
+            ) : null
+          }
           <ButtonLink
             href="mailto:mauriciodmoprogrammer@gmail.com"
             variant="primary"

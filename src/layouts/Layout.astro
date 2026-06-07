@@ -64,6 +64,13 @@ const jsonLd = Array.isArray(structuredData)
       ))
     }
     <ClientRouter />
+    <script>
+      document.addEventListener("astro:after-swap", () => {
+        if (window.location.pathname.startsWith("/proyectos/") && !window.location.hash) {
+          window.scrollTo({ left: 0, top: 0, behavior: "instant" });
+        }
+      });
+    </script>
     <title>{title}</title>
   </head>
   <body class="text-pretty">
