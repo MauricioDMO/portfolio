@@ -1,34 +1,83 @@
 ---
-import BrandLink from './BrandLink.astro';
+import BrandLink from "./BrandLink.astro";
 
 type Props = {
-  variant?: 'home' | 'project';
+  variant?: "home" | "project";
 };
 
-const { variant = 'home' } = Astro.props;
+const { variant = "home" } = Astro.props;
 ---
 
-<header class="sticky top-0 z-20 border-b border-[#26352c]/70 bg-[#0d1210]/85 backdrop-blur-xl">
+<header
+  class="sticky top-0 z-20 border-b border-[#26352c]/70 bg-[#0d1210]/85 backdrop-blur-xl"
+>
   <nav
     class="mx-auto flex min-h-[72px] w-[min(calc(100%-2rem),1120px)] items-center justify-between gap-6 max-md:flex-col max-md:items-start max-md:justify-center max-md:py-4"
     aria-label="Navegacion principal"
   >
-    <BrandLink label={variant === 'home' ? 'Inicio MauricioDMO' : 'Volver al inicio'} />
-    <div class="flex items-center gap-4 overflow-x-auto pb-1 text-sm text-[#9baaa0] max-md:w-full">
-      {variant === 'home' ? (
-        <>
-          <a class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]" href="#proyectos">Proyectos</a>
-          <a class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]" href="#proceso">Como trabajo</a>
-          <a class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]" href="#stack">Stack</a>
-          <a class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]" href="#contacto">Contacto</a>
-        </>
-      ) : (
-        <>
-          <a class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]" href="/">Inicio</a>
-          <a class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]" href="/#proyectos">Proyectos</a>
-          <a class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]" href="mailto:hola@mauriciodmo.com">Contacto</a>
-        </>
-      )}
+    <BrandLink
+      label={variant === "home" ? "Inicio MauricioDMO" : "Volver al inicio"}
+    />
+    <div
+      class="flex items-center gap-4 overflow-x-auto pb-1 text-sm text-[#9baaa0] max-md:w-full"
+    >
+      {
+        variant === "home" ? (
+          <>
+            <a
+              class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]"
+              href="#proyectos"
+            >
+              Proyectos
+            </a>
+            <a
+              class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]"
+              href="#proceso"
+            >
+              Como trabajo
+            </a>
+            <a
+              class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]"
+              href="#stack"
+            >
+              Stack
+            </a>
+            <a
+              class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]"
+              href="#sobre-mi"
+            >
+              Sobre mi
+            </a>
+            <a
+              class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]"
+              href="#contacto"
+            >
+              Contacto
+            </a>
+          </>
+        ) : (
+          <>
+            <a
+              class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]"
+              href="/"
+            >
+              Inicio
+            </a>
+            <a
+              class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]"
+              href="/#proyectos"
+            >
+              Proyectos
+            </a>
+            <a
+              class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]"
+              href="mailto:mauriciodmoprogrammer@gmail.com"
+            >
+              Contacto
+            </a>
+          </>
+        )
+      }
     </div>
   </nav>
 </header>

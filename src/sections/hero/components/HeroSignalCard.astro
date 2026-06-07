@@ -1,25 +1,45 @@
-<aside class="rounded-[6px] border border-[#26352c] bg-[#16211b]/75 p-5" aria-label="Resumen profesional">
-  <p class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]">criterio tecnico + utilidad real</p>
-  <p class="mt-4 leading-relaxed text-[#9baaa0]">
-    <strong class="text-[#e8eee9]">No solo programo interfaces.</strong> Entiendo problemas,
-    diseno experiencias y construyo sistemas reales que funcionan en produccion.
-  </p>
-  <div class="mt-5 grid grid-cols-2 gap-2.5 max-sm:grid-cols-1">
-    <div class="rounded border border-white/10 bg-[#0d1210]/45 p-3.5">
-      <strong class="block text-2xl leading-none text-[#5faf7b]">4</strong>
-      <span class="mt-2 block text-xs text-[#9baaa0]">proyectos principales</span>
+---
+const strengths = [
+  ['Web comercial', 'Landings, sitios informativos y rutas claras para convertir visitas en contacto.'],
+  ['Experiencia de uso', 'Interfaces faciles de leer, navegar y usar en desktop o movil.'],
+  ['Sistemas internos', 'Herramientas para facturacion, inventario, garantias y flujos operativos.'],
+];
+
+const signals = [
+  ['+300', 'facturas/mes'],
+  ['4', 'proyectos reales'],
+  ['ES', 'El Salvador'],
+];
+---
+
+<aside class="relative overflow-hidden rounded-[6px] border border-[#26352c] bg-[#16211b]/75 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.22)]" aria-label="Resumen profesional">
+  <div class="pointer-events-none absolute -right-16 -top-20 h-48 w-48 rounded-full bg-[#5faf7b]/10 blur-3xl" aria-hidden="true"></div>
+  <div class="relative">
+    <p class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]">donde aporto mas</p>
+    <p class="mt-4 leading-relaxed text-[#9baaa0]">
+      <strong class="text-[#e8eee9]">Construyo presencia web y producto interno.</strong> Me interesa que una pagina comunique bien y que un sistema sea claro cuando el trabajo se repite todos los dias.
+    </p>
+
+    <div class="mt-5 divide-y divide-[#26352c]/80 border-y border-[#26352c]/80">
+      {
+        strengths.map(([title, text]) => (
+          <div class="grid gap-1 py-3 sm:grid-cols-[0.42fr_0.58fr]">
+            <p class="font-mono text-[0.7rem] uppercase tracking-[0.08em] text-[#5faf7b]">{title}</p>
+            <p class="text-sm leading-relaxed text-[#9baaa0]">{text}</p>
+          </div>
+        ))
+      }
     </div>
-    <div class="rounded border border-white/10 bg-[#0d1210]/45 p-3.5">
-      <strong class="block text-2xl leading-none text-[#5faf7b]">+300</strong>
-      <span class="mt-2 block text-xs text-[#9baaa0]">facturas mensuales</span>
-    </div>
-    <div class="rounded border border-white/10 bg-[#0d1210]/45 p-3.5">
-      <strong class="block text-2xl leading-none text-[#5faf7b]">5</strong>
-      <span class="mt-2 block text-xs text-[#9baaa0]">etapas de trabajo</span>
-    </div>
-    <div class="rounded border border-white/10 bg-[#0d1210]/45 p-3.5">
-      <strong class="block text-2xl leading-none text-[#5faf7b]">ES</strong>
-      <span class="mt-2 block text-xs text-[#9baaa0]">desarrollador en El Salvador</span>
+
+    <div class="mt-4 grid grid-cols-3 gap-2">
+      {
+        signals.map(([value, label]) => (
+          <div class="rounded border border-white/10 bg-[#0d1210]/45 p-3">
+            <strong class="block text-xl leading-none text-[#5faf7b]">{value}</strong>
+            <span class="mt-2 block text-[0.7rem] leading-tight text-[#9baaa0]">{label}</span>
+          </div>
+        ))
+      }
     </div>
   </div>
 </aside>

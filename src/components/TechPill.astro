@@ -3,23 +3,25 @@ type Props = {
   name: string;
   src: string;
   href: string;
+  color?: string;
 };
 
-const { name, src, href } = Astro.props;
+const { name, src, href, color = "#5faf7b" } = Astro.props;
 ---
 
 <a
-  class="group inline-flex min-h-16 items-center gap-2 rounded-xl border border-[#26352c] bg-[#111a15]/80 p-2 text-[#e8eee9] shadow-[0_18px_60px_rgba(0,0,0,0.18)] transition hover:-translate-y-0.5 hover:border-[#5faf7b]/70 hover:bg-[#16211b] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#5faf7b]"
+  class="group relative inline-flex items-center gap-3 rounded-2xl border border-[#26352c] bg-[#0d1210]/90 px-4 py-3 text-[#e8eee9] shadow-[0_4px_24px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.03)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--tech-color)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.15),0_0_12px_-2px_var(--tech-color)] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[var(--tech-color)]"
   href={href}
   target="_blank"
   rel="noreferrer"
   aria-label={`Ver pagina web de ${name}`}
+  style={`--tech-color: ${color}`}
 >
   <span
-    class="grid size-11 place-items-center rounded border border-white/10 bg-[#0d1210]/70 transition group-hover:border-[#5faf7b]/40"
+    class="relative grid size-10 place-items-center rounded-xl border border-white/5 bg-gradient-to-br from-[#1a2420] to-[#0d1210] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05),0_2px_4px_rgba(0,0,0,0.2)] transition-all duration-300 group-hover:border-[var(--tech-color)]/40 group-hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.08),0_4px_12px_rgba(0,0,0,0.3)]"
   >
     <img
-      class="h-7 w-7 object-contain"
+      class="h-6 w-6 object-contain transition-transform duration-300 group-hover:scale-110"
       src={src}
       alt=""
       loading="lazy"
@@ -27,7 +29,6 @@ const { name, src, href } = Astro.props;
       aria-hidden="true"
     />
   </span>
-  <span class="font-mono text-sm uppercase tracking-[0.08em] text-[#c9d6ce]"
-    >{name}</span
-  >
+  <span class="font-mono text-sm font-medium uppercase tracking-[0.1em] text-[#c9d6ce] transition-colors duration-300 group-hover:text-[var(--tech-color)]"
+    >{name}</span>
 </a>
