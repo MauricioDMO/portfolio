@@ -11,6 +11,8 @@ export const site = {
     'Portafolio de MauricioDMO, desarrollador web full-stack enfocado en landings, sitios web, sistemas internos y automatizacion de procesos reales.',
   url: rawSiteUrl.replace(/\/$/, ''),
   email: 'mauriciodmoprogrammer@gmail.com',
+  github: 'https://github.com/MauricioDMO/',
+  linkedin: 'https://www.linkedin.com/in/mauriciodmo/',
   locale: 'es_SV',
   language: 'es',
 };

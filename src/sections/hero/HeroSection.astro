@@ -1,6 +1,12 @@
 ---
-import { IconArrowUpRight, IconMail } from "@tabler/icons-react";
+import {
+  IconArrowUpRight,
+  IconBrandGithub,
+  IconBrandLinkedin,
+  IconMail,
+} from "@tabler/icons-react";
 import ButtonLink from "../../components/ButtonLink.astro";
+import { site } from "../../data/site";
 import HeroSignalCard from "./components/HeroSignalCard.astro";
 
 const focusPoints = [
@@ -55,6 +61,29 @@ const focusPoints = [
         <IconMail size={18} stroke={1.8} aria-hidden="true" />
         Hablemos de tu proyecto
       </ButtonLink>
+    </div>
+    <div class="mt-5 flex flex-wrap items-center gap-3 text-sm text-[#9baaa0]">
+      <span class="font-mono text-xs uppercase tracking-[0.08em] text-[#6f8175]">
+        También en
+      </span>
+      <a
+        class="inline-flex items-center gap-2 rounded-full border border-[#26352c] bg-[#121d17]/70 px-3 py-2 text-[#d5ded8] no-underline transition hover:-translate-y-0.5 hover:border-[#5faf7b]/70 hover:text-[#e8eee9]"
+        href={site.github}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <IconBrandGithub size={18} stroke={1.8} aria-hidden="true" />
+        GitHub
+      </a>
+      <a
+        class="inline-flex items-center gap-2 rounded-full border border-[#26352c] bg-[#121d17]/70 px-3 py-2 text-[#d5ded8] no-underline transition hover:-translate-y-0.5 hover:border-[#5faf7b]/70 hover:text-[#e8eee9]"
+        href={site.linkedin}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <IconBrandLinkedin size={18} stroke={1.8} aria-hidden="true" />
+        LinkedIn
+      </a>
     </div>
   </div>
 

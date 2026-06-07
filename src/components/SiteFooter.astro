@@ -1,4 +1,6 @@
 ---
+import { site } from "../data/site";
+
 type Props = {
   label?: string;
   homeLink?: boolean;
@@ -8,12 +10,20 @@ const { label = 'MauricioDMO', homeLink = false } = Astro.props;
 ---
 
 <footer class="border-t border-[#26352c]/60 py-10 text-[#9baaa0]">
-  <div class="mx-auto flex w-[min(calc(100%-2rem),1120px)] justify-between gap-6 max-sm:flex-col">
+  <div class="mx-auto flex w-[min(calc(100%-2rem),1120px)] items-center justify-between gap-6 max-sm:flex-col max-sm:items-start">
     <span>{label}</span>
     {homeLink ? (
-      <a class="transition-colors hover:text-[#e8eee9]" href="/">Volver al inicio</a>
+      <div class="flex flex-wrap items-center gap-4">
+        <a class="transition-colors hover:text-[#e8eee9]" href="/">Volver al inicio</a>
+        <a class="transition-colors hover:text-[#e8eee9]" href={site.github} target="_blank" rel="noreferrer">GitHub</a>
+        <a class="transition-colors hover:text-[#e8eee9]" href={site.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+      </div>
     ) : (
-      <span>Software práctico para procesos reales.</span>
+      <div class="flex flex-wrap items-center gap-4">
+        <span>Software práctico para procesos reales.</span>
+        <a class="transition-colors hover:text-[#e8eee9]" href={site.github} target="_blank" rel="noreferrer">GitHub</a>
+        <a class="transition-colors hover:text-[#e8eee9]" href={site.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+      </div>
     )}
   </div>
 </footer>

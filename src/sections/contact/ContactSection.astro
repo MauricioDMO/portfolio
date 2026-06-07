@@ -1,6 +1,12 @@
 ---
-import { IconArrowUpRight, IconMail } from "@tabler/icons-react";
+import {
+  IconArrowUpRight,
+  IconBrandGithub,
+  IconBrandLinkedin,
+  IconMail,
+} from "@tabler/icons-react";
 import ButtonLink from "../../components/ButtonLink.astro";
+import { site } from "../../data/site";
 ---
 
 <section class="border-t border-[#26352c]/60 py-18" id="contacto">
@@ -34,6 +40,26 @@ import ButtonLink from "../../components/ButtonLink.astro";
           Revisar proyectos
           <IconArrowUpRight size={18} stroke={1.8} aria-hidden="true" />
         </ButtonLink>
+      </div>
+      <div class="mt-6 flex flex-wrap gap-3 text-sm">
+        <a
+          class="inline-flex items-center gap-2 text-[#9baaa0] no-underline transition-colors hover:text-[#e8eee9]"
+          href={site.github}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <IconBrandGithub size={18} stroke={1.8} aria-hidden="true" />
+          GitHub
+        </a>
+        <a
+          class="inline-flex items-center gap-2 text-[#9baaa0] no-underline transition-colors hover:text-[#e8eee9]"
+          href={site.linkedin}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <IconBrandLinkedin size={18} stroke={1.8} aria-hidden="true" />
+          LinkedIn
+        </a>
       </div>
     </div>
   </div>
