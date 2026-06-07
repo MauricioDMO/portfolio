@@ -153,7 +153,7 @@ export default function Carousel({
     return (
       <div className={`aspect-video rounded-md bg-[#16211b] ${className}`}>
         <div className="flex h-full items-center justify-center text-[#5faf7b]">
-          Sin imagenes disponibles
+          Sin imágenes disponibles
         </div>
       </div>
     );

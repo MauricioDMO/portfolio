@@ -60,7 +60,7 @@ export default function ProjectDetailsNav({ items }: ProjectDetailsNavProps) {
   }, [activeId]);
 
   return (
-    <nav aria-label="Navegacion del caso de estudio">
+    <nav aria-label="Navegación del caso de estudio">
       <ol className="flex gap-2 overflow-x-auto border-b border-[#26352c]/70 bg-[#0d1210]/90 py-3 md:block md:space-y-1 md:overflow-visible md:border-b-0 md:bg-transparent md:py-0">
         {items.map((item) => {
           const isActive = item.id === activeId;
