@@ -13,6 +13,7 @@ type CarouselProps = {
 };
 
 const ANIMATION_DURATION = 300;
+const imageCache = new Map<string, HTMLImageElement>();
 
 export default function Carousel({
   images,
@@ -29,7 +30,6 @@ export default function Carousel({
   const [direction, setDirection] = useState<'left' | 'right'>('right');
   const carouselRef = useRef<HTMLDivElement>(null);
   const animationTimeouts = useRef<ReturnType<typeof setTimeout>[]>([]);
-  const preloadedImages = useRef<Set<string>>(new Set());
 
   const clearAnimationTimeouts = useCallback(() => {
     animationTimeouts.current.forEach(clearTimeout);
@@ -49,11 +49,11 @@ export default function Carousel({
   );
 
   const preloadImage = useCallback((src: string) => {
-    if (preloadedImages.current.has(src)) return;
+    if (imageCache.has(src)) return;
 
-    preloadedImages.current.add(src);
     const image = new Image();
     image.src = src;
+    imageCache.set(src, image);
   }, []);
 
   const goTo = useCallback(
@@ -131,7 +131,7 @@ export default function Carousel({
   useEffect(() => {
     if (!isInViewport || images.length <= 1) return;
 
-    const preloadOffsets = images.length > 3 ? [-2, -1, 1, 2] : [-1, 1];
+    const preloadOffsets = images.length > 5 ? [-3, -2, -1, 1, 2, 3] : [-2, -1, 1, 2];
     const indexes = new Set(
       preloadOffsets
         .map((offset) => getImageIndex(currentIndex + offset))
@@ -167,7 +167,7 @@ export default function Carousel({
           alt={images[0].alt}
           className="h-full w-full object-cover"
           style={imageTransitionStyle}
-          loading="lazy"
+          loading="eager"
           decoding="async"
         />
       </div>
@@ -185,7 +185,7 @@ export default function Carousel({
             alt={images[currentIndex].alt}
             className="h-full w-full object-cover"
             style={imageTransitionStyle}
-            loading="lazy"
+            loading="eager"
             decoding="async"
           />
         </div>
