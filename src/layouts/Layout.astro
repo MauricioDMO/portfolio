@@ -10,6 +10,7 @@ type Props = {
   image?: string;
   type?: "website" | "article";
   robots?: string;
+  preloadImages?: string[];
   structuredData?: Record<string, unknown> | Record<string, unknown>[];
 };
 
@@ -20,6 +21,7 @@ const {
   image,
   type = "website",
   robots = "index, follow, max-image-preview:large",
+  preloadImages = [],
   structuredData,
 } = Astro.props;
 
@@ -44,6 +46,11 @@ const jsonLd = Array.isArray(structuredData)
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    {
+      preloadImages.map((src) => (
+        <link rel="preload" as="image" href={src} />
+      ))
+    }
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content={type} />
