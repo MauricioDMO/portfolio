@@ -5,9 +5,19 @@ import {
   IconBrandLinkedin,
   IconMail,
 } from "@tabler/icons-react";
+import { computeTimeline } from "tegaki";
+import TegakiRenderer from "tegaki/astro";
+import caveat from "tegaki/fonts/caveat";
 import ButtonLink from "../../components/ButtonLink.astro";
 import { site } from "../../data/site";
 import HeroSignalCard from "./components/HeroSignalCard.astro";
+
+const heroTitle = "Webs claras y sistemas que ordenan operaciones.";
+const heroTitleLines = ["Webs claras y sistemas", "que ordenan operaciones."];
+const heroTitleSpeed = 10;
+const secondLineDelay =
+  computeTimeline(heroTitleLines[0], caveat).totalDuration / heroTitleSpeed +
+  0.12;
 
 const focusPoints = [
   "Landings y sitios web claros",
@@ -23,14 +33,33 @@ const focusPoints = [
     <p class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]">
       Desarrollador web · Full-stack · UX útil
     </p>
-    <h1
-      class="mt-5 max-w-[760px] text-[clamp(2.7rem,6vw,5.4rem)] leading-[0.93] tracking-[-0.075em] text-[#e8eee9]"
+    <h1 class="sr-only">{heroTitle}</h1>
+    <div
+      class="mt-5 max-w-190 space-y-[-0.42rem] text-[#e8eee9]"
       transition:name="page-title"
+      aria-hidden="true"
     >
-      Webs claras y sistemas que ordenan operaciones.
-    </h1>
+      {
+        heroTitleLines.map((line, index) => (
+          <TegakiRenderer
+            font={caveat}
+            text={line}
+            time={{
+              mode: "uncontrolled",
+              speed: heroTitleSpeed,
+              delay: index === 0 ? 0 : secondLineDelay,
+            }}
+            style={{
+              fontSize: "clamp(3.2rem, 7vw, 6.4rem)",
+              lineHeight: "0.86",
+              letterSpacing: "-0.055em",
+            }}
+          />
+        ))
+      }
+    </div>
     <p
-      class="mt-6 max-w-[660px] text-[clamp(1.02rem,1.5vw,1.2rem)] leading-[1.65] text-[#9baaa0]"
+      class="mt-6 max-w-165 text-[clamp(1.02rem,1.5vw,1.2rem)] leading-[1.65] text-[#9baaa0]"
     >
       Soy MauricioDMO. Diseño y desarrollo landings, sitios web y herramientas
       internas con foco en claridad, buen rendimiento y experiencias fáciles de
@@ -63,7 +92,9 @@ const focusPoints = [
       </ButtonLink>
     </div>
     <div class="mt-5 flex flex-wrap items-center gap-3 text-sm text-[#9baaa0]">
-      <span class="font-mono text-xs uppercase tracking-[0.08em] text-[#6f8175]">
+      <span
+        class="font-mono text-xs uppercase tracking-[0.08em] text-[#6f8175]"
+      >
         También en
       </span>
       <a
