@@ -11,10 +11,11 @@
   box-sizing: border-box;
 }
 
-img,
-video,
-canvas {
-  overflow: clip;
+@layer base {
+  :where(img, video, canvas) {
+    overflow: clip;
+    overflow-clip-margin: content-box;
+  }
 }
 
 html {
