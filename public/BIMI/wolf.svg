@@ -4,6 +4,8 @@
   version="1.2"
   baseProfile="tiny-ps"
   viewBox="0 0 256 256"
+  width="256"
+  height="256"
 >
   <title>Silver Wolf</title>
   <path fill="#000" d="M0 0h256v256H0z" />
