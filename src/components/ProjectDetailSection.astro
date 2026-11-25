@@ -1,6 +1,7 @@
 ---
 import ProjectIcon from './ProjectIcon';
 import type { ProjectIconKey } from '../data/projects';
+import { getLocale, t } from '../i18n';
 
 type Props = {
   id: string;
@@ -10,6 +11,7 @@ type Props = {
   icon?: ProjectIconKey;
 };
 
+const lang = getLocale(Astro.currentLocale);
 const { id, number, eyebrow, title, icon } = Astro.props;
 ---
 
@@ -31,10 +33,10 @@ const { id, number, eyebrow, title, icon } = Astro.props;
     }
     <div class="min-w-0">
       <p class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]">
-        {number} · {eyebrow}
+        {number} · {t(eyebrow, lang)}
       </p>
       <h2 class="mt-3 max-w-180 text-[clamp(1.9rem,4vw,3.15rem)] leading-[1.02] tracking-[-0.06em] text-[#edf4ef]">
-        {title}
+        {t(title, lang)}
       </h2>
     </div>
   </div>

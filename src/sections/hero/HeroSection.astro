@@ -10,10 +10,15 @@ import TegakiRenderer from "tegaki/astro";
 import caveat from "tegaki/fonts/caveat";
 import ButtonLink from "../../components/ButtonLink.astro";
 import { site } from "../../data/site";
+import { getLocale, t } from "../../i18n";
 import HeroSignalCard from "./components/HeroSignalCard.astro";
 
-const heroTitle = "Webs claras y sistemas que ordenan operaciones.";
-const heroTitleLines = ["Webs claras y sistemas", "que ordenan operaciones."];
+const lang = getLocale(Astro.currentLocale);
+const heroTitleLines = [
+  t("hero.titleLine1", lang),
+  t("hero.titleLine2", lang),
+];
+const heroTitle = heroTitleLines.join(" ");
 const heroTitleSpeed = 10;
 const secondLineDelay =
   computeTimeline(heroTitleLines[0], caveat).totalDuration / heroTitleSpeed +
@@ -31,7 +36,7 @@ const focusPoints = [
 >
   <div class="max-w-3xl">
     <p class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]">
-      Desarrollador web · Full-stack · UX útil
+      {t("hero.eyebrow", lang)}
     </p>
     <h1 class="sr-only">{heroTitle}</h1>
     <div
@@ -61,13 +66,13 @@ const focusPoints = [
     <p
       class="mt-6 max-w-165 text-[clamp(1.02rem,1.5vw,1.2rem)] leading-[1.65] text-[#9baaa0]"
     >
-      Soy MauricioDMO. Diseño y desarrollo landings, sitios web y herramientas
-      internas con foco en claridad, buen rendimiento y experiencias fáciles de
-      usar para personas reales.
+      {t("hero.intro",
+        lang,
+      )}
     </p>
     <ul
       class="mt-6 grid gap-2 text-sm text-[#d5ded8] sm:grid-cols-3"
-      aria-label="Áreas de trabajo principales"
+      aria-label={t("hero.focusLabel", lang)}
     >
       {
         focusPoints.map((point) => (
@@ -76,32 +81,35 @@ const focusPoints = [
               class="h-1.5 w-1.5 shrink-0 rounded-full bg-[#5faf7b]"
               aria-hidden="true"
             />
-            {point}
+            {t(point, lang)}
           </li>
         ))
       }
     </ul>
     <div class="mt-7 flex flex-wrap gap-3">
-      <ButtonLink href="#proyectos" variant="primary">
-        Ver proyectos reales
+      <ButtonLink href="#proyectos" variant="primary" event="nav_section" eventData={{ section: "proyectos", source: "hero" }}>
+        {t("hero.seeProjectsCta", lang)}
         <IconArrowUpRight size={18} stroke={1.8} aria-hidden="true" />
       </ButtonLink>
-      <ButtonLink href="mailto:mauriciodmoprogrammer@gmail.com">
+      <ButtonLink href="mailto:mauriciodmoprogrammer@gmail.com" event="contact_email" eventData={{ source: "hero" }}>
         <IconMail size={18} stroke={1.8} aria-hidden="true" />
-        Hablemos de tu proyecto
+        {t("hero.talkCta", lang)}
       </ButtonLink>
     </div>
     <div class="mt-5 flex flex-wrap items-center gap-3 text-sm text-[#9baaa0]">
       <span
         class="font-mono text-xs uppercase tracking-[0.08em] text-[#6f8175]"
       >
-        También en
+        {t("hero.alsoOn", lang)}
       </span>
       <a
         class="inline-flex items-center gap-2 rounded-full border border-[#26352c] bg-[#121d17]/70 px-3 py-2 text-[#d5ded8] no-underline transition hover:-translate-y-0.5 hover:border-[#5faf7b]/70 hover:text-[#e8eee9]"
         href={site.github}
         target="_blank"
         rel="noreferrer"
+        data-track="social_link"
+        data-track-network="github"
+        data-track-source="hero"
       >
         <IconBrandGithub size={18} stroke={1.8} aria-hidden="true" />
         GitHub
@@ -111,6 +119,9 @@ const focusPoints = [
         href={site.linkedin}
         target="_blank"
         rel="noreferrer"
+        data-track="social_link"
+        data-track-network="linkedin"
+        data-track-source="hero"
       >
         <IconBrandLinkedin size={18} stroke={1.8} aria-hidden="true" />
         LinkedIn

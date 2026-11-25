@@ -1,11 +1,13 @@
 ---
 import type { Project } from '../../../data/projects';
+import { getLocale, t } from '../../../i18n';
 
 type Props = {
   project: Project;
   compact?: boolean;
 };
 
+const lang = getLocale(Astro.currentLocale);
 const { project, compact = false } = Astro.props;
 const projectImage = project.images?.[0];
 const transitionName = `project-image-${project.slug}`;
@@ -24,7 +26,7 @@ const transitionName = `project-image-${project.slug}`;
   ) : (
     <div class="flex h-full flex-col justify-between bg-[linear-gradient(135deg,rgba(95,175,123,0.14),transparent_45%),linear-gradient(180deg,rgba(22,33,27,0.9),rgba(13,18,16,0.95))] p-4">
       <div class="flex items-center justify-between gap-4">
-        <span class="font-mono text-[0.68rem] uppercase tracking-[0.08em] text-[#5faf7b]">captura pendiente</span>
+        <span class="font-mono text-[0.68rem] uppercase tracking-[0.08em] text-[#5faf7b]">{t('projectsSection.screenshotPending', lang)}</span>
         <span class="rounded-full border border-white/10 px-2.5 py-1 font-mono text-[0.65rem] uppercase tracking-[0.08em] text-[#9baaa0]">{project.eyebrow}</span>
       </div>
       <div class="space-y-2" aria-hidden="true">

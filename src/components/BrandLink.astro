@@ -1,15 +1,18 @@
 ---
+import { getLocale, localizedPath, t } from '../i18n';
+
 type Props = {
   label?: string;
 };
 
-const { label = "Inicio MauricioDMO" } = Astro.props;
+const lang = getLocale(Astro.currentLocale);
+const { label = 'Inicio MauricioDMO' } = Astro.props;
 ---
 
 <a
   class="inline-flex items-center gap-2.5 font-bold tracking-[-0.04em] text-[#e8eee9] no-underline"
-  href="/"
-  aria-label={label}
+  href={localizedPath('', lang)}
+  aria-label={t(label, lang)}
   transition:name="brand"
 >
   <span>MauricioDMO</span>

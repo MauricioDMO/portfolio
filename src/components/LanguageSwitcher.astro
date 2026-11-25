@@ -1,0 +1,28 @@
+---
+import { getLocale, localeMeta, switchLocalePath, t } from '../i18n';
+
+const lang = getLocale(Astro.currentLocale);
+const pathname = Astro.url.pathname;
+---
+
+<nav class="flex items-center gap-1 whitespace-nowrap" aria-label={t('components.language', lang)}>
+  {
+    (['es', 'en'] as const).map((target) => (
+      <a
+        class={`rounded-full border px-2.5 py-1 font-mono text-xs uppercase tracking-[0.08em] no-underline transition ${
+          target === lang
+            ? 'border-[#5faf7b]/70 bg-[#5faf7b]/16 text-[#d7eadc]'
+            : 'border-[#26352c] bg-transparent text-[#9baaa0] hover:border-[#5faf7b]/60 hover:text-[#e8eee9]'
+        }`}
+        href={switchLocalePath(pathname, target)}
+        aria-current={target === lang ? 'page' : undefined}
+        lang={localeMeta[target].lang}
+        data-track="language_switch"
+        data-track-from={lang}
+        data-track-to={target}
+      >
+        {localeMeta[target].label}
+      </a>
+    ))
+  }
+</nav>

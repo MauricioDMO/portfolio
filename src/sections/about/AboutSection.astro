@@ -1,4 +1,7 @@
 ---
+import { getLocale, t } from '../../i18n';
+
+const lang = getLocale(Astro.currentLocale);
 const focusAreas = [
   {
     label: "Frontend principal",
@@ -47,34 +50,25 @@ const profile = [
           <p
             class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]"
           >
-            Sobre mí
+            {t('about.eyebrow', lang)}
           </p>
           <h2
             class="mt-5 max-w-190 text-[clamp(2.25rem,5vw,4.8rem)] leading-[0.95] tracking-[-0.07em] text-[#e8eee9]"
           >
-            Construyo interfaces y sistemas que ordenan procesos reales.
+            {t('about.title', lang)}
           </h2>
 
           <div
             class="mt-7 max-w-175 space-y-4 text-[1.02rem] leading-relaxed text-[#9baaa0]"
           >
             <p>
-              Soy Mauricio Martínez, desarrollador principalmente frontend con
-              experiencia construyendo herramientas web para operaciones reales:
-              sistemas internos, automatización de procesos y presencia web
-              clara para negocios.
+              {t('about.bio1', lang)}
             </p>
             <p>
-              Me interesa trabajar donde el software tiene impacto práctico:
-              reducir pasos manuales, ordenar información, mejorar flujos
-              repetitivos y convertir procesos dispersos en experiencias más
-              simples de usar.
+              {t('about.bio2', lang)}
             </p>
             <p>
-              Mi forma de trabajar combina criterio técnico, aprendizaje
-              continuo y responsabilidad. Me gusta entender el contexto antes de
-              construir, elegir herramientas con sentido y entregar soluciones
-              que se puedan mantener, mejorar y usar en el día a día.
+              {t('about.bio3', lang)}
             </p>
           </div>
         </div>
@@ -87,17 +81,17 @@ const profile = [
           <p
             class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]"
           >
-            Perfil operativo
+            {t('about.profileEyebrow', lang)}
           </p>
           <dl class="mt-5 divide-y divide-[#26352c]/75">
             {
               profile.map(([label, value]) => (
                 <div class="grid gap-1 py-3 first:pt-0 last:pb-0 sm:grid-cols-[0.36fr_0.64fr]">
                   <dt class="font-mono text-[0.7rem] uppercase tracking-[0.08em] text-[#6f8175]">
-                    {label}
+                    {t(label, lang)}
                   </dt>
                   <dd class="text-sm leading-relaxed text-[#d5ded8]">
-                    {value}
+                    {t(value, lang)}
                   </dd>
                 </div>
               ))
@@ -111,18 +105,16 @@ const profile = [
           <p
             class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]"
           >
-            IA con criterio
+            {t('about.aiEyebrow', lang)}
           </p>
           <p class="mt-3 leading-relaxed text-[#9baaa0]">
-            Uso IA para investigar, acelerar escritura de código, proponer
-            refactors y revisar alternativas, siempre con validación posterior.
+            {t('about.ai1', lang)}
           </p>
           <p class="mt-3 leading-relaxed text-[#9baaa0]">
-            La delegación ayuda a ganar velocidad; el criterio técnico decide
-            qué se queda, qué se va y cómo se integra.
+            {t('about.ai2', lang)}
           </p>
           <p class="mt-3 leading-relaxed text-[#9baaa0]">
-            La IA es una herramienta más, no un reemplazo del juicio humano.
+            {t('about.ai3', lang)}
           </p>
         </article>
       </aside>
@@ -133,10 +125,10 @@ const profile = [
         focusAreas.map((area, index) => (
           <article class="rounded-md border border-[#26352c] bg-[#121d17]/80 p-5 transition-colors hover:border-[#5faf7b]/45 hover:bg-[#16241c]">
             <p class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]">
-              {area.label}
+              {t(area.label, lang)}
             </p>
             <p class="mt-3 text-sm leading-relaxed text-[#9baaa0]">
-              {area.text}
+              {t(area.text, lang)}
             </p>
           </article>
         ))

@@ -5,9 +5,20 @@ type Props = {
   class?: string;
   target?: string;
   rel?: string;
+  event?: string;
+  eventData?: Record<string, string>;
 };
 
-const { href, variant = "secondary", class: customClass, target, rel } = Astro.props;
+const { href, variant = "secondary", class: customClass, target, rel, event, eventData } = Astro.props;
+
+const tracking = event
+  ? {
+      "data-track": event,
+      ...Object.fromEntries(
+        Object.entries(eventData ?? {}).map(([key, value]) => [`data-track-${key}`, value]),
+      ),
+    }
+  : {};
 
 const base =
   "inline-flex min-h-11 items-center justify-center gap-2 rounded-[6px] border px-4 font-semibold text-[#e8eee9] no-underline transition hover:-translate-y-0.5";
@@ -19,6 +30,6 @@ const variants = {
 };
 ---
 
-<a class={`${base} ${variants[variant]} ${customClass || ""}`} href={href} target={target} rel={rel}>
+<a class={`${base} ${variants[variant]} ${customClass || ""}`} href={href} target={target} rel={rel} {...tracking}>
   <slot />
 </a>

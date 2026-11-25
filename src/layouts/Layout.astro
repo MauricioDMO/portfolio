@@ -1,6 +1,7 @@
 ---
 import { ClientRouter } from "astro:transitions";
 import { site } from "../data/site";
+import { getLocale, localeMeta } from "../i18n";
 import "../styles/global.css";
 
 type Props = {
@@ -25,6 +26,8 @@ const {
   structuredData,
 } = Astro.props;
 
+const lang = getLocale(Astro.currentLocale);
+
 const canonicalUrl = new URL(pathname, site.url).toString();
 const imageUrl = image ? new URL(image, site.url).toString() : undefined;
 const jsonLd = Array.isArray(structuredData)
@@ -35,7 +38,7 @@ const jsonLd = Array.isArray(structuredData)
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={localeMeta[lang].lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -56,7 +59,7 @@ const jsonLd = Array.isArray(structuredData)
     <meta property="og:type" content={type} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content={site.name} />
-    <meta property="og:locale" content={site.locale} />
+    <meta property="og:locale" content={localeMeta[lang].ogLocale} />
     {imageUrl && <meta property="og:image" content={imageUrl} />}
     {imageUrl && <meta property="og:image:alt" content={title} />}
     <meta name="twitter:card" content={imageUrl ? "summary_large_image" : "summary"} />
@@ -70,12 +73,33 @@ const jsonLd = Array.isArray(structuredData)
         <script type="application/ld+json" set:html={JSON.stringify(item)} />
       ))
     }
+    <script is:inline defer src="https://uma.mauriciodmo.com/script.js" data-website-id="20a9d75c-589a-4a8e-a583-02502ac16dd9" data-domains="mauriciodmo.com,www.mauriciodmo.com"></script>
     <ClientRouter />
     <script>
+      declare global {
+        interface Window {
+          umami?: { track: (name: string, data?: Record<string, string>) => void };
+        }
+      }
+
       document.addEventListener("astro:after-swap", () => {
         if (window.location.pathname.startsWith("/proyectos/") && !window.location.hash) {
           window.scrollTo({ left: 0, top: 0, behavior: "instant" });
         }
+      });
+
+      document.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+        const element = target.closest<HTMLElement>("[data-track]");
+        if (!element?.dataset.track) return;
+
+        const data: Record<string, string> = {};
+        for (const [key, value] of Object.entries(element.dataset)) {
+          if (key === "track" || !value) continue;
+          data[key.slice(5).replace(/^[A-Z]/, (c) => c.toLowerCase())] = value;
+        }
+        window.umami?.track(element.dataset.track, data);
       });
     </script>
     <title>{title}</title>

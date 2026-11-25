@@ -8,9 +8,15 @@ export type ProjectDetailsNavItem = {
 
 type ProjectDetailsNavProps = {
   items: ProjectDetailsNavItem[];
+  lang?: 'es' | 'en';
 };
 
-export default function ProjectDetailsNav({ items }: ProjectDetailsNavProps) {
+const navAriaLabels = {
+  es: 'Navegación del caso de estudio',
+  en: 'Case study navigation',
+};
+
+export default function ProjectDetailsNav({ items, lang = 'es' }: ProjectDetailsNavProps) {
   const [activeId, setActiveId] = useState(items[0]?.id ?? '');
   const itemRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
 
@@ -64,7 +70,7 @@ export default function ProjectDetailsNav({ items }: ProjectDetailsNavProps) {
   }, [activeId]);
 
   return (
-    <nav aria-label="Navegación del caso de estudio">
+    <nav aria-label={navAriaLabels[lang]}>
       <ol className="flex gap-2 overflow-x-auto border-b border-[#26352c]/70 bg-[#0d1210]/90 py-3 md:block md:space-y-1 md:overflow-visible md:border-b-0 md:bg-transparent md:py-0">
         {items.map((item) => {
           const isActive = item.id === activeId;
@@ -77,6 +83,8 @@ export default function ProjectDetailsNav({ items }: ProjectDetailsNavProps) {
                 }}
                 href={`#${item.id}`}
                 aria-current={isActive ? 'location' : undefined}
+                data-track="project_section"
+                data-track-section={item.id}
                 className={`flex shrink-0 items-center gap-2 rounded-full px-3 py-1.5 font-mono text-[0.72rem] uppercase tracking-[0.08em] no-underline transition md:rounded-none md:border-l md:px-3 md:py-2 ${
                   isActive
                     ? 'border-[#5faf7b] bg-[#5faf7b]/10 text-[#e8eee9]'

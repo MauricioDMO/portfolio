@@ -1,0 +1,67 @@
+---
+import SiteFooter from '../../components/SiteFooter.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import Layout from '../../layouts/Layout.astro';
+import AboutSection from '../../sections/about/AboutSection.astro';
+import ContactSection from '../../sections/contact/ContactSection.astro';
+import HeroSection from '../../sections/hero/HeroSection.astro';
+import ProcessSection from '../../sections/process/ProcessSection.astro';
+import ProjectsSection from '../../sections/projects/ProjectsSection.astro';
+import StackSection from '../../sections/stack/StackSection.astro';
+import { site } from '../../data/site';
+import { getLocale, t, localeMeta, localizedPath } from '../../i18n';
+
+const lang = getLocale(Astro.currentLocale);
+const title = t(site.title, lang);
+const description = t('seo.homeDescription',
+  lang,
+);
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: site.name,
+    url: site.url,
+    inLanguage: localeMeta[lang].lang,
+    description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: site.fullName,
+    alternateName: site.name,
+    url: site.url,
+    email: `mailto:${site.email}`,
+    sameAs: [site.linkedin, site.github],
+    jobTitle: t('seo.jobTitle', lang),
+    knowsAbout: [
+      t('seo.knowWebDev', lang),
+      t('shared.frontend', lang),
+      t('seo.knowInternalSystems', lang),
+      t('seo.knowAutomation', lang),
+      t('shared.astro', lang),
+      t('shared.nextjs', lang),
+      t('shared.typescript', lang),
+    ],
+  },
+];
+---
+
+<Layout
+  title={title}
+  description={description}
+  pathname={localizedPath('', lang)}
+  structuredData={structuredData}
+>
+  <SiteHeader />
+  <main>
+    <HeroSection />
+    <ProjectsSection />
+    <ProcessSection />
+    <StackSection />
+    <AboutSection />
+    <ContactSection />
+  </main>
+  <SiteFooter />
+</Layout>

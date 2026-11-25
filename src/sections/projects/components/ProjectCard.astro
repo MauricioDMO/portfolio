@@ -1,4 +1,5 @@
 ---
+import { getLocale, localizedPath, t } from '../../../i18n';
 import {
   IconArrowUpRight,
   IconBuildingStore,
@@ -14,6 +15,7 @@ type Props = {
   project: Project;
 };
 
+const lang = getLocale(Astro.currentLocale);
 const { project } = Astro.props;
 const projectIcons: Partial<Record<ProjectIconKey, any>> = {
   'building-store': IconBuildingStore,
@@ -55,12 +57,17 @@ const projectHost = project.url ? new URL(project.url).hostname.replace(/^www\./
       {impact?.list.slice(0, 2).map((item) => <li class="list-none text-[#9baaa0] before:mr-2 before:text-[#5faf7b] before:content-['+']">{item}</li>)}
     </ul>
     <div class="mt-auto flex flex-wrap gap-3 pt-6">
-      <a class="inline-flex items-center gap-2 rounded-full border border-[#5faf7b]/35 bg-[#5faf7b]/10 px-3.5 py-2 font-mono text-xs uppercase tracking-[0.08em] text-[#d7eadc] no-underline transition hover:border-[#5faf7b]/70 hover:bg-[#5faf7b]/16" href={`/proyectos/${project.slug}/`}>
-        Ver caso completo
+      <a class="inline-flex items-center gap-2 rounded-full border border-[#5faf7b]/35 bg-[#5faf7b]/10 px-3.5 py-2 font-mono text-xs uppercase tracking-[0.08em] text-[#d7eadc] no-underline transition hover:border-[#5faf7b]/70 hover:bg-[#5faf7b]/16" href={localizedPath(`proyectos/${project.slug}/`, lang)}
+        data-track="project_case_open"
+        data-track-project={project.slug}>
+        {t('projectsSection.viewCaseCta', lang)}
         <IconArrowUpRight className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" size={16} stroke={1.8} aria-hidden="true" />
       </a>
       {project.url ? (
-        <a class="inline-flex items-center gap-2 rounded-full border border-[#26352c] bg-[#0d1210]/70 px-3.5 py-2 font-mono text-xs text-[#c4d0c8] no-underline transition hover:border-[#5faf7b]/60 hover:text-[#e8eee9]" href={project.url} target="_blank" rel="noopener noreferrer">
+        <a class="inline-flex items-center gap-2 rounded-full border border-[#26352c] bg-[#0d1210]/70 px-3.5 py-2 font-mono text-xs text-[#c4d0c8] no-underline transition hover:border-[#5faf7b]/60 hover:text-[#e8eee9]" href={project.url} target="_blank" rel="noopener noreferrer"
+          data-track="project_site_visit"
+          data-track-project={project.slug}
+          data-track-host={projectHost}>
           {projectHost}
           <IconArrowUpRight size={16} stroke={1.8} aria-hidden="true" />
         </a>

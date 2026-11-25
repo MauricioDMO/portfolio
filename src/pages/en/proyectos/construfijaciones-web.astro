@@ -1,0 +1,8 @@
+---
+import { getProjectBySlug } from '../../../data/projects';
+import ProjectPageFrame from '../../proyectos/_ProjectPageFrame.astro';
+
+const project = getProjectBySlug('construfijaciones-web');
+---
+
+<ProjectPageFrame project={project} />

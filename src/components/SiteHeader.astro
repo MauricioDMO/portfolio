@@ -1,11 +1,14 @@
 ---
-import BrandLink from "./BrandLink.astro";
+import { getLocale, localizedPath, t } from '../i18n';
+import BrandLink from './BrandLink.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
 
 type Props = {
-  variant?: "home" | "project";
+  variant?: 'home' | 'project';
 };
 
-const { variant = "home" } = Astro.props;
+const { variant = 'home' } = Astro.props;
+const lang = getLocale(Astro.currentLocale);
 ---
 
 <header
@@ -13,71 +16,89 @@ const { variant = "home" } = Astro.props;
 >
   <nav
     class="mx-auto flex min-h-[72px] w-[min(calc(100%-2rem),1120px)] items-center justify-between gap-6 max-md:flex-col max-md:items-start max-md:justify-center max-md:py-4"
-    aria-label="Navegación principal"
+    aria-label={t('components.mainNav', lang)}
   >
     <BrandLink
-      label={variant === "home" ? "Inicio MauricioDMO" : "Volver al inicio"}
+      label={variant === 'home' ? t('components.homeLabel', lang) : t('components.backHome', lang)}
     />
     <div
       class="flex items-center gap-4 overflow-x-auto pb-1 text-sm text-[#9baaa0] max-md:w-full"
     >
       {
-        variant === "home" ? (
+        variant === 'home' ? (
           <>
             <a
               class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]"
-              href="#proyectos"
+              href={localizedPath('#proyectos', lang)}
+              data-track="nav_section"
+              data-track-section="proyectos"
             >
-              Proyectos
+              {t('projectPage.breadcrumbProjects', lang)}
             </a>
             <a
               class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]"
-              href="#proceso"
+              href={localizedPath('#proceso', lang)}
+              data-track="nav_section"
+              data-track-section="proceso"
             >
-              Cómo trabajo
+              {t('workflow.eyebrow', lang)}
             </a>
             <a
               class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]"
-              href="#stack"
+              href={localizedPath('#stack', lang)}
+              data-track="nav_section"
+              data-track-section="stack"
             >
-              Stack
+              {t('shared.stack', lang)}
             </a>
             <a
               class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]"
-              href="#sobre-mi"
+              href={localizedPath('#sobre-mi', lang)}
+              data-track="nav_section"
+              data-track-section="sobre-mi"
             >
-              Sobre mí
+              {t('about.eyebrow', lang)}
             </a>
             <a
               class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]"
-              href="#contacto"
+              href={localizedPath('#contacto', lang)}
+              data-track="nav_section"
+              data-track-section="contacto"
             >
-              Contacto
+              {t('contact.eyebrow', lang)}
             </a>
           </>
         ) : (
           <>
             <a
               class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]"
-              href="/"
+              href={localizedPath('', lang)}
+              data-track="nav_section"
+              data-track-section="inicio"
             >
-              Inicio
+              {t('projectPage.breadcrumbHome', lang)}
             </a>
             <a
               class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]"
-              href="/#proyectos"
+              href={localizedPath('#proyectos', lang)}
+              data-track="nav_section"
+              data-track-section="proyectos"
+              data-track-source="project_page"
             >
-              Proyectos
+              {t('projectPage.breadcrumbProjects', lang)}
             </a>
             <a
               class="whitespace-nowrap no-underline transition-colors hover:text-[#e8eee9]"
               href="mailto:mauriciodmoprogrammer@gmail.com"
+              data-track="contact_email"
+              data-track-source="header"
             >
-              Contacto
+              {t('contact.eyebrow', lang)}
             </a>
           </>
         )
       }
+      <LanguageSwitcher />
     </div>
   </nav>
 </header>

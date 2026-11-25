@@ -7,7 +7,10 @@ import {
   IconSearch,
 } from "@tabler/icons-react";
 import SectionHeader from "../../components/SectionHeader.astro";
+import { getLocale, t } from "../../i18n";
 import ProcessCard from "./components/ProcessCard.astro";
+
+const lang = getLocale(Astro.currentLocale);
 
 const process = [
   {
@@ -44,9 +47,9 @@ const revealDelayStepMs = revealDurationMs / 2;
 <section class="border-t border-[#26352c]/60 py-18" id="proceso">
   <div class="mx-auto w-[min(calc(100%-2rem),1120px)]">
     <SectionHeader
-      eyebrow="Cómo trabajo"
-      title="Curiosidad, razonamiento y ejecución."
-      description="Mi proceso busca evitar construir por impulso. Empiezo con curiosidad para entender el contexto, uso razonamiento técnico para separar lo importante de lo accesorio y ejecuto con foco en soluciones simples, mantenibles y útiles en uso real."
+      eyebrow={t("workflow.eyebrow", lang)}
+      title={t("workflow.title", lang)}
+      description={t("workflow.description", lang)}
     />
 
     <div class="grid gap-3 md:grid-cols-4">
@@ -54,8 +57,8 @@ const revealDelayStepMs = revealDurationMs / 2;
         process.map((step, index) => (
           <ProcessCard
             index={index}
-            title={step.title}
-            text={step.text}
+            title={t(step.title, lang)}
+            text={t(step.text, lang)}
             Icon={step.Icon}
             class={
               index === process.length - 1

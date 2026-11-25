@@ -197,6 +197,8 @@ export default function Carousel({
           disabled={!infinity && currentIndex === 0}
           className="flex h-8 w-8 items-center justify-center rounded-full border border-[#26352c] bg-[#16211b]/75 text-[#9baaa0] transition-colors hover:border-[#5faf7b] hover:text-[#5faf7b] disabled:opacity-30 disabled:hover:border-[#26352c] disabled:hover:text-[#9baaa0]"
           aria-label="Imagen anterior"
+          data-track="carousel_navigate"
+          data-track-direction="prev"
         >
           <svg
             width="16"
@@ -223,6 +225,9 @@ export default function Carousel({
                 }`}
               aria-label={`Ir a imagen ${index + 1}`}
               aria-current={index === currentIndex ? 'true' : 'false'}
+              data-track="carousel_navigate"
+              data-track-direction="dot"
+              data-track-index={index + 1}
             />
           ))}
         </div>
@@ -232,6 +237,8 @@ export default function Carousel({
           disabled={!infinity && currentIndex === images.length - 1}
           className="flex h-8 w-8 items-center justify-center rounded-full border border-[#26352c] bg-[#16211b]/75 text-[#9baaa0] transition-colors hover:border-[#5faf7b] hover:text-[#5faf7b] disabled:opacity-30 disabled:hover:border-[#26352c] disabled:hover:text-[#9baaa0]"
           aria-label="Siguiente imagen"
+          data-track="carousel_navigate"
+          data-track-direction="next"
         >
           <svg
             width="16"

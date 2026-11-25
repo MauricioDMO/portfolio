@@ -1,4 +1,6 @@
 ---
+import { getLocale, t } from '../i18n';
+
 type Props = {
   name: string;
   src: string;
@@ -6,6 +8,7 @@ type Props = {
   color?: string;
 };
 
+const lang = getLocale(Astro.currentLocale);
 const { name, src, href, color = "#5faf7b" } = Astro.props;
 ---
 
@@ -14,7 +17,7 @@ const { name, src, href, color = "#5faf7b" } = Astro.props;
   href={href}
   target="_blank"
   rel="noreferrer"
-  aria-label={`Ver página web de ${name}`}
+  aria-label={`${t('components.visitWebsite', lang)} ${name}`}
   style={`--tech-color: ${color}`}
 >
   <span

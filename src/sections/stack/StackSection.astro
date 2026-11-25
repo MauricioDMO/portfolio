@@ -8,8 +8,11 @@ import {
 } from "@tabler/icons-react";
 import SectionHeader from "../../components/SectionHeader.astro";
 import TechPill from "../../components/TechPill.astro";
+import { getLocale, t } from "../../i18n";
 import { techs } from "../../data/techs";
 import StackCard from "./components/StackCard.astro";
+
+const lang = getLocale(Astro.currentLocale);
 
 type StackItem = [title: string, text: string, Icon: typeof IconCode];
 
@@ -46,14 +49,14 @@ const stack: StackItem[] = [
 <section class="border-t border-[#26352c]/60 py-18" id="stack">
   <div class="mx-auto w-[min(calc(100%-2rem),1120px)]">
     <SectionHeader
-      eyebrow="Stack técnico"
-      title="Tecnología al servicio del proceso."
-      description="Uso de herramientas modernas. La prioridad es elegir tecnología que ayude a construir sistemas claros, rápidos y mantenibles."
+      eyebrow={t("stack.eyebrow", lang)}
+      title={t("stack.title", lang)}
+      description={t("stack.description", lang)}
     />
 
     <div
       class="mb-8 flex flex-wrap gap-5 justify-center"
-      aria-label="Tecnologías utilizadas"
+      aria-label={t("stack.techLabel", lang)}
     >
       {
         Object.values(techs).map((tech) => (
@@ -66,8 +69,8 @@ const stack: StackItem[] = [
       {
         stack.map(([title, text, Icon], index) => (
           <StackCard
-            title={title}
-            text={text}
+            title={t(title, lang)}
+            text={t(text, lang)}
             Icon={Icon}
             offset={index === 3}
           />

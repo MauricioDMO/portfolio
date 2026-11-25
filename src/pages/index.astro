@@ -9,10 +9,13 @@ import ProcessSection from '../sections/process/ProcessSection.astro';
 import ProjectsSection from '../sections/projects/ProjectsSection.astro';
 import StackSection from '../sections/stack/StackSection.astro';
 import { site } from '../data/site';
+import { getLocale, t, localeMeta, localizedPath } from '../i18n';
 
-const title = site.title;
-const description =
-  'Desarrollador web full-stack para landings, sitios web y sistemas internos que reducen trabajo manual, ordenan procesos y mejoran experiencias digitales.';
+const lang = getLocale(Astro.currentLocale);
+const title = t(site.title, lang);
+const description = t('seo.homeDescription',
+  lang,
+);
 
 const structuredData = [
   {
@@ -20,7 +23,7 @@ const structuredData = [
     '@type': 'WebSite',
     name: site.name,
     url: site.url,
-    inLanguage: site.language,
+    inLanguage: localeMeta[lang].lang,
     description,
   },
   {
@@ -31,21 +34,26 @@ const structuredData = [
     url: site.url,
     email: `mailto:${site.email}`,
     sameAs: [site.linkedin, site.github],
-    jobTitle: 'Desarrollador web full-stack',
+    jobTitle: t('seo.jobTitle', lang),
     knowsAbout: [
-      'Desarrollo web',
-      'Frontend',
-      'Sistemas internos',
-      'Automatizacion de procesos',
-      'Astro',
-      'Next.js',
-      'TypeScript',
+      t('seo.knowWebDev', lang),
+      t('shared.frontend', lang),
+      t('seo.knowInternalSystems', lang),
+      t('seo.knowAutomation', lang),
+      t('shared.astro', lang),
+      t('shared.nextjs', lang),
+      t('shared.typescript', lang),
     ],
   },
 ];
 ---
 
-<Layout title={title} description={description} pathname="/" structuredData={structuredData}>
+<Layout
+  title={title}
+  description={description}
+  pathname={localizedPath('', lang)}
+  structuredData={structuredData}
+>
   <SiteHeader />
   <main>
     <HeroSection />
