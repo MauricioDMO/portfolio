@@ -10,7 +10,7 @@ const { label = 'Inicio MauricioDMO' } = Astro.props;
 ---
 
 <a
-  class="inline-flex items-center gap-2.5 font-bold tracking-[-0.04em] text-[#e8eee9] no-underline"
+  class="inline-flex items-center gap-2.5 font-bold tracking-[-0.04em] text-[var(--color-text)] no-underline"
   href={localizedPath('', lang)}
   aria-label={t(label, lang)}
   transition:name="brand"

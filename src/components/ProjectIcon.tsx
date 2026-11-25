@@ -37,12 +37,12 @@ import {
   IconUserCheck,
   IconUsersGroup,
   type IconProps,
-} from '@tabler/icons-react';
+} from '@tabler/icons-astro';
 import type { ComponentType } from 'react';
 import type { ProjectIconKey } from '../data/projects';
 
 type ProjectIconProps = IconProps & {
-  icon?: ProjectIconKey;
+  icon?: string;
 };
 
 const icons: Record<ProjectIconKey, ComponentType<IconProps>> = {
@@ -88,7 +88,8 @@ const icons: Record<ProjectIconKey, ComponentType<IconProps>> = {
 export default function ProjectIcon({ icon, ...props }: ProjectIconProps) {
   if (!icon) return null;
 
-  const Icon = icons[icon];
+  const Icon = Object.hasOwn(icons, icon) ? icons[icon as ProjectIconKey] : undefined;
+  if (!Icon) return null;
 
   return <Icon {...props} />;
 }

@@ -15,21 +15,21 @@ const signals = [
 ];
 ---
 
-<aside class="relative overflow-hidden rounded-[6px] border border-[#26352c] bg-[#16211b]/75 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.22)]" aria-label={t('hero.signalLabel', lang)}>
-  <div class="pointer-events-none absolute -right-16 -top-20 h-48 w-48 rounded-full bg-[#5faf7b]/10 blur-3xl" aria-hidden="true"></div>
+<aside class="relative overflow-hidden rounded-[6px] border border-[var(--color-border)] bg-[var(--color-card)]/75 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.22)]" aria-label={t('hero.signalLabel', lang)}>
+  <div class="pointer-events-none absolute -right-16 -top-20 h-48 w-48 rounded-full bg-[var(--color-accent)]/10 blur-3xl" aria-hidden="true"></div>
   <div class="relative">
-    <p class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]">{t('hero.cardEyebrow', lang)}</p>
-    <p class="mt-4 leading-relaxed text-[#9baaa0]">
-      <strong class="text-[#e8eee9]">{t('hero.cardLead', lang)}</strong>{" "}
+    <p class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]">{t('hero.cardEyebrow', lang)}</p>
+    <p class="mt-4 leading-relaxed text-[var(--color-muted)]">
+      <strong class="text-[var(--color-text)]">{t('hero.cardLead', lang)}</strong>{" "}
       {t('hero.cardBody', lang)}
     </p>
 
-    <div class="mt-5 divide-y divide-[#26352c]/80 border-y border-[#26352c]/80">
+    <div class="mt-5 divide-y divide-[var(--color-border)]/80 border-y border-[var(--color-border)]/80">
       {
         strengths.map(([title, text]) => (
           <div class="grid gap-1 py-3 sm:grid-cols-[0.42fr_0.58fr]">
-            <p class="font-mono text-[0.7rem] uppercase tracking-[0.08em] text-[#5faf7b]">{t(title, lang)}</p>
-            <p class="text-sm leading-relaxed text-[#9baaa0]">{t(text, lang)}</p>
+            <p class="font-mono text-[0.7rem] uppercase tracking-[0.08em] text-[var(--color-accent)]">{t(title, lang)}</p>
+            <p class="text-sm leading-relaxed text-[var(--color-muted)]">{t(text, lang)}</p>
           </div>
         ))
       }
@@ -38,9 +38,9 @@ const signals = [
     <div class="mt-4 grid grid-cols-3 gap-2">
       {
         signals.map(([value, label]) => (
-          <div class="rounded border border-white/10 bg-[#0d1210]/45 p-3">
-            <strong class="block text-xl leading-none text-[#5faf7b]">{value}</strong>
-            <span class="mt-2 block text-[0.7rem] leading-tight text-[#9baaa0]">{t(label, lang)}</span>
+          <div class="rounded border border-white/10 bg-[var(--color-bg)]/45 p-3">
+            <strong class="block text-xl leading-none text-[var(--color-accent)]">{value}</strong>
+            <span class="mt-2 block text-[0.7rem] leading-tight text-[var(--color-muted)]">{t(label, lang)}</span>
           </div>
         ))
       }

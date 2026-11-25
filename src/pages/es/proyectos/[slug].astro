@@ -1,0 +1,16 @@
+---
+import EditorialPage from '../../../components/EditorialPage.astro';
+import { getPublishedEntries } from '../../../lib/content';
+
+export async function getStaticPaths() {
+  const entries = await getPublishedEntries('projects', 'es');
+  return entries.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+---
+
+<EditorialPage entry={entry} />

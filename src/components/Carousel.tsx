@@ -5,8 +5,16 @@ type CarouselImage = {
   alt: string;
 };
 
+type CarouselLabels = {
+  noImages: string;
+  previousImage: string;
+  nextImage: string;
+  goToImage: string;
+};
+
 type CarouselProps = {
   images: CarouselImage[];
+  labels: CarouselLabels;
   infinity?: boolean;
   className?: string;
   transitionName?: string;
@@ -17,6 +25,7 @@ const imageCache = new Map<string, HTMLImageElement>();
 
 export default function Carousel({
   images,
+  labels,
   infinity = false,
   className = '',
   transitionName,
@@ -151,9 +160,9 @@ export default function Carousel({
 
   if (!images || images.length === 0) {
     return (
-      <div className={`aspect-video rounded-md bg-[#16211b] ${className}`}>
-        <div className="flex h-full items-center justify-center text-[#5faf7b]">
-          Sin imágenes disponibles
+      <div className={`aspect-video rounded-md bg-[var(--color-card)] ${className}`}>
+        <div className="flex h-full items-center justify-center text-[var(--color-accent)]">
+          {labels.noImages}
         </div>
       </div>
     );
@@ -195,8 +204,8 @@ export default function Carousel({
         <button
           onClick={prev}
           disabled={!infinity && currentIndex === 0}
-          className="flex h-8 w-8 items-center justify-center rounded-full border border-[#26352c] bg-[#16211b]/75 text-[#9baaa0] transition-colors hover:border-[#5faf7b] hover:text-[#5faf7b] disabled:opacity-30 disabled:hover:border-[#26352c] disabled:hover:text-[#9baaa0]"
-          aria-label="Imagen anterior"
+          className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-card)]/75 text-[var(--color-muted)] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] disabled:opacity-30 disabled:hover:border-[var(--color-border)] disabled:hover:text-[var(--color-muted)]"
+          aria-label={labels.previousImage}
           data-track="carousel_navigate"
           data-track-direction="prev"
         >
@@ -220,10 +229,10 @@ export default function Carousel({
               key={index}
               onClick={() => goTo(index, index > currentIndex ? 'right' : 'left')}
               className={`h-1.5 rounded-full transition-all duration-300 ${index === currentIndex
-                  ? 'w-6 bg-[#5faf7b]'
-                  : 'w-1.5 bg-[#26352c] hover:bg-[#5faf7b]/50'
+                  ? 'w-6 bg-[var(--color-accent)]'
+                  : 'w-1.5 bg-[var(--color-border)] hover:bg-[var(--color-accent)]/50'
                 }`}
-              aria-label={`Ir a imagen ${index + 1}`}
+              aria-label={`${labels.goToImage} ${index + 1}`}
               aria-current={index === currentIndex ? 'true' : 'false'}
               data-track="carousel_navigate"
               data-track-direction="dot"
@@ -235,8 +244,8 @@ export default function Carousel({
         <button
           onClick={next}
           disabled={!infinity && currentIndex === images.length - 1}
-          className="flex h-8 w-8 items-center justify-center rounded-full border border-[#26352c] bg-[#16211b]/75 text-[#9baaa0] transition-colors hover:border-[#5faf7b] hover:text-[#5faf7b] disabled:opacity-30 disabled:hover:border-[#26352c] disabled:hover:text-[#9baaa0]"
-          aria-label="Siguiente imagen"
+          className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-card)]/75 text-[var(--color-muted)] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] disabled:opacity-30 disabled:hover:border-[var(--color-border)] disabled:hover:text-[var(--color-muted)]"
+          aria-label={labels.nextImage}
           data-track="carousel_navigate"
           data-track-direction="next"
         >
@@ -255,7 +264,7 @@ export default function Carousel({
         </button>
       </div>
 
-      <div className="mt-3 text-center font-mono text-xs text-[#9baaa0]/60">
+      <div className="mt-3 text-center font-mono text-xs text-[var(--color-muted)]/60">
         {currentIndex + 1} / {images.length}
       </div>
     </div>

@@ -1,0 +1,20 @@
+# Fase 2: rutas historicas de proyectos (301 permanente).
+# Formato Cloudflare: [source] [destination] [code]; una regla por linea.
+# Se usan barras finales en ambas columnas para coincidir con las URLs canonica
+# que genera Astro (index.html en carpeta) y con los enlaces internos del sitio.
+/proyectos/facturacion-electronica-dte/ /es/proyectos/facturacion-electronica-dte/ 301
+/proyectos/sistema-inventario/ /es/proyectos/sistema-inventario/ 301
+/proyectos/sistema-rma-garantias/ /es/proyectos/sistema-rma-garantias/ 301
+/proyectos/construfijaciones-web/ /es/proyectos/construfijaciones-web/ 301
+/en/proyectos/facturacion-electronica-dte/ /en/projects/electronic-invoicing/ 301
+/en/proyectos/sistema-inventario/ /en/projects/inventory-management/ 301
+/en/proyectos/sistema-rma-garantias/ /en/projects/warranty-management/ 301
+/en/proyectos/construfijaciones-web/ /en/projects/construfijaciones-web/ 301
+/proyectos/facturacion-electronica-dte /es/proyectos/facturacion-electronica-dte/ 301
+/proyectos/sistema-inventario /es/proyectos/sistema-inventario/ 301
+/proyectos/sistema-rma-garantias /es/proyectos/sistema-rma-garantias/ 301
+/proyectos/construfijaciones-web /es/proyectos/construfijaciones-web/ 301
+/en/proyectos/facturacion-electronica-dte /en/projects/electronic-invoicing/ 301
+/en/proyectos/sistema-inventario /en/projects/inventory-management/ 301
+/en/proyectos/sistema-rma-garantias /en/projects/warranty-management/ 301
+/en/proyectos/construfijaciones-web /en/projects/construfijaciones-web/ 301

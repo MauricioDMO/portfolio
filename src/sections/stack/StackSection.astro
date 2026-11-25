@@ -5,7 +5,7 @@ import {
   IconServer,
   IconSparkles,
   IconTool,
-} from "@tabler/icons-react";
+} from "@tabler/icons-astro";
 import SectionHeader from "../../components/SectionHeader.astro";
 import TechPill from "../../components/TechPill.astro";
 import { getLocale, t } from "../../i18n";
@@ -43,10 +43,9 @@ const stack: StackItem[] = [
     IconSparkles,
   ],
 ];
-
 ---
 
-<section class="border-t border-[#26352c]/60 py-18" id="stack">
+<section class="border-t border-[var(--color-border)]/60 py-18" id="stack">
   <div class="mx-auto w-[min(calc(100%-2rem),1120px)]">
     <SectionHeader
       eyebrow={t("stack.eyebrow", lang)}
@@ -58,24 +57,25 @@ const stack: StackItem[] = [
       class="mb-8 flex flex-wrap gap-5 justify-center"
       aria-label={t("stack.techLabel", lang)}
     >
-      {
-        Object.values(techs).map((tech) => (
-          <TechPill name={tech.name} src={tech.icon} href={tech.href} color={tech.color} />
-        ))
-      }
+      {Object.values(techs).map((tech) => (
+        <TechPill
+          name={tech.name}
+          src={tech.icon}
+          href={tech.href}
+          color={tech.color}
+        />
+      ))}
     </div>
 
     <div class="grid gap-3 md:grid-cols-6">
-      {
-        stack.map(([title, text, Icon], index) => (
-          <StackCard
-            title={t(title, lang)}
-            text={t(text, lang)}
-            Icon={Icon}
-            offset={index === 3}
-          />
-        ))
-      }
+      {stack.map(([title, text, Icon], index) => (
+        <StackCard
+          title={t(title, lang)}
+          text={t(text, lang)}
+          Icon={Icon}
+          offset={index === 3}
+        />
+      ))}
     </div>
   </div>
 </section>

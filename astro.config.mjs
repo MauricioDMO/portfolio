@@ -9,12 +9,17 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: process.env.PUBLIC_SITE_URL ?? process.env.SITE_URL ?? 'https://mauriciodmo.com',
 
-  integrations: [react(), sitemap()],
+  integrations: [react(), sitemap({
+    filter: (page) => {
+      const path = new URL(page).pathname;
+      return path !== '/' && !path.startsWith('/proyectos/') && !path.startsWith('/en/proyectos/');
+    },
+  })],
 
   i18n: {
     defaultLocale: 'es',
     locales: ['es', 'en'],
-    routing: { prefixDefaultLocale: false },
+    routing: { prefixDefaultLocale: true, redirectToDefaultLocale: false },
   },
 
   vite: {

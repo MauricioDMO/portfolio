@@ -1,5 +1,5 @@
 ---
-import { IconArrowLeft, IconExternalLink, IconMail } from "@tabler/icons-react";
+import { IconArrowLeft, IconExternalLink, IconMail } from "@tabler/icons-astro";
 import ButtonLink from "../../components/ButtonLink.astro";
 import ProjectDetailSection from "../../components/ProjectDetailSection.astro";
 import ProjectDetailsNav from "../../components/ProjectDetailsNav.tsx";
@@ -22,7 +22,8 @@ const lang = getLocale(Astro.currentLocale);
 const projectTitle = t(project.title, lang);
 const projectEyebrow = t(project.eyebrow, lang);
 const intro = t(project.intro ?? project.summary, lang);
-const eyebrow = "font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]";
+const eyebrow =
+  "font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]";
 const formatNumber = (index: number) => index.toString().padStart(2, "0");
 const navItems = project.details.map((detail, index) => ({
   id: detail.id,
@@ -32,6 +33,16 @@ const navItems = project.details.map((detail, index) => ({
 const projectPath = localizedPath(`proyectos/${project.slug}/`, lang);
 const projectUrl = new URL(projectPath, site.url).toString();
 const projectImage = project.images?.[0]?.src;
+const carouselImages = (project.images ?? []).map((image) => ({
+  ...image,
+  alt: t(image.alt, lang),
+}));
+const carouselLabels = {
+  noImages: t("components.noImages", lang),
+  previousImage: t("components.previousImage", lang),
+  nextImage: t("components.nextImage", lang),
+  goToImage: t("components.goToImage", lang),
+};
 const projectDescription = t(project.intro ?? project.summary, lang);
 const structuredData = [
   {
@@ -61,13 +72,13 @@ const structuredData = [
         "@type": "ListItem",
         position: 1,
         name: t("projectPage.breadcrumbHome", lang),
-        item: site.url,
+        item: new URL(localizedPath("", lang), site.url).toString(),
       },
       {
         "@type": "ListItem",
         position: 2,
         name: t("projectPage.breadcrumbProjects", lang),
-        item: new URL("/#proyectos", site.url).toString(),
+        item: new URL(localizedPath("#proyectos", lang), site.url).toString(),
       },
       {
         "@type": "ListItem",
@@ -93,14 +104,12 @@ const structuredData = [
 
   <main>
     <section class="mx-auto w-[min(calc(100%-2rem),1120px)] py-20 md:py-24">
-      <div
-        class="grid gap-7 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start lg:gap-16"
-      >
+      <div class="grid gap-7 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start lg:gap-16">
         <div>
           <div class="flex items-center gap-3">
             <ProjectIcon
               icon={project.icon}
-              className="text-[#5faf7b]"
+              className="text-[var(--color-accent)]"
               size={38}
               stroke={1.7}
               aria-hidden="true"
@@ -108,35 +117,40 @@ const structuredData = [
             <p class={eyebrow}>{projectEyebrow}</p>
           </div>
           <h1
-            class="mt-6 max-w-225 text-[clamp(3rem,8vw,7rem)] leading-[0.92] tracking-[-0.08em] text-[#e8eee9]"
+            class="mt-6 max-w-225 text-[clamp(3rem,8vw,7rem)] leading-[0.92] tracking-[-0.08em] text-[var(--color-text)]"
             transition:name={`project-title-${project.slug}`}
           >
             {projectTitle}
           </h1>
-          <p
-            class="mt-7 max-w-190 text-[clamp(1.08rem,1.8vw,1.35rem)] leading-[1.65] text-[#c4d0c8]"
-          >
+          <p class="mt-7 max-w-190 text-[clamp(1.08rem,1.8vw,1.35rem)] leading-[1.65] text-[var(--color-muted)]">
             {intro}
           </p>
         </div>
 
-        <div
-          class="flex flex-wrap gap-3 justify-center items-center lg:flex-col h-full lg:items-start lg:pt-1"
-        >
-          <ButtonLink href={localizedPath("#proyectos", lang)} class="lg:mx-auto" event="nav_section" eventData={{ section: "proyectos", source: "project_page" }}>
+        <div class="flex flex-wrap gap-3 justify-center items-center lg:flex-col h-full lg:items-start lg:pt-1">
+          <ButtonLink
+            href={localizedPath("#proyectos", lang)}
+            class="lg:mx-auto"
+            event="nav_section"
+            eventData={{ section: "proyectos", source: "project_page" }}
+          >
             <IconArrowLeft size={18} stroke={1.8} aria-hidden="true" />
             {t("projectPage.backToProjects", lang)}
           </ButtonLink>
-          {
-            project.url ? (
-              <ButtonLink href={project.url} target="_blank" class="lg:mx-auto" event="project_site_visit" eventData={{ project: project.slug }}>
-                <IconExternalLink size={18} stroke={1.8} aria-hidden="true" />
-                {t("projectPage.viewLive", lang)}
-              </ButtonLink>
-            ) : null
-          }
+          {project.url ? (
+            <ButtonLink
+              href={project.url}
+              target="_blank"
+              class="lg:mx-auto"
+              event="project_site_visit"
+              eventData={{ project: project.slug }}
+            >
+              <IconExternalLink size={18} stroke={1.8} aria-hidden="true" />
+              {t("projectPage.viewLive", lang)}
+            </ButtonLink>
+          ) : null}
           <ButtonLink
-            href="mailto:mauriciodmoprogrammer@gmail.com"
+            href={`mailto:${site.email}`}
             variant="primary"
             event="contact_email"
             eventData={{ source: "project_page" }}
@@ -147,9 +161,7 @@ const structuredData = [
         </div>
       </div>
 
-      <div
-        class="mt-8 grid gap-8 lg:grid-cols-[260px_minmax(0,1fr)] lg:items-start lg:gap-12"
-      >
+      <div class="mt-8 grid gap-8 lg:grid-cols-[260px_minmax(0,1fr)] lg:items-start lg:gap-12">
         <div class="grid gap-7">
           <ProjectTools
             stack={project.stack}
@@ -158,7 +170,8 @@ const structuredData = [
         </div>
 
         <Carousel
-          images={project.images || []}
+          images={carouselImages}
+          labels={carouselLabels}
           infinity={true}
           transitionName={`project-image-${project.slug}`}
           client:load
@@ -166,75 +179,63 @@ const structuredData = [
       </div>
     </section>
 
-    <section class="border-t border-[#26352c]/60 pb-20">
-      <div
-        class="sticky top-18 z-10 bg-[#0d1210]/90 pt-9 backdrop-blur-xl md:hidden"
-      >
+    <section class="border-t border-[var(--color-border)]/60 pb-20">
+      <div class="sticky top-18 z-10 bg-[var(--color-bg)]/90 pt-9 backdrop-blur-xl md:hidden">
         <div class="mx-auto w-[min(calc(100%-2rem),1120px)]">
           <ProjectDetailsNav items={navItems} lang={lang} client:load />
         </div>
       </div>
 
-      <div
-        class="mx-auto grid w-[min(calc(100%-2rem),1120px)] gap-10 pt-14 md:grid-cols-[190px_minmax(0,760px)] md:gap-14 lg:grid-cols-[210px_minmax(0,820px)]"
-      >
+      <div class="mx-auto grid w-[min(calc(100%-2rem),1120px)] gap-10 pt-14 md:grid-cols-[190px_minmax(0,760px)] md:gap-14 lg:grid-cols-[210px_minmax(0,820px)]">
         <aside class="sticky top-28 hidden self-start md:block">
           <ProjectDetailsNav items={navItems} lang={lang} client:load />
         </aside>
 
         <div>
-          {
-            project.details.map((detail, index) => {
-              return (
-                <ProjectDetailSection
-                  id={detail.id}
-                  number={formatNumber(index)}
-                  eyebrow={t(detail.eyebrow, lang)}
-                  title={t(detail.title, lang)}
-                  icon={detail.icon}
-                >
-                  {detail.content.map((block) =>
-                    "list" in block ? (
-                      <ul class="mt-5 grid gap-3 p-0 first:mt-0">
-                        {block.list.map((item) => (
-                          <li class="list-none border-l border-[#5faf7b]/40 pl-4 leading-relaxed">
-                            {t(item, lang)}
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p>{t(block.text, lang)}</p>
-                    ),
-                  )}
-                </ProjectDetailSection>
-              );
-            })
-          }
+          {project.details.map((detail, index) => {
+            return (
+              <ProjectDetailSection
+                id={detail.id}
+                number={formatNumber(index)}
+                eyebrow={t(detail.eyebrow, lang)}
+                title={t(detail.title, lang)}
+                icon={detail.icon}
+              >
+                {detail.content.map((block) =>
+                  "list" in block ? (
+                    <ul class="mt-5 grid gap-3 p-0 first:mt-0">
+                      {block.list.map((item) => (
+                        <li class="list-none border-l border-[var(--color-accent)]/40 pl-4 leading-relaxed">
+                          {t(item, lang)}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>{t(block.text, lang)}</p>
+                  ),
+                )}
+              </ProjectDetailSection>
+            );
+          })}
         </div>
       </div>
     </section>
 
-    <section class="border-t border-[#26352c]/60 py-18">
-      <div
-        class="mx-auto grid w-[min(calc(100%-2rem),1120px)] gap-7 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-10"
-      >
+    <section class="border-t border-[var(--color-border)]/60 py-18">
+      <div class="mx-auto grid w-[min(calc(100%-2rem),1120px)] gap-7 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-10">
         <div>
           <p class={eyebrow}>{t("projectPage.ctaEyebrow", lang)}</p>
-          <h2
-            class="mt-4 max-w-180 text-[clamp(2.2rem,5vw,4.8rem)] leading-[0.95] tracking-[-0.07em] text-[#e8eee9]"
-          >
+          <h2 class="mt-4 max-w-180 text-[clamp(2.2rem,5vw,4.8rem)] leading-[0.95] tracking-[-0.07em] text-[var(--color-text)]">
             {t("projectPage.ctaTitle", lang)}
           </h2>
-          <p class="mt-5 max-w-160 text-lg leading-[1.7] text-[#c4d0c8]">
-            {t("projectPage.ctaText",
-              lang,
-            )}
+          <p class="mt-5 max-w-160 text-lg leading-[1.7] text-[var(--color-muted)]">
+            {t("projectPage.ctaText", lang)}
           </p>
         </div>
 
         <div class="h-full flex items-center justify-center">
           <ButtonLink
-            href="mailto:mauriciodmoprogrammer@gmail.com"
+            href={`mailto:${site.email}`}
             variant="primary"
             event="contact_email"
             eventData={{ source: "project_page" }}

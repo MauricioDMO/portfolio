@@ -1,15 +1,15 @@
 ---
-import { getLocale, localizedPath, t } from '../../../i18n';
+import { getLocale, localizedPath, t } from "../../../i18n";
 import {
   IconArrowUpRight,
   IconBuildingStore,
   IconPackage,
   IconReceiptTax,
   IconShieldCheck,
-} from '@tabler/icons-react';
-import type { Project, ProjectIconKey } from '../../../data/projects';
-import ProjectTools from '../../../components/ProjectTools.astro';
-import ProjectImageFrame from './ProjectImageFrame.astro';
+} from "@tabler/icons-astro";
+import type { Project, ProjectIconKey } from "../../../data/projects";
+import ProjectTools from "../../../components/ProjectTools.astro";
+import ProjectImageFrame from "./ProjectImageFrame.astro";
 
 type Props = {
   project: Project;
@@ -18,56 +18,86 @@ type Props = {
 const lang = getLocale(Astro.currentLocale);
 const { project } = Astro.props;
 const projectIcons: Partial<Record<ProjectIconKey, any>> = {
-  'building-store': IconBuildingStore,
+  "building-store": IconBuildingStore,
   package: IconPackage,
-  'receipt-tax': IconReceiptTax,
-  'shield-check': IconShieldCheck,
+  "receipt-tax": IconReceiptTax,
+  "shield-check": IconShieldCheck,
 };
 const ProjectIcon = projectIcons[project.icon];
-const impact =
-  project.details
-    .find((detail) => detail.id === 'impacto')
-    ?.content.find((block) => 'list' in block && Array.isArray(block.list));
-const projectHost = project.url ? new URL(project.url).hostname.replace(/^www\./, '') : '';
+const impact = project.details
+  .find((detail) => detail.id === "impacto")
+  ?.content.find((block) => "list" in block && Array.isArray(block.list));
+const projectHost = project.url
+  ? new URL(project.url).hostname.replace(/^www\./, "")
+  : "";
 ---
 
-<article
-  class="group relative flex min-h-[520px] flex-col overflow-hidden rounded-[6px] border border-[#26352c] bg-gradient-to-b from-[#16211b]/95 to-[#111a15]/95 p-4 transition hover:-translate-y-0.5 hover:border-[#5faf7b]/70 hover:from-[#192a20]/95 hover:to-[#111a15]/95 max-sm:min-h-0"
->
+<article class="group relative flex min-h-[520px] flex-col overflow-hidden rounded-[6px] border border-[var(--color-border)] bg-gradient-to-b from-[var(--color-card)]/95 to-[var(--color-surface)]/95 p-4 transition hover:-translate-y-0.5 hover:border-[var(--color-accent)]/70 hover:from-[var(--color-card)]/95 hover:to-[var(--color-surface)]/95 max-sm:min-h-0">
   <div class="flex flex-1 flex-col p-2">
     <div class="flex items-start justify-between gap-4">
-      <p class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]">{project.eyebrow}</p>
-      {ProjectIcon ? <ProjectIcon className="text-[#5faf7b]" size={28} stroke={1.7} aria-hidden="true" /> : null}
+      <p class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]">
+        {t(project.eyebrow, lang)}
+      </p>
+      {ProjectIcon ? (
+        <ProjectIcon
+          className="text-[var(--color-accent)]"
+          size={28}
+          stroke={1.7}
+          aria-hidden="true"
+        />
+      ) : null}
     </div>
-    <h3 class="mt-4 max-w-[520px] text-[clamp(1.5rem,3vw,2.25rem)] leading-[1.05] tracking-[-0.055em] text-[#e8eee9]" transition:name={`project-title-${project.slug}`}>
-      {project.title}
+    <h3
+      class="mt-4 max-w-[520px] text-[clamp(1.5rem,3vw,2.25rem)] leading-[1.05] tracking-[-0.055em] text-[var(--color-text)]"
+      transition:name={`project-title-${project.slug}`}
+    >
+      {t(project.title, lang)}
     </h3>
     <ProjectTools
       class="mt-5"
       stack={project.stack}
-      label={`Stack de ${project.title}`}
+      label={`${t("projectPage.stackPrefix", lang)} ${t(project.title, lang)}`}
       limit={5}
       compact
     />
     <div class="mt-5">
       <ProjectImageFrame project={project} compact />
     </div>
-    <p class="mt-4 leading-relaxed text-[#9baaa0]">{project.summary}</p>
+    <p class="mt-4 leading-relaxed text-[var(--color-muted)]">
+      {t(project.summary, lang)}
+    </p>
     <ul class="mt-5 grid gap-2.5 p-0">
-      {impact?.list.slice(0, 2).map((item) => <li class="list-none text-[#9baaa0] before:mr-2 before:text-[#5faf7b] before:content-['+']">{item}</li>)}
+      {impact?.list.slice(0, 2).map((item) => (
+        <li class="list-none text-[var(--color-muted)] before:mr-2 before:text-[var(--color-accent)] before:content-['+']">
+          {t(item, lang)}
+        </li>
+      ))}
     </ul>
     <div class="mt-auto flex flex-wrap gap-3 pt-6">
-      <a class="inline-flex items-center gap-2 rounded-full border border-[#5faf7b]/35 bg-[#5faf7b]/10 px-3.5 py-2 font-mono text-xs uppercase tracking-[0.08em] text-[#d7eadc] no-underline transition hover:border-[#5faf7b]/70 hover:bg-[#5faf7b]/16" href={localizedPath(`proyectos/${project.slug}/`, lang)}
+      <a
+        class="inline-flex items-center gap-2 rounded-full border border-[var(--color-accent)]/35 bg-[var(--color-accent)]/10 px-3.5 py-2 font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-text)] no-underline transition hover:border-[var(--color-accent)]/70 hover:bg-[var(--color-accent)]/16"
+        href={localizedPath(`proyectos/${project.slug}/`, lang)}
         data-track="project_case_open"
-        data-track-project={project.slug}>
-        {t('projectsSection.viewCaseCta', lang)}
-        <IconArrowUpRight className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" size={16} stroke={1.8} aria-hidden="true" />
+        data-track-project={project.slug}
+      >
+        {t("projectsSection.viewCaseCta", lang)}
+        <IconArrowUpRight
+          className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          size={16}
+          stroke={1.8}
+          aria-hidden="true"
+        />
       </a>
       {project.url ? (
-        <a class="inline-flex items-center gap-2 rounded-full border border-[#26352c] bg-[#0d1210]/70 px-3.5 py-2 font-mono text-xs text-[#c4d0c8] no-underline transition hover:border-[#5faf7b]/60 hover:text-[#e8eee9]" href={project.url} target="_blank" rel="noopener noreferrer"
+        <a
+          class="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg)]/70 px-3.5 py-2 font-mono text-xs text-[var(--color-text)] no-underline transition hover:border-[var(--color-accent)]/60 hover:text-[var(--color-text)]"
+          href={project.url}
+          target="_blank"
+          rel="noopener noreferrer"
           data-track="project_site_visit"
           data-track-project={project.slug}
-          data-track-host={projectHost}>
+          data-track-host={projectHost}
+        >
           {projectHost}
           <IconArrowUpRight size={16} stroke={1.8} aria-hidden="true" />
         </a>

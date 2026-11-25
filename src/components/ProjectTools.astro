@@ -3,7 +3,7 @@ import { techs, type TechKey } from '../data/techs';
 import { getLocale, t } from '../i18n';
 
 type Props = {
-  stack: TechKey[];
+  stack: string[];
   label: string;
   limit?: number;
   compact?: boolean;
@@ -19,26 +19,28 @@ const {
   class: className = '',
 } = Astro.props;
 const items = typeof limit === 'number' ? stack.slice(0, limit) : stack;
-const textColor = compact ? 'text-[#9baaa0]' : 'text-[#b9c7be]';
+const textColor = compact ? 'text-[var(--color-muted)]' : 'text-[var(--color-text)]';
 ---
 
 <div class={className}>
-  <p class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]">
+  <p class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]">
     {t('components.tools', lang)}
   </p>
   <ul class="mt-3 flex flex-wrap gap-2 p-0" aria-label={t(label, lang)}>
     {
       items.map((item) => {
-        const tech = techs[item];
+        const normalized = item.trim().toLowerCase();
+        const tech = (Object.hasOwn(techs, normalized) ? techs[normalized as TechKey] : undefined) ??
+          Object.values(techs).find((candidate) => candidate.name.toLowerCase() === normalized);
 
         return (
           <li class="list-none">
             <span
               class={`inline-flex items-center gap-1.5 rounded-full border border-white/10 px-2.5 py-1.5 font-mono text-xs ${textColor}`}
-              style={`--tech-color: ${tech.color}`}
+              style={tech ? `--tech-color: ${tech.color}` : undefined}
             >
-              <img class="size-3.5 object-contain" src={tech.icon} alt="" aria-hidden="true" />
-              <span>{tech.name}</span>
+              {tech && <img class="size-3.5 object-contain" src={tech.icon} alt="" aria-hidden="true" />}
+              <span>{tech?.name ?? item}</span>
             </span>
           </li>
         );

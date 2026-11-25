@@ -1,0 +1,25 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ProjectCatalog from '../../../components/ProjectCatalog.astro';
+import SiteFooter from '../../../components/SiteFooter.astro';
+import SiteHeader from '../../../components/SiteHeader.astro';
+import Layout from '../../../layouts/Layout.astro';
+import { getLocale, t } from '../../../i18n';
+import { getPublishedEntries } from '../../../lib/content';
+
+const lang = getLocale(Astro.currentLocale);
+const entries = await getPublishedEntries('projects', lang) as CollectionEntry<'projects'>[];
+const description = t('Cada proyecto muestra contexto, decisiones e impacto. El stack importa, pero la parte fuerte es entender el proceso y convertirlo en una herramienta mantenible.', lang);
+---
+
+<Layout
+  title={`${t('Proyectos', lang)} | MauricioDMO`}
+  description={description}
+  pathname="/en/projects/"
+>
+  <SiteHeader variant="project" />
+  <main class="mx-auto w-[min(calc(100%-2rem),1120px)] py-20 md:py-24">
+    <ProjectCatalog entries={entries} lang={lang} />
+  </main>
+  <SiteFooter />
+</Layout>

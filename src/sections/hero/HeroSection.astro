@@ -4,7 +4,7 @@ import {
   IconBrandGithub,
   IconBrandLinkedin,
   IconMail,
-} from "@tabler/icons-react";
+} from "@tabler/icons-astro";
 import { computeTimeline } from "tegaki";
 import TegakiRenderer from "tegaki/astro";
 import caveat from "tegaki/fonts/caveat";
@@ -14,10 +14,7 @@ import { getLocale, t } from "../../i18n";
 import HeroSignalCard from "./components/HeroSignalCard.astro";
 
 const lang = getLocale(Astro.currentLocale);
-const heroTitleLines = [
-  t("hero.titleLine1", lang),
-  t("hero.titleLine2", lang),
-];
+const heroTitleLines = [t("hero.titleLine1", lang), t("hero.titleLine2", lang)];
 const heroTitle = heroTitleLines.join(" ");
 const heroTitleSpeed = 10;
 const secondLineDelay =
@@ -31,79 +28,76 @@ const focusPoints = [
 ];
 ---
 
-<section
-  class="mx-auto grid w-[min(calc(100%-2rem),1120px)] items-center gap-8 py-16 md:grid-cols-[1.12fr_0.88fr] md:py-20 lg:gap-12"
->
+<section class="mx-auto grid w-[min(calc(100%-2rem),1120px)] items-center gap-8 py-16 md:grid-cols-[1.12fr_0.88fr] md:py-20 lg:gap-12">
   <div class="max-w-3xl">
-    <p class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]">
+    <p class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]">
       {t("hero.eyebrow", lang)}
     </p>
     <h1 class="sr-only">{heroTitle}</h1>
     <div
-      class="mt-5 max-w-190 space-y-[-0.42rem] text-[#e8eee9]"
+      class="mt-5 max-w-190 space-y-[-0.42rem] text-[var(--color-text)]"
       transition:name="page-title"
       aria-hidden="true"
     >
-      {
-        heroTitleLines.map((line, index) => (
-          <TegakiRenderer
-            font={caveat}
-            text={line}
-            time={{
-              mode: "uncontrolled",
-              speed: heroTitleSpeed,
-              delay: index === 0 ? 0 : secondLineDelay,
-            }}
-            style={{
-              fontSize: "clamp(3.2rem, 7vw, 6.4rem)",
-              lineHeight: "0.86",
-              letterSpacing: "-0.055em",
-            }}
-          />
-        ))
-      }
+      {heroTitleLines.map((line, index) => (
+        <TegakiRenderer
+          font={caveat}
+          text={line}
+          time={{
+            mode: "uncontrolled",
+            speed: heroTitleSpeed,
+            delay: index === 0 ? 0 : secondLineDelay,
+          }}
+          style={{
+            fontSize: "clamp(3.2rem, 7vw, 6.4rem)",
+            lineHeight: "0.86",
+            letterSpacing: "-0.055em",
+          }}
+        />
+      ))}
     </div>
-    <p
-      class="mt-6 max-w-165 text-[clamp(1.02rem,1.5vw,1.2rem)] leading-[1.65] text-[#9baaa0]"
-    >
-      {t("hero.intro",
-        lang,
-      )}
+    <p class="mt-6 max-w-165 text-[clamp(1.02rem,1.5vw,1.2rem)] leading-[1.65] text-[var(--color-muted)]">
+      {t("hero.intro", lang)}
     </p>
     <ul
-      class="mt-6 grid gap-2 text-sm text-[#d5ded8] sm:grid-cols-3"
+      class="mt-6 grid gap-2 text-sm text-[var(--color-text)] sm:grid-cols-3"
       aria-label={t("hero.focusLabel", lang)}
     >
-      {
-        focusPoints.map((point) => (
-          <li class="flex items-center gap-2 rounded border border-[#26352c]/80 bg-[#121d17]/70 px-3 py-2">
-            <span
-              class="h-1.5 w-1.5 shrink-0 rounded-full bg-[#5faf7b]"
-              aria-hidden="true"
-            />
-            {t(point, lang)}
-          </li>
-        ))
-      }
+      {focusPoints.map((point) => (
+        <li class="flex items-center gap-2 rounded border border-[var(--color-border)]/80 bg-[var(--color-surface)]/70 px-3 py-2">
+          <span
+            class="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--color-accent)]"
+            aria-hidden="true"
+          />
+          {t(point, lang)}
+        </li>
+      ))}
     </ul>
     <div class="mt-7 flex flex-wrap gap-3">
-      <ButtonLink href="#proyectos" variant="primary" event="nav_section" eventData={{ section: "proyectos", source: "hero" }}>
+      <ButtonLink
+        href="#proyectos"
+        variant="primary"
+        event="nav_section"
+        eventData={{ section: "proyectos", source: "hero" }}
+      >
         {t("hero.seeProjectsCta", lang)}
         <IconArrowUpRight size={18} stroke={1.8} aria-hidden="true" />
       </ButtonLink>
-      <ButtonLink href="mailto:mauriciodmoprogrammer@gmail.com" event="contact_email" eventData={{ source: "hero" }}>
+      <ButtonLink
+        href={`mailto:${site.email}`}
+        event="contact_email"
+        eventData={{ source: "hero" }}
+      >
         <IconMail size={18} stroke={1.8} aria-hidden="true" />
         {t("hero.talkCta", lang)}
       </ButtonLink>
     </div>
-    <div class="mt-5 flex flex-wrap items-center gap-3 text-sm text-[#9baaa0]">
-      <span
-        class="font-mono text-xs uppercase tracking-[0.08em] text-[#6f8175]"
-      >
+    <div class="mt-5 flex flex-wrap items-center gap-3 text-sm text-[var(--color-muted)]">
+      <span class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-muted)]">
         {t("hero.alsoOn", lang)}
       </span>
       <a
-        class="inline-flex items-center gap-2 rounded-full border border-[#26352c] bg-[#121d17]/70 px-3 py-2 text-[#d5ded8] no-underline transition hover:-translate-y-0.5 hover:border-[#5faf7b]/70 hover:text-[#e8eee9]"
+        class="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)]/70 px-3 py-2 text-[var(--color-text)] no-underline transition hover:-translate-y-0.5 hover:border-[var(--color-accent)]/70 hover:text-[var(--color-text)]"
         href={site.github}
         target="_blank"
         rel="noreferrer"
@@ -115,7 +109,7 @@ const focusPoints = [
         GitHub
       </a>
       <a
-        class="inline-flex items-center gap-2 rounded-full border border-[#26352c] bg-[#121d17]/70 px-3 py-2 text-[#d5ded8] no-underline transition hover:-translate-y-0.5 hover:border-[#5faf7b]/70 hover:text-[#e8eee9]"
+        class="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)]/70 px-3 py-2 text-[var(--color-text)] no-underline transition hover:-translate-y-0.5 hover:border-[var(--color-accent)]/70 hover:text-[var(--color-text)]"
         href={site.linkedin}
         target="_blank"
         rel="noreferrer"

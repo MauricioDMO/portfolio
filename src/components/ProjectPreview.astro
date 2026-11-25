@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { IconArrowUpRight } from '@tabler/icons-astro';
+import ProjectTools from './ProjectTools.astro';
+import { t } from '../i18n';
+
+type Props = { entry: CollectionEntry<'projects'> };
+const { entry } = Astro.props;
+const project = entry.data;
+const lang = project.locale;
+const href = `/${lang}/${lang === 'es' ? 'proyectos' : 'projects'}/${project.slug}/`;
+const categories = {
+  'business-software': lang === 'es' ? 'Software empresarial' : 'Business Software',
+  'developer-tools': lang === 'es' ? 'Herramientas de desarrollo' : 'Developer Tools',
+  infrastructure: lang === 'es' ? 'Infraestructura' : 'Infrastructure',
+  experiments: lang === 'es' ? 'Experimentos' : 'Experiments',
+};
+---
+
+<article class="group flex flex-col overflow-hidden rounded-md border border-[var(--color-border)] bg-[var(--color-card)] p-6 transition hover:border-[var(--color-accent)]/70">
+  <p class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]">{project.eyebrow ?? categories[project.category]}</p>
+  <h3 class="mt-4 text-2xl tracking-tight text-[var(--color-text)]">{project.title}</h3>
+  <p class="mt-2 text-sm text-[var(--color-muted)]">{categories[project.category]}</p>
+  {project.gallery[0] && (
+    <div class="mt-5 aspect-video overflow-hidden rounded-md border border-[var(--color-border)]">
+      <img src={project.gallery[0].src} alt={project.gallery[0].alt} loading="lazy" decoding="async" class="h-full w-full object-cover" />
+    </div>
+  )}
+  <p class="mt-4 leading-relaxed text-[var(--color-muted)]">{project.description}</p>
+  {project.impact.length > 0 && (
+    <ul class="mt-4 grid gap-2 text-sm text-[var(--color-muted)]">
+      {project.impact.slice(0, 2).map((item) => <li>+ {item}</li>)}
+    </ul>
+  )}
+  {project.technologies.length > 0 && (
+    <ProjectTools class="mt-5" stack={project.technologies} label={`${t('projectPage.stackPrefix', lang)} ${project.title}`} limit={5} compact />
+  )}
+  <a href={href} class="mt-auto inline-flex w-fit items-center gap-2 pt-6 font-mono text-xs uppercase tracking-wider text-[var(--color-accent)] no-underline"
+    data-track="project_case_open" data-track-project={project.id}>
+    {lang === 'es' ? 'Ver caso de estudio' : 'View case study'}
+    <IconArrowUpRight size={16} aria-hidden="true" />
+  </a>
+</article>

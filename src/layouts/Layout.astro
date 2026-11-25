@@ -41,6 +41,14 @@ const jsonLd = Array.isArray(structuredData)
 <html lang={localeMeta[lang].lang}>
   <head>
     <meta charset="UTF-8" />
+    <script is:inline>
+      try {
+        const preference = localStorage.getItem("theme");
+        if (preference === "light" || preference === "dark") {
+          document.documentElement.dataset.theme = preference;
+        }
+      } catch {}
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="author" content={site.fullName} />
@@ -83,9 +91,14 @@ const jsonLd = Array.isArray(structuredData)
       }
 
       document.addEventListener("astro:after-swap", () => {
-        if (window.location.pathname.startsWith("/proyectos/") && !window.location.hash) {
+        if (/^\/(?:es\/proyectos|en\/projects|en\/proyectos|proyectos)\//.test(window.location.pathname) && !window.location.hash) {
           window.scrollTo({ left: 0, top: 0, behavior: "instant" });
         }
+      });
+
+      document.addEventListener("astro:before-swap", (event) => {
+        const theme = document.documentElement.dataset.theme;
+        if (theme) event.newDocument.documentElement.dataset.theme = theme;
       });
 
       document.addEventListener("click", (event) => {

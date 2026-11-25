@@ -17,14 +17,14 @@ const { id, number, eyebrow, title, icon } = Astro.props;
 
 <article
   id={id}
-  class="scroll-mt-36 border-t border-[#26352c]/70 py-10 first:border-t-0 first:pt-0 md:py-14"
+  class="scroll-mt-36 border-t border-[var(--color-border)]/70 py-10 first:border-t-0 first:pt-0 md:py-14"
 >
   <div class="flex items-start gap-4">
     {
       icon ? (
         <ProjectIcon
           icon={icon}
-          className="mt-1 shrink-0 text-[#5faf7b]"
+          className="mt-1 shrink-0 text-[var(--color-accent)]"
           size={24}
           stroke={1.7}
           aria-hidden="true"
@@ -32,16 +32,16 @@ const { id, number, eyebrow, title, icon } = Astro.props;
       ) : null
     }
     <div class="min-w-0">
-      <p class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]">
+      <p class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]">
         {number} · {t(eyebrow, lang)}
       </p>
-      <h2 class="mt-3 max-w-180 text-[clamp(1.9rem,4vw,3.15rem)] leading-[1.02] tracking-[-0.06em] text-[#edf4ef]">
+      <h2 class="mt-3 max-w-180 text-[clamp(1.9rem,4vw,3.15rem)] leading-[1.02] tracking-[-0.06em] text-[var(--color-text)]">
         {t(title, lang)}
       </h2>
     </div>
   </div>
 
-  <div class="mt-6 max-w-175 pl-0 text-[1.05rem] leading-[1.9] text-[#b9c7be] md:pl-10 [&_li]:text-[#b9c7be] [&_p]:text-[#b9c7be]">
+  <div class="mt-6 max-w-175 pl-0 text-[1.05rem] leading-[1.9] text-[var(--color-muted)] md:pl-10 [&_li]:text-[var(--color-muted)] [&_p]:text-[var(--color-muted)]">
     <slot />
   </div>
 </article>

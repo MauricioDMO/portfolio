@@ -11,20 +11,20 @@ const lang = getLocale(Astro.currentLocale);
 const { label = 'MauricioDMO', homeLink = false } = Astro.props;
 ---
 
-<footer class="border-t border-[#26352c]/60 py-10 text-[#9baaa0]">
+<footer class="border-t border-[var(--color-border)]/60 py-10 text-[var(--color-muted)]">
   <div class="mx-auto flex w-[min(calc(100%-2rem),1120px)] items-center justify-between gap-6 max-sm:flex-col max-sm:items-start">
     <span>{t(label, lang)}</span>
     {homeLink ? (
       <div class="flex flex-wrap items-center gap-4">
-        <a class="transition-colors hover:text-[#e8eee9]" href={localizedPath('', lang)} data-track="nav_section" data-track-section="inicio" data-track-source="footer">{t('components.backHome', lang)}</a>
-        <a class="transition-colors hover:text-[#e8eee9]" href={site.github} target="_blank" rel="noreferrer" data-track="social_link" data-track-network="github" data-track-source="footer">GitHub</a>
-        <a class="transition-colors hover:text-[#e8eee9]" href={site.linkedin} target="_blank" rel="noreferrer" data-track="social_link" data-track-network="linkedin" data-track-source="footer">LinkedIn</a>
+        <a class="transition-colors hover:text-[var(--color-text)]" href={localizedPath('', lang)} data-track="nav_section" data-track-section="inicio" data-track-source="footer">{t('components.backHome', lang)}</a>
+        <a class="transition-colors hover:text-[var(--color-text)]" href={site.github} target="_blank" rel="noreferrer" data-track="social_link" data-track-network="github" data-track-source="footer">GitHub</a>
+        <a class="transition-colors hover:text-[var(--color-text)]" href={site.linkedin} target="_blank" rel="noreferrer" data-track="social_link" data-track-network="linkedin" data-track-source="footer">LinkedIn</a>
       </div>
     ) : (
       <div class="flex flex-wrap items-center gap-4">
         <span>{t('components.footerTagline', lang)}</span>
-        <a class="transition-colors hover:text-[#e8eee9]" href={site.github} target="_blank" rel="noreferrer" data-track="social_link" data-track-network="github" data-track-source="footer">GitHub</a>
-        <a class="transition-colors hover:text-[#e8eee9]" href={site.linkedin} target="_blank" rel="noreferrer" data-track="social_link" data-track-network="linkedin" data-track-source="footer">LinkedIn</a>
+        <a class="transition-colors hover:text-[var(--color-text)]" href={site.github} target="_blank" rel="noreferrer" data-track="social_link" data-track-network="github" data-track-source="footer">GitHub</a>
+        <a class="transition-colors hover:text-[var(--color-text)]" href={site.linkedin} target="_blank" rel="noreferrer" data-track="social_link" data-track-network="linkedin" data-track-source="footer">LinkedIn</a>
       </div>
     )}
   </div>

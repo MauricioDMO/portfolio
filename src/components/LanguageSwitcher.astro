@@ -1,28 +1,80 @@
 ---
 import { getLocale, localeMeta, switchLocalePath, t } from '../i18n';
+import { getPublishedEntries } from '../lib/content';
 
 const lang = getLocale(Astro.currentLocale);
 const pathname = Astro.url.pathname;
+const match = pathname.match(/^\/(es|en)\/(proyectos|projects|blog)\/([^/]+)\/?$/);
+const kind = match?.[2] === 'blog' ? 'blog' : 'projects';
+const entries = match
+  ? [...await getPublishedEntries(kind, 'es'), ...await getPublishedEntries(kind, 'en')]
+  : [];
+const currentEntry = entries.find((entry) => entry.data.locale === lang && entry.data.slug === match?.[3]);
 ---
 
-<nav class="flex items-center gap-1 whitespace-nowrap" aria-label={t('components.language', lang)}>
+<nav class="flex min-h-10 items-center rounded-full border border-[var(--color-border)] bg-[var(--color-card)] p-1 whitespace-nowrap" aria-label={t('components.language', lang)}>
   {
-    (['es', 'en'] as const).map((target) => (
-      <a
-        class={`rounded-full border px-2.5 py-1 font-mono text-xs uppercase tracking-[0.08em] no-underline transition ${
-          target === lang
-            ? 'border-[#5faf7b]/70 bg-[#5faf7b]/16 text-[#d7eadc]'
-            : 'border-[#26352c] bg-transparent text-[#9baaa0] hover:border-[#5faf7b]/60 hover:text-[#e8eee9]'
-        }`}
-        href={switchLocalePath(pathname, target)}
-        aria-current={target === lang ? 'page' : undefined}
-        lang={localeMeta[target].lang}
-        data-track="language_switch"
-        data-track-from={lang}
-        data-track-to={target}
-      >
-        {localeMeta[target].label}
-      </a>
-    ))
+    (['es', 'en'] as const).map((target) => {
+      const translated = currentEntry && entries.find((entry) =>
+        entry.data.id === currentEntry.data.id && entry.data.locale === target
+      );
+      const href = currentEntry
+        ? translated && `/${target}/${kind === 'blog' ? 'blog' : target === 'es' ? 'proyectos' : 'projects'}/${translated.data.slug}/`
+        : switchLocalePath(pathname, target);
+      if (!href) {
+        return (
+          <span class="flex min-h-8 min-w-9 items-center justify-center rounded-full px-2 font-mono text-xs uppercase text-[var(--color-muted)]"
+            aria-label={lang === 'es' ? `${localeMeta[target].name}: traducción no disponible` : `${localeMeta[target].name}: translation unavailable`}
+            title={lang === 'es' ? 'Traducción no disponible' : 'Translation unavailable'}>
+            {localeMeta[target].label}
+          </span>
+        );
+      }
+      return (
+        <a
+          class={`flex min-h-8 min-w-9 items-center justify-center rounded-full px-2 font-mono text-xs uppercase tracking-[0.08em] no-underline transition-colors ${
+            target === lang
+              ? 'bg-[var(--color-accent)]/20 text-[var(--color-text)]'
+              : 'text-[var(--color-muted)] hover:text-[var(--color-text)]'
+          }`}
+          href={href}
+          data-base-href={href}
+          data-language-switch
+          data-locale={target}
+          aria-current={target === lang ? 'page' : undefined}
+          lang={localeMeta[target].lang}
+          data-track="language_switch"
+          data-track-from={lang}
+          data-track-to={target}
+        >
+          {localeMeta[target].label}
+        </a>
+      );
+    })
   }
 </nav>
+
+<script>
+  const syncLanguageLinks = () => {
+    const suffix = window.location.search + window.location.hash;
+    document.querySelectorAll<HTMLAnchorElement>('[data-language-switch]').forEach((link) => {
+      const base = link.dataset.baseHref;
+      if (base) link.href = base + suffix;
+      if (!link.dataset.localeBound) {
+        link.dataset.localeBound = 'true';
+        link.addEventListener('click', () => {
+          const locale = link.dataset.locale;
+          if (locale !== 'es' && locale !== 'en') return;
+          try {
+            localStorage.setItem('locale', locale);
+          } catch {}
+        });
+      }
+    });
+  };
+
+  syncLanguageLinks();
+  document.addEventListener('astro:page-load', syncLanguageLinks);
+  window.addEventListener('hashchange', syncLanguageLinks);
+  window.addEventListener('popstate', syncLanguageLinks);
+</script>

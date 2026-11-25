@@ -63,20 +63,25 @@ export default function ProjectDetailsNav({ items, lang = 'es' }: ProjectDetails
       return;
     }
 
+    const itemRect = activeItem.getBoundingClientRect();
+    const listRect = navList.getBoundingClientRect();
     navList.scrollTo({
-      left: activeItem.offsetLeft - navList.clientWidth / 2 + activeItem.clientWidth / 2,
-      behavior: 'smooth',
+      left: navList.scrollLeft + itemRect.left - listRect.left - (listRect.width - itemRect.width) / 2,
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
     });
   }, [activeId]);
 
   return (
     <nav aria-label={navAriaLabels[lang]}>
-      <ol className="flex gap-2 overflow-x-auto border-b border-[#26352c]/70 bg-[#0d1210]/90 py-3 md:block md:space-y-1 md:overflow-visible md:border-b-0 md:bg-transparent md:py-0">
+      <p className="font-mono text-xs text-[var(--color-muted)] md:hidden">
+        {lang === 'es' ? 'Contenido · desliza para ver más' : 'Contents · swipe for more'}
+      </p>
+      <ol className="flex gap-2 overflow-x-auto border-b border-[var(--color-border)]/70 bg-[var(--color-bg)]/90 py-3 md:block md:space-y-1 md:overflow-visible md:border-b-0 md:bg-transparent md:py-0">
         {items.map((item) => {
           const isActive = item.id === activeId;
 
           return (
-            <li key={item.id} className="list-none">
+            <li key={item.id} className="shrink-0 list-none">
               <a
                 ref={(node) => {
                   itemRefs.current[item.id] = node;
@@ -85,13 +90,13 @@ export default function ProjectDetailsNav({ items, lang = 'es' }: ProjectDetails
                 aria-current={isActive ? 'location' : undefined}
                 data-track="project_section"
                 data-track-section={item.id}
-                className={`flex shrink-0 items-center gap-2 rounded-full px-3 py-1.5 font-mono text-[0.72rem] uppercase tracking-[0.08em] no-underline transition md:rounded-none md:border-l md:px-3 md:py-2 ${
+                className={`flex min-h-11 items-center gap-2 whitespace-nowrap rounded-full px-3 py-1.5 font-mono text-[0.72rem] uppercase tracking-[0.08em] no-underline transition md:whitespace-normal md:rounded-none md:border-l md:px-3 md:py-2 ${
                   isActive
-                    ? 'border-[#5faf7b] bg-[#5faf7b]/10 text-[#e8eee9]'
-                    : 'border-transparent text-[#738278] hover:text-[#c7d3cb]'
+                    ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-text)]'
+                    : 'border-transparent text-[var(--color-muted)] hover:text-[var(--color-text)]'
                 }`}
               >
-                <span className={isActive ? 'text-[#5faf7b]' : 'text-[#5faf7b]/65'}>
+                <span className={isActive ? 'text-[var(--color-accent)]' : 'text-[var(--color-accent)]/65'}>
                   {item.number}
                 </span>
                 <span>{item.label}</span>

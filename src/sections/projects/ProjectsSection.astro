@@ -1,13 +1,17 @@
 ---
 import SectionHeader from '../../components/SectionHeader.astro';
-import { featuredProjects } from '../../data/projects';
-import { getLocale, t } from '../../i18n';
-import ProjectCard from './components/ProjectCard.astro';
+import { getLocale, localizedPath, t } from '../../i18n';
+import { getPublishedEntries } from '../../lib/content';
+import ProjectPreview from '../../components/ProjectPreview.astro';
 
 const lang = getLocale(Astro.currentLocale);
+const featuredProjects = (await getPublishedEntries('projects', lang))
+  .filter((entry) => entry.collection === 'projects' && entry.data.featured)
+  .sort((a, b) => (a.data.featuredOrder ?? Infinity) - (b.data.featuredOrder ?? Infinity))
+  .slice(0, 4);
 ---
 
-<section class="border-t border-[#26352c]/60 py-18" id="proyectos">
+<section class="border-t border-[var(--color-border)]/60 py-18" id="proyectos">
   <div class="mx-auto w-[min(calc(100%-2rem),1120px)]">
     <SectionHeader
       eyebrow={t('projectsSection.eyebrow', lang)}
@@ -16,7 +20,10 @@ const lang = getLocale(Astro.currentLocale);
     />
 
     <div class="grid gap-4 md:grid-cols-2">
-      {featuredProjects.map((project) => <ProjectCard project={project} />)}
+      {featuredProjects.map((entry) => <ProjectPreview entry={entry} />)}
     </div>
+    <a href={localizedPath('proyectos', lang)} class="mt-8 inline-flex text-sm font-semibold text-[var(--color-accent)] underline">
+      {lang === 'es' ? 'Ver todos los proyectos' : 'View all projects'}
+    </a>
   </div>
 </section>

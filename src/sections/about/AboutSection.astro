@@ -29,37 +29,37 @@ const profile = [
 ];
 ---
 
-<section class="border-t border-[#26352c]/60 py-18" id="sobre-mi">
+<section class="border-t border-[var(--color-border)]/60 py-18" id="sobre-mi">
   <div class="mx-auto w-[min(calc(100%-2rem),1120px)]">
     <div class="grid gap-4">
       <article
-        class="relative overflow-hidden rounded-md border border-[#26352c] bg-[#16211b]/75 p-6 md:p-8"
+        class="relative overflow-hidden rounded-md border border-[var(--color-border)] bg-[var(--color-card)]/75 p-6 md:p-8"
       >
         <div
-          class="pointer-events-none absolute -right-24 -top-28 h-72 w-72 rounded-full bg-[#5faf7b]/10 blur-3xl"
+          class="pointer-events-none absolute -right-24 -top-28 h-72 w-72 rounded-full bg-[var(--color-accent)]/10 blur-3xl"
           aria-hidden="true"
         >
         </div>
         <div
-          class="pointer-events-none absolute bottom-0 left-8 top-0 w-px bg-linear-to-b from-transparent via-[#5faf7b]/35 to-transparent"
+          class="pointer-events-none absolute bottom-0 left-8 top-0 w-px bg-linear-to-b from-transparent via-[var(--color-accent)]/35 to-transparent"
           aria-hidden="true"
         >
         </div>
 
         <div class="relative pl-5 md:pl-8 mx-auto max-w-3xl">
           <p
-            class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]"
+            class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]"
           >
             {t('about.eyebrow', lang)}
           </p>
           <h2
-            class="mt-5 max-w-190 text-[clamp(2.25rem,5vw,4.8rem)] leading-[0.95] tracking-[-0.07em] text-[#e8eee9]"
+            class="mt-5 max-w-190 text-[clamp(2.25rem,5vw,4.8rem)] leading-[0.95] tracking-[-0.07em] text-[var(--color-text)]"
           >
             {t('about.title', lang)}
           </h2>
 
           <div
-            class="mt-7 max-w-175 space-y-4 text-[1.02rem] leading-relaxed text-[#9baaa0]"
+            class="mt-7 max-w-175 space-y-4 text-[1.02rem] leading-relaxed text-[var(--color-muted)]"
           >
             <p>
               {t('about.bio1', lang)}
@@ -76,21 +76,21 @@ const profile = [
 
       <aside class="grid gap-4 md:grid-cols-2">
         <article
-          class="rounded-md border border-[#26352c] bg-[#101912]/90 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.22)]"
+          class="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)]/90 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.22)]"
         >
           <p
-            class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]"
+            class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]"
           >
             {t('about.profileEyebrow', lang)}
           </p>
-          <dl class="mt-5 divide-y divide-[#26352c]/75">
+          <dl class="mt-5 divide-y divide-[var(--color-border)]/75">
             {
               profile.map(([label, value]) => (
                 <div class="grid gap-1 py-3 first:pt-0 last:pb-0 sm:grid-cols-[0.36fr_0.64fr]">
-                  <dt class="font-mono text-[0.7rem] uppercase tracking-[0.08em] text-[#6f8175]">
+                  <dt class="font-mono text-[0.7rem] uppercase tracking-[0.08em] text-[var(--color-muted)]">
                     {t(label, lang)}
                   </dt>
-                  <dd class="text-sm leading-relaxed text-[#d5ded8]">
+                  <dd class="text-sm leading-relaxed text-[var(--color-text)]">
                     {t(value, lang)}
                   </dd>
                 </div>
@@ -100,20 +100,20 @@ const profile = [
         </article>
 
         <article
-          class="rounded-md border border-[#5faf7b]/35 bg-[#18271f]/80 p-5"
+          class="rounded-md border border-[var(--color-accent)]/35 bg-[var(--color-card)]/80 p-5"
         >
           <p
-            class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]"
+            class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]"
           >
             {t('about.aiEyebrow', lang)}
           </p>
-          <p class="mt-3 leading-relaxed text-[#9baaa0]">
+          <p class="mt-3 leading-relaxed text-[var(--color-muted)]">
             {t('about.ai1', lang)}
           </p>
-          <p class="mt-3 leading-relaxed text-[#9baaa0]">
+          <p class="mt-3 leading-relaxed text-[var(--color-muted)]">
             {t('about.ai2', lang)}
           </p>
-          <p class="mt-3 leading-relaxed text-[#9baaa0]">
+          <p class="mt-3 leading-relaxed text-[var(--color-muted)]">
             {t('about.ai3', lang)}
           </p>
         </article>
@@ -123,11 +123,11 @@ const profile = [
     <div class="mt-4 grid gap-3 md:grid-cols-4">
       {
         focusAreas.map((area, index) => (
-          <article class="rounded-md border border-[#26352c] bg-[#121d17]/80 p-5 transition-colors hover:border-[#5faf7b]/45 hover:bg-[#16241c]">
-            <p class="font-mono text-xs uppercase tracking-[0.08em] text-[#5faf7b]">
+          <article class="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)]/80 p-5 transition-colors hover:border-[var(--color-accent)]/45 hover:bg-[var(--color-card)]">
+            <p class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]">
               {t(area.label, lang)}
             </p>
-            <p class="mt-3 text-sm leading-relaxed text-[#9baaa0]">
+            <p class="mt-3 text-sm leading-relaxed text-[var(--color-muted)]">
               {t(area.text, lang)}
             </p>
           </article>

@@ -1,0 +1,344 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
+import Layout from "../layouts/Layout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import Carousel from "./Carousel";
+import ProjectDetailsNav from "./ProjectDetailsNav";
+import ProjectIcon from "./ProjectIcon";
+import ProjectTools from "./ProjectTools.astro";
+import ButtonLink from "./ButtonLink.astro";
+import { IconArrowLeft, IconExternalLink, IconMail } from "@tabler/icons-astro";
+import { t } from "../i18n";
+import { site } from "../data/site";
+
+type Props = {
+  entry: CollectionEntry<"projects"> | CollectionEntry<"blog">;
+};
+
+const { entry } = Astro.props;
+const { title, description, category } = entry.data;
+const categories: Record<string, { es: string; en: string }> = {
+  "business-software": { es: "Software empresarial", en: "Business Software" },
+  "developer-tools": {
+    es: "Herramientas de desarrollo",
+    en: "Developer Tools",
+  },
+  infrastructure: { es: "Infraestructura", en: "Infrastructure" },
+  experiments: { es: "Experimentos", en: "Experiments" },
+  tutorials: { es: "Tutoriales", en: "Tutorials" },
+  engineering: { es: "Ingeniería", en: "Engineering" },
+  insights: { es: "Reflexiones", en: "Insights" },
+  "project-logs": { es: "Diarios de proyecto", en: "Project Logs" },
+};
+const { Content, headings } = await render(entry);
+const project = entry.collection === "projects" ? entry : undefined;
+const lang = entry.data.locale;
+const labels = {
+  noImages: t("components.noImages", lang),
+  previousImage: t("components.previousImage", lang),
+  nextImage: t("components.nextImage", lang),
+  goToImage: t("components.goToImage", lang),
+};
+const navItems = headings
+  .filter((heading) => heading.depth === 2)
+  .map((heading, index) => ({
+    id: heading.slug,
+    number: String(index + 1).padStart(2, "0"),
+    label: project?.data.navigationLabels[index] ?? heading.text,
+  }));
+const statuses: Record<string, { es: string; en: string }> = {
+  production: { es: "En producción", en: "Production" },
+  "in-development": { es: "En desarrollo", en: "In Development" },
+  experimental: { es: "Experimental", en: "Experimental" },
+  completed: { es: "Completado", en: "Completed" },
+  archived: { es: "Archivado", en: "Archived" },
+};
+const structuredData = project
+  ? [
+      {
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        name: title,
+        description,
+        url: new URL(Astro.url.pathname, site.url).toString(),
+        image: project.data.gallery[0]
+          ? new URL(project.data.gallery[0].src, site.url).toString()
+          : undefined,
+        author: { "@type": "Person", name: site.fullName, url: site.url },
+        keywords: project.data.technologies.join(", "),
+        inLanguage: lang,
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: t("projectPage.breadcrumbHome", lang),
+            item: new URL(`/${lang}/`, site.url).toString(),
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: t("projectPage.breadcrumbProjects", lang),
+            item: new URL(
+              `/${lang}/${lang === "es" ? "proyectos" : "projects"}/`,
+              site.url,
+            ).toString(),
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: title,
+            item: new URL(Astro.url.pathname, site.url).toString(),
+          },
+        ],
+      },
+    ]
+  : undefined;
+---
+
+<Layout
+  title={`${title} | MauricioDMO`}
+  description={description}
+  pathname={Astro.url.pathname}
+  type="article"
+  image={project?.data.gallery[0]?.src}
+  structuredData={structuredData}
+>
+  <SiteHeader variant="project" />
+
+  <main
+    class:list={[
+      "mx-auto w-[min(calc(100%-2rem),1120px)] pb-20 md:pb-24",
+      project ? "pt-10 md:pt-12" : "pt-20 md:pt-24",
+    ]}
+  >
+    <article>
+      {project ? (
+        <section>
+          <header>
+            <a
+              href={`/${lang}/${lang === "es" ? "proyectos" : "projects"}/`}
+              class="inline-flex min-h-11 items-center gap-2 text-sm text-[var(--color-muted)] no-underline transition-colors hover:text-[var(--color-text)]"
+              data-track="nav_section"
+              data-track-section="proyectos"
+              data-track-source="project_page"
+            >
+              <IconArrowLeft size={18} stroke={1.8} aria-hidden="true" />
+              {t("projectPage.backToProjects", lang)}
+            </a>
+            <div class="mt-8 flex items-center gap-3">
+              {project.data.icon && (
+                <ProjectIcon
+                  icon={project.data.icon}
+                  className="text-[var(--color-accent)]"
+                  size={38}
+                  stroke={1.7}
+                  aria-hidden="true"
+                />
+              )}
+              <p class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]">
+                {project.data.eyebrow ??
+                  categories[category]?.[lang] ??
+                  category}
+              </p>
+            </div>
+            <h1 class="mt-6 text-[clamp(3rem,8vw,7rem)] leading-[0.92] tracking-[-0.08em] text-[var(--color-text)]">
+              {title}
+            </h1>
+            <p class="mt-7 text-[clamp(1.08rem,1.8vw,1.35rem)] leading-[1.65] text-[var(--color-muted)]">
+              {project.data.intro ?? description}
+            </p>
+            {(project.data.status || project.data.openSource === true) && (
+              <p class="mt-4 font-mono text-xs text-[var(--color-muted)]">
+                {project.data.status && statuses[project.data.status]?.[lang]}
+                {project.data.status &&
+                  project.data.openSource === true &&
+                  " · "}
+                {project.data.openSource === true && "Open source"}
+              </p>
+            )}
+            <div class="mt-6 flex flex-wrap items-center gap-3">
+              <ButtonLink
+                href={`mailto:${site.email}`}
+                variant="primary"
+                event="contact_email"
+                eventData={{ source: "project_page", project: project.data.id }}
+              >
+                <IconMail size={18} stroke={1.8} aria-hidden="true" />
+                {t("projectPage.talkCta", lang)}
+              </ButtonLink>
+              {project.data.website && (
+                <ButtonLink
+                  href={project.data.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  event="project_site_visit"
+                  eventData={{ project: project.data.id }}
+                >
+                  <IconExternalLink size={18} stroke={1.8} aria-hidden="true" />
+                  {t("projectPage.viewLive", lang)}
+                </ButtonLink>
+              )}
+              {project.data.repository && (
+                <ButtonLink
+                  href={project.data.repository}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <IconExternalLink size={18} stroke={1.8} aria-hidden="true" />
+                  {lang === "es" ? "Repositorio" : "Repository"}
+                </ButtonLink>
+              )}
+            </div>
+          </header>
+          <div class="mt-8 grid gap-8 lg:grid-cols-[260px_minmax(0,1fr)] lg:items-start lg:gap-12">
+            <ProjectTools
+              stack={project.data.technologies}
+              label={`${t("projectPage.stackPrefix", lang)} ${title}`}
+            />
+            {project.data.gallery.length > 0 && (
+              <Carousel
+                images={project.data.gallery}
+                labels={labels}
+                infinity
+                transitionName={`project-image-${project.data.id}`}
+                client:load
+              />
+            )}
+          </div>
+        </section>
+      ) : (
+        <header class="max-w-225">
+          <p class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]">
+            {categories[category]?.[lang] ?? category}
+          </p>
+          <h1 class="mt-6 text-[clamp(3rem,8vw,7rem)] leading-[0.92] tracking-[-0.08em] text-[var(--color-text)]">
+            {title}
+          </h1>
+          <p class="mt-7 max-w-190 text-[clamp(1.08rem,1.8vw,1.35rem)] leading-[1.65] text-[var(--color-muted)]">
+            {description}
+          </p>
+        </header>
+      )}
+
+      {entry.data.cover && (!project || project.data.gallery.length === 0) && (
+        <Image
+          src={entry.data.cover}
+          alt={entry.data.coverAlt ?? ""}
+          class="mt-10 h-auto w-full rounded-md"
+        />
+      )}
+
+      <div
+        class:list={[
+          "mt-16",
+          project && navItems.length
+            ? "grid gap-6 md:gap-10 md:grid-cols-[190px_minmax(0,1fr)]"
+            : "max-w-190",
+        ]}
+      >
+        {project && navItems.length > 0 && (
+          <aside class="min-w-0 md:sticky md:top-28 md:self-start">
+            <ProjectDetailsNav items={navItems} lang={lang} client:load />
+          </aside>
+        )}
+        <div class="editorial-content min-w-0 max-w-190">
+          <Content />
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <SiteFooter label={title} homeLink />
+</Layout>
+
+<style>
+  .editorial-content :global(h2) {
+    margin: 3.5rem 0 1rem;
+    scroll-margin-top: 10rem;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+  }
+
+  @media (min-width: 768px) {
+    .editorial-content :global(h2) {
+      scroll-margin-top: 7rem;
+    }
+  }
+
+  .editorial-content :global(h3) {
+    margin: 2.5rem 0 0.75rem;
+    font-size: 1.35rem;
+    line-height: 1.2;
+  }
+
+  .editorial-content :global(p),
+  .editorial-content :global(ul),
+  .editorial-content :global(ol),
+  .editorial-content :global(blockquote),
+  .editorial-content :global(pre),
+  .editorial-content :global(table) {
+    margin: 1.25rem 0;
+    line-height: 1.75;
+  }
+
+  .editorial-content :global(ul) {
+    list-style: disc;
+    padding-left: 1.5rem;
+  }
+
+  .editorial-content :global(ol) {
+    list-style: decimal;
+    padding-left: 1.5rem;
+  }
+
+  .editorial-content :global(a) {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+
+  .editorial-content :global(code) {
+    font-family: ui-monospace, monospace;
+    font-size: 0.9em;
+  }
+
+  .editorial-content :global(pre) {
+    overflow-x: auto;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    background: var(--color-surface);
+  }
+
+  .editorial-content :global(blockquote) {
+    border-left: 2px solid var(--color-accent);
+    padding-left: 1rem;
+    color: var(--color-muted);
+  }
+
+  .editorial-content :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+  }
+
+  .editorial-content :global(table) {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+  }
+
+  .editorial-content :global(th),
+  .editorial-content :global(td) {
+    border: 1px solid var(--color-border);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+  }
+</style>

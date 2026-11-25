@@ -5,7 +5,7 @@ import {
   IconRefresh,
   IconRoute,
   IconSearch,
-} from "@tabler/icons-react";
+} from "@tabler/icons-astro";
 import SectionHeader from "../../components/SectionHeader.astro";
 import { getLocale, t } from "../../i18n";
 import ProcessCard from "./components/ProcessCard.astro";
@@ -44,7 +44,7 @@ const revealDurationMs = 300;
 const revealDelayStepMs = revealDurationMs / 2;
 ---
 
-<section class="border-t border-[#26352c]/60 py-18" id="proceso">
+<section class="border-t border-[var(--color-border)]/60 py-18" id="proceso">
   <div class="mx-auto w-[min(calc(100%-2rem),1120px)]">
     <SectionHeader
       eyebrow={t("workflow.eyebrow", lang)}
@@ -53,22 +53,20 @@ const revealDelayStepMs = revealDurationMs / 2;
     />
 
     <div class="grid gap-3 md:grid-cols-4">
-      {
-        process.map((step, index) => (
-          <ProcessCard
-            index={index}
-            title={t(step.title, lang)}
-            text={t(step.text, lang)}
-            Icon={step.Icon}
-            class={
-              index === process.length - 1
-                ? "md:col-span-2 md:col-start-2"
-                : "md:col-span-2"
-            }
-            revealDelay={`${index * revealDelayStepMs}ms`}
-          />
-        ))
-      }
+      {process.map((step, index) => (
+        <ProcessCard
+          index={index}
+          title={t(step.title, lang)}
+          text={t(step.text, lang)}
+          Icon={step.Icon}
+          class={
+            index === process.length - 1
+              ? "md:col-span-2 md:col-start-2"
+              : "md:col-span-2"
+          }
+          revealDelay={`${index * revealDelayStepMs}ms`}
+        />
+      ))}
     </div>
   </div>
 </section>
