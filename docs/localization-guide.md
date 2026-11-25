@@ -13,3 +13,5 @@ El contenido Markdown nuevo se organiza como `{id}/es.md` y `{id}/en.md` en la c
 ## Propuesta futura — no implementada
 
 La verificación SEO completa, `hreflang` y producción corresponden a fases posteriores; ver [redirecciones](redirects.md).
+
+La futura página de contacto dedicada (`/es/contacto` y `/en/contact`) debe usar las claves de `src/i18n/lang/{es,en}/contact.ts` y tomar correo, LinkedIn, GitHub, teléfono (clic a `https://wa.me/50379996844`) y Silver Wolf (`https://web.mauriciodmo.com`) de `src/data/site.ts`, sin textos hardcodeados.

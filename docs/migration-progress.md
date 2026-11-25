@@ -28,16 +28,28 @@ Actualizado: 25 de noviembre de 2026.
 - Actualizadas las cinco capturas del sitio de Construfijaciones desde `construfijaciones.com` (1600×900 WebP), conservando nombres, rutas y textos alternativos.
 - Ajuste solicitado en el catálogo: `/` enfoca el buscador solo en las páginas de proyectos, con pista visual en escritorio y margen superior del título reducido.
 - Ajuste solicitado en las tarjetas: CTA destacado como botón relleno con icono Tabler, tarjeta completa clicable y máximo dos proyectos por fila.
+- Ajuste puntual de portada: mosaico de cuatro proyectos destacados con enlaces al catálogo y contacto; Construfijaciones ocupa el segundo lugar en el orden configurado. No se inicia la Fase 5 completa.
+- Transiciones compartidas del título y la imagen entre el catálogo y los casos de estudio, usando el identificador estable del proyecto.
+- Carrusel: navegación con flechas limitada al foco dentro del componente y controles de paginación de 24 × 24 px.
+- Selector personalizado accesible para los filtros del catálogo (categoría, estado y orden): botón + listbox con `aria-activedescendant`, navegación con flechas, Inicio/Fin, Enter/Espacio, Escape, Tab y escritura incremental; el resaltado activo y hover usan el color de acento para distinguirse en tema oscuro.
+- Decisión del propietario: los proyectos se quedan como están (mosaico de cuatro destacados en la portada, catálogo y casos); la Fase 5 no los modifica. Se actualizó el plan en consecuencia.
+- Decisión del propietario: crear una página de contacto dedicada con correo, LinkedIn, GitHub, número de teléfono y enlace a la página de Silver Wolf; se documenta en el plan y corresponde a la Fase 7.
+- Datos de contacto proporcionados: `+503 79996844` (al hacer clic abre `https://wa.me/50379996844`) y `https://web.mauriciodmo.com` para Silver Wolf.
+- Orden destacado aplicado en el render del catálogo para que sea el orden natural y no haya reordenamiento (layout shift) al cargar; el cambio de orden solo se aplica cuando el usuario lo elige explícitamente.
+- Ajuste solicitado: BTCPay Server y Bitcoin añadidos a los pills de «Stack técnico» en `src/data/techs.ts`, con iconos en `public/svg/`. Sin cambio de fase.
+- Ajuste solicitado: transición compartida de la imagen entre el mosaico de destacados de la portada (`/en`, `/es`) y el caso de estudio; se añadió `transition:name` a las imágenes en `src/sections/projects/ProjectsSection.astro` con el mismo identificador (`project-image-${id}`) ya usado en catálogo y casos. Sin cambio de fase.
 
 ## Pendiente y riesgos
 
 - Obtener información verificable de FrameKit y de la infraestructura antes de crear sus casos de estudio o diagramas.
 - Revisar privacidad y autorización de las capturas restantes antes de publicar; verificar métricas existentes.
 - Implementar el listado del blog en la Fase 7.
+- Centralizar el teléfono y la URL de Silver Wolf en `src/data/site.ts` al implementar la página; el teléfono debe enlazar a `https://wa.me/50379996844`.
+- Crear las rutas `/es/contacto` y `/en/contact` en su fase, con correo, LinkedIn, GitHub, teléfono y Silver Wolf, los textos en `src/i18n/lang/{es,en}/contact.ts` y el cierre de la portada enlazando a ellas.
 - Medir Lighthouse y revisar accesibilidad y responsive manualmente en páginas representativas; aún no hay cifras verificadas.
 - Revisar capturas por datos privados; verificar enlaces históricos y redirecciones en el hosting.
 - El propietario confirmó que `public/projects/construfijaciones-dte/factura.webp` contiene datos de prueba; se conserva. Revisar independientemente las demás capturas antes de migrarlas.
-- Revisar la navegación global por flechas del carrusel; el contenido de proceso puede quedar oculto sin JavaScript.
+- Revisar visualmente el carrusel y las transiciones en ambos idiomas y en móvil; el contenido de proceso puede quedar oculto sin JavaScript.
 - Decidir si añadir herramientas de tipos, lint y pruebas en una fase apropiada; no se instalaron dependencias.
 - Conservar analítica de producción, contenido bilingüe y URLs existentes durante cada transición.
 
@@ -49,8 +61,15 @@ Actualizado: 25 de noviembre de 2026.
 - El propietario aprobó la Fase 1, conservando la identidad actual y con temas light/dark/system.
 - La tipografía y el ancho documentados en `DESIGN.md` difieren de lo implementado. Se propone conservar la apariencia actual y discutir cambios significativos, incluida la escritura del hero.
 - Se necesitarán fotografía, historia profesional, fechas, formación, certificaciones, métricas comprobables, recursos de proyectos, CV, herramientas y servicios autohospedados antes de publicar el contenido correspondiente.
+- Para la Fase 6, Sobre mí será principalmente un CV web; los PDF en inglés y español se derivarán del mismo contenido verificado y tendrán una presentación optimizada para impresión.
 
 ## Validación
+
+Los ajustes posteriores del carrusel y las transiciones están pendientes de revisión visual y pruebas autorizadas. `git diff --check`: correcto.
+
+Transición imagen portada → caso: `pnpm build` correcto (21 páginas). En `dist` se verificó que `/en/index.html` emite `view-transition-name: project-image-construfijaciones-web` y que `/en/projects/construfijaciones-web/index.html` emite el mismo valor inline; falta revisión visual en navegador. No se ejecutaron pruebas sin aprobación.
+
+Selector de filtros y orden: `pnpm build` correcto (21 páginas). En navegador con tema oscuro se comprobó el resaltado con acento, la navegación con flechas/Enter, la escritura incremental (`a` → Archivado) y el filtro resultante. El catálogo renderiza los cuatro proyectos en orden destacado (1, 2, 3, 4) sin reordenamiento al cargar. No se ejecutaron pruebas sin aprobación.
 
 Fase 4: compilación Astro correcta con caché Vite aislada, 21 páginas generadas; aviso esperado por colección de blog vacía. Comparación local verificó todas las cadenas de origen de los cuatro casos en ambos idiomas. En navegador se comprobaron cuatro tarjetas destacadas, búsqueda con tildes, filtro por estado, mensaje vacío, selector de idioma, galería, ocho anclas históricas y ancho móvil de 375 px. Brave mostró galería y navegación en el caso de inventario. `node --test test/routes.test.mjs`, `node --test test/content-collections.test.mjs` y `node --test test/fase4-projects.test.mjs`: 4, 3 y 4 pruebas correctas, respectivamente.
 
@@ -59,6 +78,8 @@ Ajuste visual posterior: compilación correcta y comprobación en navegador del 
 Ajuste del atajo `/`: compilación correcta, `node --test test/*.test.mjs` con 14 pruebas correctas y verificación en navegador en `/es/proyectos/` y `/en/projects/`: `/` enfoca el buscador, la pista no aparece a 375 px y sí desde 1280 px, escribir `/` dentro del campo no se intercepta y la portada no reacciona a `/`. El título del catálogo pasa de `mt-6` a `mt-0`. `git diff --check`: correcto.
 
 Ajuste de tarjetas: compilación correcta y `node --test test/fase4-projects.test.mjs` con 7 pruebas correctas. En navegador se verificó una sola columna a 375 px y dos a 1280 y 1910 px, un único enlace por tarjeta, clic en el cuerpo y en el CTA hacia el caso, CTA con fondo de acento y sin sombra, e icono `IconArrowUpRight` de `@tabler/icons-astro`.
+
+Ajuste puntual de portada: `pnpm build` correcto y `node --test test/*.test.mjs` con 18 pruebas correctas; pendiente revisión visual responsive. El orden utiliza `featuredOrder` porque los proyectos no tienen fechas.
 
 Fase 3: compilación Astro correcta con caché Vite aislada; las colecciones vacías generan avisos esperados de `glob`. `node --test test/content-collections.test.mjs`: 3 pruebas de integración correctas, con proyectos y artículos sintéticos en un directorio aislado; verifican páginas bilingües, selector de traducción, exclusión de borradores del sitemap, slugs duplicados y fecha obligatoria. `node --test test/routes.test.mjs`: 4 pruebas correctas. `git diff --check`: correcto.
 
@@ -85,4 +106,4 @@ Fase 1: compilación y pruebas manuales de tema y viewport 375 px correctas. `as
 
 ## Próximo paso
 
-Completar las pruebas y recopilar información de FrameKit e infraestructura; revisar capturas y esperar aprobación antes de la Fase 5. Comprobar SEO y redirecciones en el hosting antes de publicar.
+Completar las pruebas y recopilar información de FrameKit e infraestructura; revisar capturas y esperar aprobación antes de la Fase 5. Comprobar SEO y redirecciones en el hosting antes de publicar. La página de contacto dedicada se implementa en la Fase 7, previa aprobación.

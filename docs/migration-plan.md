@@ -381,6 +381,8 @@ Estos textos son borradores que deberán revisarse antes de su publicación.
 
 ## 8.2. Proyectos destacados
 
+**Decisión del propietario:** los proyectos se conservan exactamente como están en este momento —mosaico de cuatro destacados en la portada, catálogo y casos de estudio con su disposición actual—. La Fase 5 no debe reordenarlos, rediseñarlos ni eliminarlos.
+
 Mostrar un máximo inicial de cuatro proyectos:
 
 - Sistema de facturación electrónica.
@@ -455,9 +457,9 @@ Si todavía no existen artículos publicados, ocultar esta sección hasta que te
 
 ## 8.6. Contacto
 
-Finalizar con una sección compacta de contacto y disponibilidad profesional.
+Finalizar con una sección compacta de contacto y disponibilidad profesional que enlace a la página de contacto dedicada (`/es/contacto` y `/en/contact`). El listado completo de canales vive en esa página y no se duplica en la portada.
 
-Incluir enlaces hacia mis canales de comunicación y una referencia a Silver Wolf para servicios comerciales.
+Incluir una referencia a Silver Wolf para servicios comerciales.
 
 # 9. Página de proyectos
 
@@ -628,25 +630,19 @@ No publicar:
 
 Revisar las capturas de pantalla antes de publicarlas.
 
-# 11. Página Sobre mí
+# 11. Página Sobre mí: CV web
 
-Esta página debe proporcionar una visión más personal y profunda de mi perfil.
+La página Sobre mí funcionará principalmente como un currículum web: presentará de forma clara, verificable y fácil de recorrer mi perfil profesional. Puede incluir contexto personal, pero no debe convertirse en una biografía extensa ni repetir información de otras páginas.
 
-## 11.1. Introducción
+## 11.1. Presentación
 
-Incluir fotografía, presentación y una descripción más extensa de mi perfil profesional.
+Incluir una presentación breve, fotografía cuando esté disponible y un resumen de mi perfil profesional. La información debe ser coherente con el currículum descargable.
 
-## 11.2. Mi historia
+## 11.2. Contexto personal
 
-Explicar:
+Incluir, si aporta contexto al perfil, una historia personal breve sobre cómo comencé a programar, cómo evolucionaron mis conocimientos, mis intereses tecnológicos y mis objetivos profesionales.
 
-- Cómo comencé a programar.
-- Cómo evolucionaron mis conocimientos.
-- Cómo llegué al desarrollo profesional.
-- Qué áreas tecnológicas me interesan.
-- Qué objetivos profesionales tengo.
-
-Esta información debe construirse conmigo mediante preguntas específicas. No inventar mi historia.
+Construir esta información conmigo mediante preguntas específicas. No inventar mi historia ni extenderla a costa de la información curricular.
 
 ## 11.3. Experiencia profesional
 
@@ -700,14 +696,13 @@ No utilizar niveles arbitrarios, estrellas ni porcentajes de dominio.
 
 Incluir intereses técnicos y personales que ayuden a conocerme mejor, sin convertir la página en una lista extensa de pasatiempos.
 
-## 11.8. Currículum
+## 11.8. PDF del currículum
 
-Permitir descargar dos versiones independientes:
+Ofrecer versiones descargables en inglés y español. El contenido del PDF debe derivarse de la misma información verificada que la página CV web, evitando mantener dos currículums con datos divergentes.
 
-- CV en inglés.
-- CV en español.
+La presentación del PDF debe estar optimizada para impresión y lectura como currículum; no debe ser una captura ni una exportación sin adaptar de la página web. Puede usar una composición distinta a la web, conservando el contenido y la identidad visual.
 
-Crear el currículum desde cero utilizando información real de mi trayectoria.
+Crear ambas versiones con información real de mi trayectoria. La información compartida debe tener una fuente de contenido común y permitir adaptar la presentación a cada idioma.
 
 El currículum debe ser:
 
@@ -873,11 +868,13 @@ Crear una página sencilla de contacto.
 
 ## 15.1. Canales
 
-- Correo electrónico.
-- LinkedIn.
-- GitHub.
-- WhatsApp.
-- Silver Wolf.
+- Correo electrónico (`site.email`).
+- LinkedIn (`site.linkedin`).
+- GitHub (`site.github`).
+- Número de teléfono: `+503 79996844`, centralizado en `src/data/site.ts`; al hacer clic debe abrir WhatsApp (`https://wa.me/50379996844`).
+- Página de Silver Wolf: `https://web.mauriciodmo.com`, centralizada en `src/data/site.ts`.
+
+La sección comercial de Silver Wolf se mantiene en 15.3 como contexto para solicitudes de servicios; además, su página se ofrece como canal en esta sección.
 
 ## 15.2. Disponibilidad profesional
 
@@ -1354,12 +1351,12 @@ Tareas:
 - Crear hero profesional.
 - Incorporar fotografía cuando esté disponible.
 - Implementar disponibilidad laboral.
-- Mostrar proyectos destacados.
+- Conservar sin cambios el bloque de proyectos destacados, el catálogo y los casos de estudio.
 - Mostrar experiencia resumida.
 - Mostrar áreas de especialización.
 - Incorporar publicaciones recientes.
-- Crear sección final de contacto.
-- Revisar jerarquía visual y eliminar redundancias.
+- Ajustar la sección final de contacto para enlazar a la página dedicada.
+- Revisar jerarquía visual y eliminar redundancias fuera de los proyectos.
 
 Criterio de aceptación: un visitante puede comprender mi perfil profesional en menos de un minuto.
 
@@ -1370,16 +1367,16 @@ Tareas:
 - Recopilar información profesional.
 - Recopilar fechas de experiencia.
 - Recopilar información académica.
-- Definir mi historia profesional.
+- Preparar una presentación breve para el CV web y, si corresponde, contexto personal conciso.
 - Incorporar certificaciones verificables.
-- Crear línea temporal.
+- Organizar la experiencia como CV web.
 - Organizar conocimientos técnicos.
 - Agregar intereses personales.
-- Crear currículum en inglés.
-- Crear currículum en español.
-- Implementar descarga de los documentos.
+- Preparar contenido común y verificado para la página y el PDF en ambos idiomas.
+- Diseñar versiones PDF optimizadas para impresión.
+- Implementar la descarga de los PDF definitivos.
 
-Criterio de aceptación: perfil profesional completo, verificable y coherente con el currículum.
+Criterio de aceptación: CV web claro y verificable, coherente con los PDF en inglés y español derivados del mismo contenido y correctamente presentados para impresión.
 
 ## Fase 7 — Blog, Uses y contacto
 
@@ -1392,7 +1389,8 @@ Tareas:
 - Configurar metadatos de artículos.
 - Implementar página Uses.
 - Organizar herramientas personales.
-- Implementar página Contact.
+- Implementar la página de contacto dedicada en `/es/contacto` y `/en/contact` con correo, LinkedIn, GitHub, teléfono y enlace a Silver Wolf, sin formularios.
+- Centralizar en `src/data/site.ts` el teléfono `+503 79996844` y la URL `https://web.mauriciodmo.com`; el teléfono enlaza a `https://wa.me/50379996844` para abrir WhatsApp.
 - Incorporar enlaces profesionales.
 - Enlazar Silver Wolf.
 
