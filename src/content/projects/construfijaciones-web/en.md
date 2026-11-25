@@ -8,12 +8,16 @@ title: Construfijaciones website
 description: Corporate and commercial website designed to present the company, its products, brands, and contact information clearly.
 intro: Commercial site designed to organize the company's digital presence and make its offering easier to understand.
 category: business-software
+status: production
 featured: true
-featuredOrder: 4
+featuredOrder: 2
 draft: false
 technologies:
-  - Astro
+  - Next.js
+  - React
+  - Tailwind CSS
   - TypeScript
+  - Umami
   - HTML5
   - CSS3
   - JavaScript
@@ -80,7 +84,7 @@ Built and revamped a corporate and commercial website with a clear structure, in
 
 *Technical decisions*
 
-- Astro to build a fast, static, and easy-to-maintain site
+- Next.js and React to build the site, with Tailwind CSS for styling
 - HTML, CSS, and JavaScript for structure, styling, and interactions
 - Responsive design for desktop and mobile navigation
 - Optimization of visual structure and commercial content

@@ -1,5 +1,43 @@
 ---
-import ProjectIcon from './ProjectIcon';
+import {
+  IconArrowUpRight,
+  IconBolt,
+  IconBrain,
+  IconBrandAstro,
+  IconBrandDocker,
+  IconBuildingStore,
+  IconChartBar,
+  IconClipboardList,
+  IconCloudUpload,
+  IconCode,
+  IconDatabase,
+  IconDeviceDesktopAnalytics,
+  IconFileInvoice,
+  IconFileSpreadsheet,
+  IconFileTypePdf,
+  IconForms,
+  IconHistory,
+  IconLayoutDashboard,
+  IconLifebuoy,
+  IconLock,
+  IconMailForward,
+  IconPackage,
+  IconPhoto,
+  IconPlugConnected,
+  IconReceiptTax,
+  IconRefresh,
+  IconRobot,
+  IconRoute,
+  IconSearch,
+  IconServer,
+  IconShieldCheck,
+  IconStack2,
+  IconTags,
+  IconTargetArrow,
+  IconTruckDelivery,
+  IconUserCheck,
+  IconUsersGroup,
+} from '@tabler/icons-astro';
 import type { ProjectIconKey } from '../data/projects';
 import { getLocale, t } from '../i18n';
 
@@ -11,8 +49,50 @@ type Props = {
   icon?: ProjectIconKey;
 };
 
+const sectionGlyphs: Record<ProjectIconKey, typeof IconBolt> = {
+  'arrow-up-right': IconArrowUpRight,
+  bolt: IconBolt,
+  brain: IconBrain,
+  'brand-astro': IconBrandAstro,
+  'brand-docker': IconBrandDocker,
+  'building-store': IconBuildingStore,
+  'chart-bar': IconChartBar,
+  'clipboard-list': IconClipboardList,
+  'cloud-upload': IconCloudUpload,
+  code: IconCode,
+  database: IconDatabase,
+  'device-desktop-analytics': IconDeviceDesktopAnalytics,
+  'file-invoice': IconFileInvoice,
+  'file-spreadsheet': IconFileSpreadsheet,
+  'file-type-pdf': IconFileTypePdf,
+  forms: IconForms,
+  history: IconHistory,
+  'layout-dashboard': IconLayoutDashboard,
+  lifebuoy: IconLifebuoy,
+  lock: IconLock,
+  'mail-forward': IconMailForward,
+  package: IconPackage,
+  photo: IconPhoto,
+  'plug-connected': IconPlugConnected,
+  'receipt-tax': IconReceiptTax,
+  refresh: IconRefresh,
+  robot: IconRobot,
+  route: IconRoute,
+  search: IconSearch,
+  server: IconServer,
+  'shield-check': IconShieldCheck,
+  'stack-2': IconStack2,
+  tags: IconTags,
+  'target-arrow': IconTargetArrow,
+  'truck-delivery': IconTruckDelivery,
+  'user-check': IconUserCheck,
+  'users-group': IconUsersGroup,
+};
+
 const lang = getLocale(Astro.currentLocale);
 const { id, number, eyebrow, title, icon } = Astro.props;
+const SectionGlyph =
+  icon && Object.hasOwn(sectionGlyphs, icon) ? sectionGlyphs[icon] : undefined;
 ---
 
 <article
@@ -21,10 +101,9 @@ const { id, number, eyebrow, title, icon } = Astro.props;
 >
   <div class="flex items-start gap-4">
     {
-      icon ? (
-        <ProjectIcon
-          icon={icon}
-          className="mt-1 shrink-0 text-[var(--color-accent)]"
+      SectionGlyph ? (
+        <SectionGlyph
+          class="mt-1 shrink-0 text-[var(--color-accent)]"
           size={24}
           stroke={1.7}
           aria-hidden="true"

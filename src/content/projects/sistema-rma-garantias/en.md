@@ -8,8 +8,9 @@ title: RMA / Warranty System
 description: System for logging, documenting, and tracking warranty and return processes with greater operational order.
 intro: Internal tool so every warranty has context, status, evidence, and continuity throughout the review cycle.
 category: business-software
+status: archived
 featured: true
-featuredOrder: 3
+featuredOrder: 4
 draft: false
 technologies:
   - Next.js

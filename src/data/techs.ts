@@ -126,6 +126,24 @@ export const techs = {
     href: 'https://pages.cloudflare.com/',
     color: '#f38020',
   },
+  umami: {
+    name: 'Umami',
+    icon: '/svg/umami.svg',
+    href: 'https://umami.is/',
+    color: '#6688db',
+  },
+  btcpayserver: {
+    name: 'BTCPay Server',
+    icon: '/svg/btcpay-server.svg',
+    href: 'https://btcpayserver.org/',
+    color: '#cedc21',
+  },
+  bitcoin: {
+    name: 'Bitcoin',
+    icon: '/svg/bitcoin.svg',
+    href: 'https://bitcoin.org/',
+    color: '#f7931a',
+  },
   pnpm: {
     name: 'pnpm',
     icon: '/svg/pnpm_dark.svg',

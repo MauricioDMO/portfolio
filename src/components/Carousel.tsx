@@ -109,6 +109,7 @@ export default function Carousel({
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (!carouselRef.current?.contains(document.activeElement)) return;
       if (e.key === 'ArrowLeft') prev();
       if (e.key === 'ArrowRight') next();
     };
@@ -204,7 +205,7 @@ export default function Carousel({
         <button
           onClick={prev}
           disabled={!infinity && currentIndex === 0}
-          className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-card)]/75 text-[var(--color-muted)] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] disabled:opacity-30 disabled:hover:border-[var(--color-border)] disabled:hover:text-[var(--color-muted)]"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-card)]/75 text-[var(--color-muted)] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] disabled:opacity-30 disabled:hover:border-[var(--color-border)] disabled:hover:text-[var(--color-muted)]"
           aria-label={labels.previousImage}
           data-track="carousel_navigate"
           data-track-direction="prev"
@@ -223,28 +224,32 @@ export default function Carousel({
           </svg>
         </button>
 
-        <div className="flex items-center gap-2">
+        <div className="flex min-w-0 flex-wrap items-center justify-center">
           {images.map((_, index) => (
             <button
               key={index}
               onClick={() => goTo(index, index > currentIndex ? 'right' : 'left')}
-              className={`h-1.5 rounded-full transition-all duration-300 ${index === currentIndex
-                  ? 'w-6 bg-[var(--color-accent)]'
-                  : 'w-1.5 bg-[var(--color-border)] hover:bg-[var(--color-accent)]/50'
-                }`}
+              className="group flex h-6 w-6 shrink-0 items-center justify-center"
               aria-label={`${labels.goToImage} ${index + 1}`}
               aria-current={index === currentIndex ? 'true' : 'false'}
               data-track="carousel_navigate"
               data-track-direction="dot"
               data-track-index={index + 1}
-            />
+            >
+              <span
+                className={`block h-1.5 rounded-full transition-all duration-300 ${index === currentIndex
+                    ? 'w-6 bg-[var(--color-accent)]'
+                    : 'w-1.5 bg-[var(--color-border)] group-hover:bg-[var(--color-accent)]/50'
+                  }`}
+              />
+            </button>
           ))}
         </div>
 
         <button
           onClick={next}
           disabled={!infinity && currentIndex === images.length - 1}
-          className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-card)]/75 text-[var(--color-muted)] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] disabled:opacity-30 disabled:hover:border-[var(--color-border)] disabled:hover:text-[var(--color-muted)]"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-card)]/75 text-[var(--color-muted)] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] disabled:opacity-30 disabled:hover:border-[var(--color-border)] disabled:hover:text-[var(--color-muted)]"
           aria-label={labels.nextImage}
           data-track="carousel_navigate"
           data-track-direction="next"

@@ -8,8 +8,9 @@ title: Sistema RMA / Garantías
 description: Sistema para registrar, documentar y dar seguimiento a procesos de garantía y devolución con mayor orden operativo.
 intro: Herramienta interna para que cada garantía tenga contexto, estado, evidencia y continuidad durante todo el ciclo de revisión.
 category: business-software
+status: archived
 featured: true
-featuredOrder: 3
+featuredOrder: 4
 draft: false
 technologies:
   - Next.js

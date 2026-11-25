@@ -1,8 +1,10 @@
 // Spanish source strings: projects
 export const projectsSection = {
   eyebrow: "Proyectos destacados",
-  title: "Casos reales, no solo capturas bonitas.",
-  description: "Cada proyecto muestra contexto, decisiones e impacto. El stack importa, pero la parte fuerte es entender el proceso y convertirlo en una herramienta mantenible.",
+  title: "Ideas que se convierten en software.",
+  description: "Desde sistemas empresariales hasta experiencias web, estos proyectos muestran cómo transformo necesidades reales en soluciones útiles y mantenibles.",
+  viewAllCta: "Ver todos los proyectos",
+  workTogetherCta: "Trabajemos juntos",
   viewCaseCta: "Ver caso completo",
   screenshotPending: "captura pendiente",
 };

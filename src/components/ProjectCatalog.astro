@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import { IconArrowUpRight } from '@tabler/icons-astro';
 import { t, type Locale } from '../i18n';
 import ProjectTools from './ProjectTools.astro';
+import CustomSelect from './CustomSelect.astro';
 
 /**
  * Fase 4 schema: eyebrow and status optional until verified; impact and gallery
@@ -75,8 +76,26 @@ const ui = {
   },
 }[lang];
 
+/** Featured order is the natural order of the list, so it must be applied on the server to avoid a reorder after hydration. */
+const orderedEntries = [...entries].sort(
+  (a, b) => (a.data.featuredOrder ?? Infinity) - (b.data.featuredOrder ?? Infinity),
+);
+
 const categories = [...new Set(entries.map((entry) => entry.data.category))];
 const statuses = [...new Set(entries.map((entry) => entry.data.status ?? 'unspecified'))];
+
+const categoryOptions = [
+  { value: '', label: ui.allCategories },
+  ...categories.map((category) => ({ value: category, label: labelFor(categoryLabels, category) })),
+];
+const statusOptions = [
+  { value: '', label: ui.allStatuses },
+  ...statuses.map((status) => ({ value: status, label: labelFor(statusLabels, status) })),
+];
+const sortOptions = [
+  { value: 'featured', label: ui.featuredOrder },
+  { value: 'title', label: ui.titleOrder },
+];
 ---
 
 <section data-project-catalog aria-labelledby="catalog-heading">
@@ -111,43 +130,9 @@ const statuses = [...new Set(entries.map((entry) => entry.data.status ?? 'unspec
         data-filter-search
       />
     </div>
-    <div class="flex min-w-45 flex-col gap-2">
-      <label class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-muted)]" for="catalog-category">
-        {ui.category}
-      </label>
-      <select
-        id="catalog-category"
-        class="w-full rounded-[6px] border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-[var(--color-text)]"
-        data-filter-category
-      >
-        <option value="">{ui.allCategories}</option>
-        {categories.map((category) => (
-          <option value={category}>{labelFor(categoryLabels, category)}</option>
-        ))}
-      </select>
-    </div>
-    <div class="flex min-w-45 flex-col gap-2">
-      <label class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-muted)]" for="catalog-sort">{ui.sort}</label>
-      <select id="catalog-sort" class="w-full rounded-[6px] border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-[var(--color-text)]" data-filter-sort>
-        <option value="featured">{ui.featuredOrder}</option>
-        <option value="title">{ui.titleOrder}</option>
-      </select>
-    </div>
-    <div class="flex min-w-45 flex-col gap-2">
-      <label class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-muted)]" for="catalog-status">
-        {ui.status}
-      </label>
-      <select
-        id="catalog-status"
-        class="w-full rounded-[6px] border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-[var(--color-text)]"
-        data-filter-status
-      >
-        <option value="">{ui.allStatuses}</option>
-        {statuses.map((status) => (
-          <option value={status}>{labelFor(statusLabels, status)}</option>
-        ))}
-      </select>
-    </div>
+    <CustomSelect id="catalog-category" label={ui.category} options={categoryOptions} class="min-w-45" data-filter-category />
+    <CustomSelect id="catalog-sort" label={ui.sort} options={sortOptions} value="featured" class="min-w-45" data-filter-sort />
+    <CustomSelect id="catalog-status" label={ui.status} options={statusOptions} class="min-w-45" data-filter-status />
   </div>
 
   <p class="mt-10 text-[var(--color-muted)]" data-no-results hidden={entries.length > 0}>{ui.empty}</p>
@@ -157,7 +142,7 @@ const statuses = [...new Set(entries.map((entry) => entry.data.status ?? 'unspec
     data-catalog-list
   >
     {
-      entries.map((entry) => {
+      orderedEntries.map((entry) => {
         const { title, description, category, slug, technologies, eyebrow } = entry.data;
         const status = entry.data.status ?? 'unspecified';
         const image = entry.data.gallery?.[0];
@@ -176,29 +161,34 @@ const statuses = [...new Set(entries.map((entry) => entry.data.status ?? 'unspec
             data-title={normalize(title)}
           >
             <article class="group relative flex h-full flex-col overflow-hidden rounded-[6px] border border-[var(--color-border)] bg-gradient-to-b from-[var(--color-card)]/95 to-[var(--color-surface)]/95 transition hover:-translate-y-0.5 hover:border-[var(--color-accent)]/70">
+              <div class="p-5">
+                <p class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]">
+                  {labelFor(categoryLabels, category)}
+                  <span class="text-[var(--color-muted)]"> · {labelFor(statusLabels, status)}</span>
+                </p>
+                <h2
+                  class="mt-3 text-[clamp(1.35rem,2.6vw,1.85rem)] leading-[1.1] tracking-[-0.04em] text-[var(--color-text)]"
+                >
+                  <a class="no-underline transition-colors hover:text-[var(--color-accent)]" href={href} data-track="project_case_open" data-track-project={entry.data.id}>
+                    <span transition:name={`project-title-${entry.data.id}`}>{title}</span>
+                    <span class="absolute inset-0 z-10" aria-hidden="true"></span>
+                  </a>
+                </h2>
+              </div>
               {image ? (
-                <div class="aspect-[16/9] overflow-hidden border-b border-[var(--color-border)] bg-[var(--color-bg)]/70">
+                <div class="aspect-[16/9] overflow-hidden border-y border-[var(--color-border)] bg-[var(--color-bg)]/70">
                   <img
                     class="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
                     src={image.src}
                     alt={image.alt}
                     loading="lazy"
                     decoding="async"
+                    transition:name={`project-image-${entry.data.id}`}
                   />
                 </div>
               ) : null}
               <div class="flex flex-1 flex-col p-5">
-                <p class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]">
-                  {labelFor(categoryLabels, category)}
-                  <span class="text-[var(--color-muted)]"> · {labelFor(statusLabels, status)}</span>
-                </p>
-                <h2 class="mt-3 text-[clamp(1.35rem,2.6vw,1.85rem)] leading-[1.1] tracking-[-0.04em] text-[var(--color-text)]">
-                  <a class="no-underline transition-colors hover:text-[var(--color-accent)]" href={href} data-track="project_case_open" data-track-project={entry.data.id}>
-                    {title}
-                    <span class="absolute inset-0" aria-hidden="true"></span>
-                  </a>
-                </h2>
-                <p class="mt-3 leading-relaxed text-[var(--color-muted)]">{description}</p>
+                <p class="leading-relaxed text-[var(--color-muted)]">{description}</p>
                 {technologies.length > 0 ? (
                   <ProjectTools class="mt-5" stack={technologies} label={`${t('projectPage.stackPrefix', lang)} ${title}`} compact />
                 ) : null}
@@ -227,21 +217,17 @@ const statuses = [...new Set(entries.map((entry) => entry.data.status ?? 'unspec
     root.dataset.ready = 'true';
 
     const items = Array.from(root.querySelectorAll<HTMLElement>('[data-catalog-item]'));
-    const category = root.querySelector<HTMLSelectElement>('[data-filter-category]');
-    const status = root.querySelector<HTMLSelectElement>('[data-filter-status]');
+    const category = root.querySelector<HTMLElement>('[data-filter-category]');
+    const status = root.querySelector<HTMLElement>('[data-filter-status]');
     const search = root.querySelector<HTMLInputElement>('[data-filter-search]');
-    const sort = root.querySelector<HTMLSelectElement>('[data-filter-sort]');
+    const sort = root.querySelector<HTMLElement>('[data-filter-sort]');
     const list = root.querySelector<HTMLElement>('[data-catalog-list]');
     const empty = root.querySelector<HTMLElement>('[data-no-results]');
 
     const apply = () => {
-      const selectedCategory = category?.value ?? '';
-      const selectedStatus = status?.value ?? '';
+      const selectedCategory = category?.dataset.value ?? '';
+      const selectedStatus = status?.dataset.value ?? '';
       const query = normalizeFilter(search?.value.trim() ?? '');
-      items.sort((a, b) => sort?.value === 'title'
-        ? (a.dataset.title ?? '').localeCompare(b.dataset.title ?? '')
-        : Number(a.dataset.order) - Number(b.dataset.order));
-      if (list) items.forEach((item) => list.append(item));
       let visible = 0;
       for (const item of items) {
         const matches =
@@ -254,18 +240,30 @@ const statuses = [...new Set(entries.map((entry) => entry.data.status ?? 'unspec
       if (empty) empty.hidden = visible !== 0;
     };
 
+    // Only reorder when the user explicitly changes the sort; keep the server-rendered order on load.
+    const sortItems = () => {
+      items.sort((a, b) => sort?.dataset.value === 'title'
+        ? (a.dataset.title ?? '').localeCompare(b.dataset.title ?? '')
+        : Number(a.dataset.order) - Number(b.dataset.order));
+      if (list) items.forEach((item) => list.append(item));
+    };
+
     category?.addEventListener('change', apply);
     status?.addEventListener('change', apply);
     search?.addEventListener('input', apply);
-    sort?.addEventListener('change', apply);
-    apply();
+    sort?.addEventListener('change', () => {
+      sortItems();
+      apply();
+    });
   }
 
   const focusSearchOnSlash = (event: KeyboardEvent) => {
     if (event.key !== '/' || event.ctrlKey || event.metaKey || event.altKey) return;
     const target = event.target;
     if (target instanceof HTMLElement && (
-      target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)
+      target.isContentEditable ||
+      target.closest('[data-custom-select]') ||
+      ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)
     )) return;
     const search = document.querySelector<HTMLInputElement>('[data-project-catalog] [data-filter-search]');
     if (!search) return;

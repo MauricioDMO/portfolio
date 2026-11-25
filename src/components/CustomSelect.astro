@@ -1,0 +1,191 @@
+---
+import { IconChevronDown } from '@tabler/icons-astro';
+
+type Option = { value: string; label: string };
+
+type Props = {
+  id: string;
+  label: string;
+  options: Option[];
+  value?: string;
+  class?: string;
+};
+
+const { id, label, options, value = '', class: className = '', ...rest } = Astro.props;
+const currentLabel = options.find((option) => option.value === value)?.label ?? options[0]?.label ?? '';
+---
+
+<div class={`relative flex flex-col gap-2 ${className}`} data-custom-select data-value={value} {...rest}>
+  <span id={`${id}-label`} class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-muted)]">{label}</span>
+  <button
+    id={`${id}-button`}
+    type="button"
+    class="flex w-full items-center justify-between gap-2 rounded-[6px] border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-left text-[var(--color-text)]"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-labelledby={`${id}-label ${id}-button`}
+    data-select-button
+  >
+    <span data-select-value>{currentLabel}</span>
+    <IconChevronDown size={16} class="shrink-0 text-[var(--color-muted)]" aria-hidden="true" />
+  </button>
+  <ul
+    id={`${id}-listbox`}
+    class="absolute top-full z-20 mt-1 max-h-60 w-full list-none overflow-auto rounded-[6px] border border-[var(--color-border)] bg-[var(--color-bg)] p-1 shadow-lg"
+    role="listbox"
+    tabindex="-1"
+    aria-labelledby={`${id}-label`}
+    data-select-listbox
+    hidden
+  >
+    {
+      options.map((option, index) => (
+        <li
+          id={`${id}-option-${index}`}
+          class="cursor-pointer rounded px-3 py-2 text-[var(--color-text)]"
+          role="option"
+          aria-selected={option.value === value}
+          data-value={option.value}
+          data-select-option
+        >
+          {option.label}
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<script>
+  const normalize = (value: string) =>
+    value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+  function initCustomSelects() {
+    document.querySelectorAll<HTMLElement>('[data-custom-select]').forEach((root) => {
+      if (root.dataset.selectReady === 'true') return;
+      root.dataset.selectReady = 'true';
+
+      const button = root.querySelector<HTMLButtonElement>('[data-select-button]');
+      const listbox = root.querySelector<HTMLElement>('[data-select-listbox]');
+      const valueLabel = root.querySelector<HTMLElement>('[data-select-value]');
+      const options = Array.from(root.querySelectorAll<HTMLElement>('[data-select-option]'));
+      if (!button || !listbox || !valueLabel || options.length === 0) return;
+
+      let activeIndex = Math.max(0, options.findIndex((option) => option.dataset.value === root.dataset.value));
+      let typed = '';
+      let typedTimer: number | undefined;
+
+      const setActive = (index: number) => {
+        activeIndex = (index + options.length) % options.length;
+        options.forEach((option, current) =>
+          option.setAttribute('aria-selected', String(current === activeIndex)),
+        );
+        listbox.setAttribute('aria-activedescendant', options[activeIndex].id);
+        options[activeIndex].scrollIntoView({ block: 'nearest' });
+      };
+
+      const open = () => {
+        listbox.hidden = false;
+        button.setAttribute('aria-expanded', 'true');
+        setActive(Math.max(0, options.findIndex((option) => option.dataset.value === root.dataset.value)));
+        listbox.focus();
+      };
+
+      const close = (restoreFocus = true) => {
+        listbox.hidden = true;
+        button.setAttribute('aria-expanded', 'false');
+        listbox.removeAttribute('aria-activedescendant');
+        typed = '';
+        if (restoreFocus) button.focus();
+      };
+
+      const commit = () => {
+        const option = options[activeIndex];
+        root.dataset.value = option.dataset.value ?? '';
+        valueLabel.textContent = option.textContent?.trim() ?? '';
+        root.dispatchEvent(new Event('change'));
+      };
+
+      button.addEventListener('click', () => {
+        if (button.getAttribute('aria-expanded') === 'true') close();
+        else open();
+      });
+
+      button.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+          event.preventDefault();
+          open();
+        }
+      });
+
+      listbox.addEventListener('keydown', (event) => {
+        switch (event.key) {
+          case 'ArrowDown':
+            event.preventDefault();
+            setActive(activeIndex + 1);
+            break;
+          case 'ArrowUp':
+            event.preventDefault();
+            setActive(activeIndex - 1);
+            break;
+          case 'Home':
+            event.preventDefault();
+            setActive(0);
+            break;
+          case 'End':
+            event.preventDefault();
+            setActive(options.length - 1);
+            break;
+          case 'Enter':
+          case ' ':
+            event.preventDefault();
+            commit();
+            close();
+            break;
+          case 'Escape':
+            event.preventDefault();
+            close();
+            break;
+          default:
+            if (event.key.length !== 1 || event.ctrlKey || event.metaKey || event.altKey) break;
+            typed += event.key;
+            window.clearTimeout(typedTimer);
+            typedTimer = window.setTimeout(() => { typed = ''; }, 600);
+            const match = options.findIndex((option) => normalize((option.textContent ?? '').trim()).startsWith(normalize(typed)));
+            if (match >= 0) setActive(match);
+        }
+      });
+
+      options.forEach((option, index) => {
+        option.addEventListener('mouseenter', () => setActive(index));
+        option.addEventListener('click', () => {
+          setActive(index);
+          commit();
+          close();
+        });
+      });
+
+      root.addEventListener('focusout', (event) => {
+        if (!root.contains(event.relatedTarget as Node | null)) close(false);
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', initCustomSelects);
+  initCustomSelects();
+</script>
+
+<style>
+  [data-select-listbox][hidden] {
+    display: none;
+  }
+
+  /* --color-surface is only a few shades above --color-bg in dark mode; tint with the accent so the active option is visible in both themes. */
+  [data-select-option]:hover,
+  [data-select-option][aria-selected="true"] {
+    background: color-mix(in srgb, var(--color-accent) 24%, transparent);
+  }
+
+  [data-select-option][aria-selected="true"] {
+    box-shadow: inset 2px 0 0 var(--color-accent);
+  }
+</style>

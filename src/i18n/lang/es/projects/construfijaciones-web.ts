@@ -17,7 +17,7 @@ export const construfijacionesWeb = {
   feature6: "Página de contacto",
   feature7: "Diseño responsive",
   feature8: "Estructura preparada para crecimiento futuro",
-  technical1: "Astro para construir un sitio rápido, estático y fácil de mantener",
+  technical1: "Next.js, React y Tailwind CSS para construir un sitio rápido y fácil de mantener",
   technical2: "HTML, CSS y JavaScript para estructura, estilos e interacciones",
   technical3: "Diseño responsive para navegación desde escritorio y móvil",
   technical4: "Optimización de estructura visual y contenido comercial",

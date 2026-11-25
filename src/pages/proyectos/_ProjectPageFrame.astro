@@ -1,14 +1,54 @@
 ---
-import { IconArrowLeft, IconExternalLink, IconMail } from "@tabler/icons-astro";
+import {
+  IconArrowLeft,
+  IconArrowUpRight,
+  IconBolt,
+  IconBrain,
+  IconBrandAstro,
+  IconBrandDocker,
+  IconBuildingStore,
+  IconChartBar,
+  IconClipboardList,
+  IconCloudUpload,
+  IconCode,
+  IconDatabase,
+  IconDeviceDesktopAnalytics,
+  IconExternalLink,
+  IconFileInvoice,
+  IconFileSpreadsheet,
+  IconFileTypePdf,
+  IconForms,
+  IconHistory,
+  IconLayoutDashboard,
+  IconLifebuoy,
+  IconLock,
+  IconMail,
+  IconMailForward,
+  IconPackage,
+  IconPhoto,
+  IconPlugConnected,
+  IconReceiptTax,
+  IconRefresh,
+  IconRobot,
+  IconRoute,
+  IconSearch,
+  IconServer,
+  IconShieldCheck,
+  IconStack2,
+  IconTags,
+  IconTargetArrow,
+  IconTruckDelivery,
+  IconUserCheck,
+  IconUsersGroup,
+} from "@tabler/icons-astro";
 import ButtonLink from "../../components/ButtonLink.astro";
 import ProjectDetailSection from "../../components/ProjectDetailSection.astro";
 import ProjectDetailsNav from "../../components/ProjectDetailsNav.tsx";
-import ProjectIcon from "../../components/ProjectIcon";
 import ProjectTools from "../../components/ProjectTools.astro";
 import SiteFooter from "../../components/SiteFooter.astro";
 import SiteHeader from "../../components/SiteHeader.astro";
 import Layout from "../../layouts/Layout.astro";
-import type { Project } from "../../data/projects";
+import type { Project, ProjectIconKey } from "../../data/projects";
 import Carousel from "../../components/Carousel.tsx";
 import { site } from "../../data/site";
 import { getLocale, t, localeMeta, localizedPath } from "../../i18n";
@@ -17,7 +57,50 @@ type Props = {
   project: Project;
 };
 
+const headerGlyphs: Record<ProjectIconKey, typeof IconBolt> = {
+  "arrow-up-right": IconArrowUpRight,
+  bolt: IconBolt,
+  brain: IconBrain,
+  "brand-astro": IconBrandAstro,
+  "brand-docker": IconBrandDocker,
+  "building-store": IconBuildingStore,
+  "chart-bar": IconChartBar,
+  "clipboard-list": IconClipboardList,
+  "cloud-upload": IconCloudUpload,
+  code: IconCode,
+  database: IconDatabase,
+  "device-desktop-analytics": IconDeviceDesktopAnalytics,
+  "file-invoice": IconFileInvoice,
+  "file-spreadsheet": IconFileSpreadsheet,
+  "file-type-pdf": IconFileTypePdf,
+  forms: IconForms,
+  history: IconHistory,
+  "layout-dashboard": IconLayoutDashboard,
+  lifebuoy: IconLifebuoy,
+  lock: IconLock,
+  "mail-forward": IconMailForward,
+  package: IconPackage,
+  photo: IconPhoto,
+  "plug-connected": IconPlugConnected,
+  "receipt-tax": IconReceiptTax,
+  refresh: IconRefresh,
+  robot: IconRobot,
+  route: IconRoute,
+  search: IconSearch,
+  server: IconServer,
+  "shield-check": IconShieldCheck,
+  "stack-2": IconStack2,
+  tags: IconTags,
+  "target-arrow": IconTargetArrow,
+  "truck-delivery": IconTruckDelivery,
+  "user-check": IconUserCheck,
+  "users-group": IconUsersGroup,
+};
+
 const { project } = Astro.props;
+const HeaderGlyph = Object.hasOwn(headerGlyphs, project.icon)
+  ? headerGlyphs[project.icon]
+  : undefined;
 const lang = getLocale(Astro.currentLocale);
 const projectTitle = t(project.title, lang);
 const projectEyebrow = t(project.eyebrow, lang);
@@ -107,13 +190,14 @@ const structuredData = [
       <div class="grid gap-7 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start lg:gap-16">
         <div>
           <div class="flex items-center gap-3">
-            <ProjectIcon
-              icon={project.icon}
-              className="text-[var(--color-accent)]"
-              size={38}
-              stroke={1.7}
-              aria-hidden="true"
-            />
+            {HeaderGlyph ? (
+              <HeaderGlyph
+                class="text-[var(--color-accent)]"
+                size={38}
+                stroke={1.7}
+                aria-hidden="true"
+              />
+            ) : null}
             <p class={eyebrow}>{projectEyebrow}</p>
           </div>
           <h1

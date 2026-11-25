@@ -32,7 +32,7 @@ const features = [
 ];
 
 const technical = [
-  'Astro para construir un sitio rápido, estático y fácil de mantener',
+  'Next.js, React y Tailwind CSS para construir un sitio rápido y fácil de mantener',
   'HTML, CSS y JavaScript para estructura, estilos e interacciones',
   'Diseño responsive para navegación desde escritorio y móvil',
   'Optimización de estructura visual y contenido comercial',
@@ -75,7 +75,7 @@ export const construfijacionesWeb: Project = {
       alt: 'Página de contacto del sitio web de Construfijaciones',
     },
   ],
-  stack: ['astro', 'typescript', 'html', 'css', 'javascript', 'cloudflare', 'eslint', 'pnpm'],
+  stack: ['nextjs', 'react', 'tailwind', 'typescript', 'html', 'css', 'javascript', 'cloudflare', 'eslint', 'pnpm', 'umami'],
   details: [
     {
       id: 'impacto',
@@ -109,7 +109,7 @@ export const construfijacionesWeb: Project = {
       id: 'tecnico',
       eyebrow: 'Decisiones técnicas',
       title: 'Un sitio rápido, mantenible y preparado para crecer',
-      icon: 'brand-astro',
+      icon: 'code',
       content: [{ list: technical }],
     },
     {

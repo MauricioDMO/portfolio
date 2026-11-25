@@ -9,8 +9,9 @@ description: "Internal system for running inventory counts, looking up products,
 summary: "Internal system for running inventory counts, looking up products, and recording differences without relying on Excel or stopping operations."
 intro: "Operational tool for counting inventory with greater clarity, real-time synchronization, and less manual work."
 category: business-software
+status: production
 featured: true
-featuredOrder: 2
+featuredOrder: 3
 draft: false
 technologies:
   - TypeScript

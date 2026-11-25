@@ -122,6 +122,72 @@ test('migrated projects keep their URLs, text and images in the new structure', 
     }
   });
 
+  t.test('localized and legacy case studies render their project icons', () => {
+    for (const route of [
+      'es/proyectos/facturacion-electronica-dte',
+      'en/projects/electronic-invoicing',
+      'proyectos/facturacion-electronica-dte',
+      'en/proyectos/facturacion-electronica-dte',
+    ]) {
+      const page = html(root, route);
+      assert.match(page, /class="tabler-icon tabler-icon-file-invoice text-\[var\(--color-accent\)\]"/, `${route} is missing the styled project icon`);
+    }
+    assert.ok(html(root, 'proyectos/facturacion-electronica-dte').includes('tabler-icon-chart-bar'), 'legacy detail icon is missing');
+  });
+
+  t.test('Construfijaciones website displays its actual technology stack', () => {
+    for (const route of [
+      'es/proyectos/construfijaciones-web',
+      'en/projects/construfijaciones-web',
+      'proyectos/construfijaciones-web',
+      'en/proyectos/construfijaciones-web',
+    ]) {
+      const page = html(root, route);
+      const technical = page.match(/<[^>]+id="tecnico"[^>]*>[\s\S]*?(?=<[^>]+id="rol"|<\/article>)/)?.[0];
+      assert.ok(technical, `${route} missing technical section`);
+      for (const name of ['Next.js', 'React', 'Tailwind']) {
+        assert.ok(technical.includes(name), `${route} technical section missing ${name}`);
+      }
+      assert.equal(technical.includes('Astro'), false, `${route} incorrectly claims Astro`);
+    }
+  });
+
+  t.test('Construfijaciones website badges show the correct technologies', () => {
+    for (const route of [
+      'es/proyectos', 'en/projects',
+      'es/proyectos/construfijaciones-web', 'en/projects/construfijaciones-web',
+      'proyectos/construfijaciones-web', 'en/proyectos/construfijaciones-web',
+    ]) {
+      const page = html(root, route);
+      const badges = page.match(/<ul[^>]*aria-label="[^"]*Construfijaciones[^"]*"[^>]*>[\s\S]*?<\/ul>/i)?.[0];
+      assert.ok(badges, `${route} missing Construfijaciones technology badges`);
+      for (const [name, icon] of [
+        ['Next.js', '/svg/nextjs_icon_dark.svg'],
+        ['React', '/svg/react_dark.svg'],
+        ['Tailwind CSS', '/svg/tailwindcss.svg'],
+        ['Umami', '/svg/umami.svg'],
+      ]) {
+        assert.ok(badges.includes(`>${name}</span>`) && badges.includes(icon), `${route} missing ${name} badge`);
+      }
+      assert.equal(badges.includes('/svg/astro-icon-dark.svg'), false, `${route} still shows Astro`);
+    }
+    for (const route of ['es', 'en']) {
+      assert.match(html(root, route), /href="https:\/\/umami\.is\/"[^>]*aria-label="[^"]*Umami"/, `${route} missing Umami in the skills list`);
+    }
+  });
+
+  t.test('home shows four project images in the requested order and both calls to action', () => {
+    for (const [locale, folder, cta] of [['es', 'proyectos', 'Trabajemos juntos'], ['en', 'projects', 'Work with me']]) {
+      const home = html(root, locale);
+      const section = home.match(/<section[^>]*id="proyectos"[^>]*>[\s\S]*?<\/section>/)?.[0];
+      assert.ok(section, `${locale} missing projects section`);
+      const images = [migrated[0], migrated[3], migrated[1], migrated[2]].map((project) => section.indexOf(project.image));
+      assert.ok(images.every((position) => position >= 0), `${locale} missing project images`);
+      assert.deepEqual(images, [...images].sort((a, b) => a - b), `${locale} project order`);
+      assert.ok(section.includes(`href="/${locale}/${folder}/"`) && section.includes('href="#contacto"') && section.includes(cta), `${locale} missing calls to action`);
+    }
+  });
+
   t.test('short navigation labels link to the corresponding case sections', () => {
     for (const [route, label, heading] of [
       ['es/proyectos/facturacion-electronica-dte', 'Problema', 'Un flujo fiscal moderno conectado a un sistema legado'],

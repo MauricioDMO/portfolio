@@ -8,12 +8,16 @@ title: Sitio web de Construfijaciones
 description: Sitio web corporativo y comercial orientado a presentar la empresa, sus productos, marcas e información de contacto de forma clara.
 intro: Sitio comercial pensado para ordenar la presencia digital de la empresa y hacer más fácil entender su oferta.
 category: business-software
+status: production
 featured: true
-featuredOrder: 4
+featuredOrder: 2
 draft: false
 technologies:
-  - Astro
+  - Next.js
+  - React
+  - Tailwind CSS
   - TypeScript
+  - Umami
   - HTML5
   - CSS3
   - JavaScript
@@ -80,7 +84,7 @@ Construcción y remodelación de un sitio web corporativo y comercial con estruc
 
 *Decisiones técnicas*
 
-- Astro para construir un sitio rápido, estático y fácil de mantener
+- Next.js y React para construir el sitio, con Tailwind CSS para los estilos
 - HTML, CSS y JavaScript para estructura, estilos e interacciones
 - Diseño responsive para navegación desde escritorio y móvil
 - Optimización de estructura visual y contenido comercial

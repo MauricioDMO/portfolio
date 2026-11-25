@@ -20,7 +20,7 @@ export const construfijacionesWeb: SectionShape<typeof esConstrufijacionesWeb> =
   feature6: "Contact page",
   feature7: "Responsive design",
   feature8: "Structure ready for future growth",
-  technical1: "Astro to build a fast, static, and easy-to-maintain site",
+  technical1: "Next.js, React, and Tailwind CSS to build a fast, easy-to-maintain site",
   technical2: "HTML, CSS, and JavaScript for structure, styling, and interactions",
   technical3: "Responsive design for desktop and mobile navigation",
   technical4: "Optimization of visual structure and commercial content",

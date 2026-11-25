@@ -6,10 +6,19 @@ import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import Carousel from "./Carousel";
 import ProjectDetailsNav from "./ProjectDetailsNav";
-import ProjectIcon from "./ProjectIcon";
 import ProjectTools from "./ProjectTools.astro";
 import ButtonLink from "./ButtonLink.astro";
-import { IconArrowLeft, IconExternalLink, IconMail } from "@tabler/icons-astro";
+import {
+  IconArrowLeft, IconArrowUpRight, IconBolt, IconBrain, IconBrandAstro,
+  IconBrandDocker, IconBuildingStore, IconChartBar, IconClipboardList,
+  IconCloudUpload, IconCode, IconDatabase, IconDeviceDesktopAnalytics,
+  IconExternalLink, IconFileInvoice, IconFileSpreadsheet, IconFileTypePdf,
+  IconForms, IconHistory, IconLayoutDashboard, IconLifebuoy, IconLock,
+  IconMail, IconMailForward, IconPackage, IconPhoto, IconPlugConnected,
+  IconReceiptTax, IconRefresh, IconRobot, IconRoute, IconSearch, IconServer,
+  IconShieldCheck, IconStack2, IconTags, IconTargetArrow, IconTruckDelivery,
+  IconUserCheck, IconUsersGroup,
+} from "@tabler/icons-astro";
 import { t } from "../i18n";
 import { site } from "../data/site";
 
@@ -34,6 +43,25 @@ const categories: Record<string, { es: string; en: string }> = {
 };
 const { Content, headings } = await render(entry);
 const project = entry.collection === "projects" ? entry : undefined;
+const icons: Record<string, typeof IconBolt> = {
+  "arrow-up-right": IconArrowUpRight, bolt: IconBolt, brain: IconBrain,
+  "brand-astro": IconBrandAstro, "brand-docker": IconBrandDocker,
+  "building-store": IconBuildingStore, "chart-bar": IconChartBar,
+  "clipboard-list": IconClipboardList, "cloud-upload": IconCloudUpload,
+  code: IconCode, database: IconDatabase, "device-desktop-analytics": IconDeviceDesktopAnalytics,
+  "file-invoice": IconFileInvoice, "file-spreadsheet": IconFileSpreadsheet,
+  "file-type-pdf": IconFileTypePdf, forms: IconForms, history: IconHistory,
+  "layout-dashboard": IconLayoutDashboard, lifebuoy: IconLifebuoy, lock: IconLock,
+  "mail-forward": IconMailForward, package: IconPackage, photo: IconPhoto,
+  "plug-connected": IconPlugConnected, "receipt-tax": IconReceiptTax,
+  refresh: IconRefresh, robot: IconRobot, route: IconRoute, search: IconSearch,
+  server: IconServer, "shield-check": IconShieldCheck, "stack-2": IconStack2,
+  tags: IconTags, "target-arrow": IconTargetArrow, "truck-delivery": IconTruckDelivery,
+  "user-check": IconUserCheck, "users-group": IconUsersGroup,
+};
+const HeaderIcon = project?.data.icon && Object.hasOwn(icons, project.data.icon)
+  ? icons[project.data.icon]
+  : undefined;
 const lang = entry.data.locale;
 const labels = {
   noImages: t("components.noImages", lang),
@@ -132,10 +160,9 @@ const structuredData = project
               {t("projectPage.backToProjects", lang)}
             </a>
             <div class="mt-8 flex items-center gap-3">
-              {project.data.icon && (
-                <ProjectIcon
-                  icon={project.data.icon}
-                  className="text-[var(--color-accent)]"
+              {HeaderIcon && (
+                <HeaderIcon
+                  class="text-[var(--color-accent)]"
                   size={38}
                   stroke={1.7}
                   aria-hidden="true"
@@ -147,7 +174,10 @@ const structuredData = project
                   category}
               </p>
             </div>
-            <h1 class="mt-6 text-[clamp(3rem,8vw,7rem)] leading-[0.92] tracking-[-0.08em] text-[var(--color-text)]">
+            <h1
+              class="mt-6 text-[clamp(3rem,8vw,7rem)] leading-[0.92] tracking-[-0.08em] text-[var(--color-text)]"
+              transition:name={`project-title-${project.data.id}`}
+            >
               {title}
             </h1>
             <p class="mt-7 text-[clamp(1.08rem,1.8vw,1.35rem)] leading-[1.65] text-[var(--color-muted)]">

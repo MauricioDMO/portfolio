@@ -4,8 +4,10 @@ import type { projects as esProjects } from '../../es/projects';
 // English translations: projects
 export const projectsSection: SectionShape<typeof esProjects> = {
   eyebrow: "Featured projects",
-  title: "Real case studies, not just pretty screenshots.",
-  description: "Each project shows context, decisions, and impact. The stack matters, but the real strength is understanding the process and turning it into a maintainable tool.",
+  title: "Ideas turned into software.",
+  description: "From business systems to web experiences, these projects show how I turn real needs into useful, maintainable solutions.",
+  viewAllCta: "View all projects",
+  workTogetherCta: "Work with me",
   viewCaseCta: "View full case study",
   screenshotPending: "screenshot pending",
 };
