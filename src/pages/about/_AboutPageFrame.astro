@@ -1,0 +1,282 @@
+---
+import {
+  IconBrandGithub,
+  IconBrandLinkedin,
+  IconMail,
+  IconPhone,
+} from "@tabler/icons-astro";
+import ButtonLink from "../../components/ButtonLink.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+import SiteFooter from "../../components/SiteFooter.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+import Layout from "../../layouts/Layout.astro";
+import { site } from "../../data/site";
+import { getLocale, localeMeta, localizedPath, t } from "../../i18n";
+import AboutSection from "../../sections/about/AboutSection.astro";
+import ProfileSignalCard from "../../sections/about/components/ProfileSignalCard.astro";
+import ProcessSection from "../../sections/process/ProcessSection.astro";
+
+const lang = getLocale(Astro.currentLocale);
+const pathname = localizedPath("sobre-mi", lang);
+const title = `${t("about.eyebrow", lang)} | ${site.name}`;
+const description = t("seo.aboutDescription", lang);
+const eyebrow =
+  "font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]";
+
+const duties = ["cvDuty1", "cvDuty2", "cvDuty3"].map((key) =>
+  t(`about.${key}`, lang),
+);
+const results = ["cvResult1", "cvResult2", "cvResult3"].map((key) =>
+  t(`about.${key}`, lang),
+);
+const skills = [
+  [
+    t("about.cvSkillFrontend", lang),
+    "React, Next.js, Astro, Tailwind CSS, TypeScript, JavaScript, HTML5, CSS3",
+  ],
+  [t("about.cvSkillBackend", lang), "Node.js, Express.js, Socket.IO, JWT"],
+  [t("about.cvSkillDatabases", lang), "PostgreSQL, Turso/libSQL"],
+  [t("about.cvSkillAi", lang), "OpenCode, Hermes Agent"],
+  [
+    t("about.cvSkillInfrastructure", lang),
+    "Linux, Docker, Cloudflare, AWS S3, Dokploy, Coolify",
+  ],
+  [t("about.cvSkillTools", lang), "Git, GitHub, pnpm, Bun, PDFKit, Playwright"],
+];
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    name: title,
+    url: new URL(pathname, site.url).toString(),
+    inLanguage: localeMeta[lang].lang,
+    description,
+    mainEntity: {
+      "@type": "Person",
+      name: site.fullName,
+      alternateName: site.name,
+      url: site.url,
+      email: `mailto:${site.email}`,
+      telephone: site.phone,
+      sameAs: [site.linkedin, site.github],
+      jobTitle: t("about.cvRole", lang),
+      knowsAbout: skills.map(([label]) => label),
+    },
+  },
+];
+---
+
+<Layout
+  title={title}
+  description={description}
+  pathname={pathname}
+  image="/mauricio-dmo.webp"
+  structuredData={structuredData}
+>
+  <SiteHeader />
+
+  <main>
+    <section class="mx-auto grid w-[min(calc(100%-2rem),1120px)] items-center gap-9 py-16 md:grid-cols-[1fr_auto] md:gap-14 md:py-20">
+      <div>
+        <p class={eyebrow}>{t("about.cvEyebrow", lang)}</p>
+        <h1 class="mt-5 text-[clamp(2.5rem,6vw,5rem)] leading-[0.95] tracking-[-0.07em] text-[var(--color-text)]">
+          {site.fullName}
+        </h1>
+        <p class="mt-4 text-xl text-[var(--color-text)]">
+          {t("about.cvRole", lang)}
+        </p>
+        <p class="mt-4 max-w-165 text-[1.02rem] leading-relaxed text-[var(--color-muted)]">
+          {t("about.cvIntro", lang)}
+        </p>
+        <p class="mt-3 flex items-center gap-2 text-sm text-[var(--color-muted)]">
+          {t("about.cvLocation", lang)}
+        </p>
+        <div class="mt-7 flex flex-wrap gap-3">
+          <ButtonLink
+            href={site.whatsapp}
+            target="_blank"
+            rel="noreferrer"
+            variant="primary"
+            event="contact_phone"
+            eventData={{ source: "about" }}
+          >
+            <IconPhone size={18} stroke={1.8} aria-hidden="true" />
+            {site.phone}
+          </ButtonLink>
+          <ButtonLink
+            href={`mailto:${site.email}`}
+            event="contact_email"
+            eventData={{ source: "about" }}
+          >
+            <IconMail size={18} stroke={1.8} aria-hidden="true" />
+            {site.email}
+          </ButtonLink>
+        </div>
+      </div>
+      <img
+        src="/mauricio-dmo.webp"
+        width="900"
+        height="1013"
+        alt={t("hero.photoAlt", lang)}
+        class="mx-auto block h-[15rem] w-full max-w-80 object-contain object-bottom sm:h-[19rem]"
+        fetchpriority="high"
+      />
+    </section>
+
+    <section
+      class="border-t border-[var(--color-border)]/60 py-18"
+      id="experiencia"
+    >
+      <div class="mx-auto w-[min(calc(100%-2rem),1120px)]">
+        <SectionHeader
+          eyebrow={t("about.cvExperienceEyebrow", lang)}
+          title={t("about.cvRole", lang)}
+          description={t("about.cvIntro", lang)}
+        />
+        <article class="rounded-md border border-[var(--color-border)] bg-[var(--color-card)]/75 p-6">
+          <p class="text-lg text-[var(--color-text)]">
+            {t("about.cvExperienceCompany", lang)}
+          </p>
+          <p class="mt-1 text-sm text-[var(--color-muted)]">
+            {t("about.cvExperiencePeriod", lang)}
+          </p>
+          <ul class="mt-5 grid gap-3 p-0">
+            {duties.map((duty) => (
+              <li class="list-none border-l border-[var(--color-accent)]/40 pl-4 leading-relaxed text-[var(--color-muted)]">
+                {duty}
+              </li>
+            ))}
+          </ul>
+          <p class="mt-6 font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]">
+            {t("about.cvResultsEyebrow", lang)}
+          </p>
+          <ul class="mt-3 grid gap-2 p-0 text-sm leading-relaxed text-[var(--color-muted)]">
+            {results.map((result) => (
+              <li class="list-none pl-4 before:mr-2 before:content-['·']">
+                {result}
+              </li>
+            ))}
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section
+      class="border-t border-[var(--color-border)]/60 py-18"
+      id="educacion"
+    >
+      <div class="mx-auto grid w-[min(calc(100%-2rem),1120px)] gap-9 md:grid-cols-[0.8fr_1.2fr]">
+        <div>
+          <p class={eyebrow}>{t("about.cvEducationEyebrow", lang)}</p>
+          <h2 class="mt-4 text-[clamp(2rem,4vw,3.6rem)] leading-none tracking-[-0.06em] text-[var(--color-text)]">
+            {t("about.cvEducationDegree", lang)}
+          </h2>
+        </div>
+        <div class="flex flex-col justify-center">
+          <p class="text-lg text-[var(--color-text)]">
+            {t("about.cvEducationSchool", lang)}
+          </p>
+          <p class="mt-2 text-sm text-[var(--color-muted)]">
+            {t("about.cvEducationStatus", lang)}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="border-t border-[var(--color-border)]/60 py-18"
+      id="conocimientos"
+    >
+      <div class="mx-auto w-[min(calc(100%-2rem),1120px)]">
+        <p class={eyebrow}>{t("about.cvSkillsEyebrow", lang)}</p>
+        <dl class="mt-6 grid gap-4 md:grid-cols-2">
+          {skills.map(([label, items]) => (
+            <div class="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)]/80 p-5">
+              <dt class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]">
+                {label}
+              </dt>
+              <dd class="mt-2 text-sm leading-relaxed text-[var(--color-muted)]">
+                {items}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <section
+      class="border-t border-[var(--color-border)]/60 py-18"
+      id="resumen"
+    >
+      <div class="mx-auto w-[min(calc(100%-2rem),1120px)] max-w-3xl">
+        <ProfileSignalCard />
+      </div>
+    </section>
+
+    <AboutSection />
+    <ProcessSection />
+
+    <section
+      class="border-t border-[var(--color-border)]/60 py-18"
+      id="contacto"
+    >
+      <div class="mx-auto grid w-[min(calc(100%-2rem),1120px)] gap-5 md:grid-cols-[0.8fr_1.2fr]">
+        <div>
+          <p class={eyebrow}>{t("about.cvContactEyebrow", lang)}</p>
+          <p class="mt-4 text-lg leading-relaxed text-[var(--color-muted)]">
+            {t("about.cvContactText", lang)}
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-4 text-sm text-[var(--color-muted)]">
+          <a
+            class="inline-flex items-center gap-2 no-underline transition-colors hover:text-(--color-text)"
+            href={site.whatsapp}
+            target="_blank"
+            rel="noreferrer"
+            data-track="contact_phone"
+            data-track-source="about"
+          >
+            <IconPhone size={18} stroke={1.8} aria-hidden="true" />
+            {site.phone}
+          </a>
+          <a
+            class="inline-flex items-center gap-2 no-underline transition-colors hover:text-(--color-text)"
+            href={`mailto:${site.email}`}
+            data-track="contact_email"
+            data-track-source="about"
+          >
+            <IconMail size={18} stroke={1.8} aria-hidden="true" />
+            {site.email}
+          </a>
+          <a
+            class="inline-flex items-center gap-2 no-underline transition-colors hover:text-(--color-text)"
+            href={site.github}
+            target="_blank"
+            rel="noreferrer"
+            data-track="social_link"
+            data-track-network="github"
+            data-track-source="about"
+          >
+            <IconBrandGithub size={18} stroke={1.8} aria-hidden="true" />
+            GitHub
+          </a>
+          <a
+            class="inline-flex items-center gap-2 no-underline transition-colors hover:text-(--color-text)"
+            href={site.linkedin}
+            target="_blank"
+            rel="noreferrer"
+            data-track="social_link"
+            data-track-network="linkedin"
+            data-track-source="about"
+          >
+            <IconBrandLinkedin size={18} stroke={1.8} aria-hidden="true" />
+            LinkedIn
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter label="Sobre mí" homeLink />
+</Layout>

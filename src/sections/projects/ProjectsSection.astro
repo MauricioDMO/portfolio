@@ -5,8 +5,7 @@ import { getLocale, localizedPath, t } from '../../i18n';
 import { getPublishedEntries } from '../../lib/content';
 
 const lang = getLocale(Astro.currentLocale);
-const featuredProjects = (await getPublishedEntries('projects', lang))
-  .filter((entry) => entry.collection === 'projects' && entry.data.featured)
+const topProjects = (await getPublishedEntries('projects', lang))
   .sort((a, b) => (a.data.featuredOrder ?? Infinity) - (b.data.featuredOrder ?? Infinity))
   .slice(0, 4);
 ---
@@ -15,7 +14,7 @@ const featuredProjects = (await getPublishedEntries('projects', lang))
   <div class="mx-auto w-[min(calc(100%-2rem),1120px)]">
     <div class="grid items-center gap-10 md:grid-cols-[1.2fr_1fr] md:gap-12">
       <div class="grid aspect-[4/3] grid-flow-dense grid-cols-2 grid-rows-5 gap-2 sm:gap-3">
-        {featuredProjects.map((entry, index) => (
+        {topProjects.map((entry, index) => (
           <a
             href={`/${lang}/${lang === 'es' ? 'proyectos' : 'projects'}/${entry.data.slug}/`}
             aria-label={entry.data.title}

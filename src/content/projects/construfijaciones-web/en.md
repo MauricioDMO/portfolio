@@ -9,7 +9,6 @@ description: Corporate and commercial website designed to present the company, i
 intro: Commercial site designed to organize the company's digital presence and make its offering easier to understand.
 category: business-software
 status: production
-featured: true
 featuredOrder: 2
 draft: false
 technologies:

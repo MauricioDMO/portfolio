@@ -1,6 +1,7 @@
 export type Tech = {
   name: string;
   icon: string;
+  iconLight?: string;
   href: string;
   color: string;
 };
@@ -15,6 +16,7 @@ export const techs = {
   react: {
     name: 'React',
     icon: '/svg/react_dark.svg',
+    iconLight: '/svg/react_light.svg',
     href: 'https://react.dev/',
     color: '#61dafb',
   },
@@ -51,12 +53,14 @@ export const techs = {
   express: {
     name: 'Express.js',
     icon: '/svg/expressjs_dark.svg',
+    iconLight: '/svg/expressjs.svg',
     href: 'https://expressjs.com/',
     color: '#ffffff',
   },
   socketio: {
     name: 'Socket.IO',
     icon: '/svg/socketio-icon-dark.svg',
+    iconLight: '/svg/socketio-icon-light.svg',
     href: 'https://socket.io/',
     color: '#010101',
   },
@@ -69,6 +73,7 @@ export const techs = {
   prisma: {
     name: 'Prisma',
     icon: '/svg/prisma_dark.svg',
+    iconLight: '/svg/prisma.svg',
     href: 'https://www.prisma.io/',
     color: '#2d3748',
   },
@@ -81,6 +86,7 @@ export const techs = {
   astro: {
     name: 'Astro',
     icon: '/svg/astro-icon-dark.svg',
+    iconLight: '/svg/astro-icon-light.svg',
     href: 'https://astro.build/',
     color: '#ff5d01',
   },
@@ -111,6 +117,7 @@ export const techs = {
   github: {
     name: 'GitHub',
     icon: '/svg/github_dark.svg',
+    iconLight: '/svg/github_light.svg',
     href: 'https://github.com/',
     color: '#ffffff',
   },
@@ -147,12 +154,14 @@ export const techs = {
   pnpm: {
     name: 'pnpm',
     icon: '/svg/pnpm_dark.svg',
+    iconLight: '/svg/pnpm.svg',
     href: 'https://pnpm.io/',
     color: '#f69220',
   },
   eslint: {
     name: 'ESLint',
     icon: '/svg/eslint-icon-dark.svg',
+    iconLight: '/svg/eslint-icon-light.svg',
     href: 'https://eslint.org/',
     color: '#4b32c3',
   },
@@ -165,6 +174,7 @@ export const techs = {
   bash: {
     name: 'Bash',
     icon: '/svg/bash_dark.svg',
+    iconLight: '/svg/bash.svg',
     href: 'https://www.gnu.org/software/bash/',
     color: '#4eaa25',
   },
@@ -177,18 +187,21 @@ export const techs = {
   vercel: {
     name: 'Vercel',
     icon: '/svg/vercel_dark.svg',
+    iconLight: '/svg/vercel.svg',
     href: 'https://vercel.com/',
     color: '#ffffff',
   },
   turso: {
     name: 'Turso',
     icon: '/svg/turso-dark.svg',
+    iconLight: '/svg/turso-light.svg',
     href: 'https://turso.tech/',
     color: '#4ff8d2',
   },
   aws: {
     name: 'AWS',
     icon: '/svg/aws_dark.svg',
+    iconLight: '/svg/aws_light.svg',
     href: 'https://aws.amazon.com/',
     color: '#ff9900',
   },
@@ -201,8 +214,47 @@ export const techs = {
   opencode: {
     name: 'OpenCode',
     icon: '/svg/opencode-dark.svg',
+    iconLight: '/svg/opencode.svg',
     href: 'https://opencode.ai/',
     color: '#5faf7b',
+  },
+  stalwart: {
+    name: 'Stalwart',
+    icon: '/svg/stalwart.svg',
+    href: 'https://stalw.art/',
+    color: '#db2d54',
+  },
+  netbird: {
+    name: 'NetBird',
+    icon: '/svg/netbird.svg',
+    href: 'https://netbird.io/',
+    color: '#f68330',
+  },
+  hermes: {
+    name: 'Hermes Agent',
+    icon: '/svg/hermes-dark.svg',
+    iconLight: '/svg/hermes.svg',
+    href: 'https://hermes-agent.nousresearch.com/',
+    color: 'var(--color-text)',
+  },
+  ovh: {
+    name: 'OVHcloud',
+    icon: '/svg/ovh.svg',
+    href: 'https://www.ovhcloud.com/',
+    color: '#000e9c',
+  },
+  dokploy: {
+    name: 'Dokploy',
+    icon: '/svg/dokploy-dark.svg',
+    iconLight: '/svg/dokploy.svg',
+    href: 'https://dokploy.com/',
+    color: 'var(--color-text)',
+  },
+  coolify: {
+    name: 'Coolify',
+    icon: '/svg/coolify.svg',
+    href: 'https://coolify.io/',
+    color: '#8c52ff',
   },
 } satisfies Record<string, Tech>;
 

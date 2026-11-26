@@ -1,56 +1,99 @@
 ---
-import { IconCheck, IconChevronDown, IconDeviceDesktop, IconMoon, IconSun } from '@tabler/icons-astro';
-import { getLocale } from '../i18n';
+import {
+  IconCheck,
+  IconChevronDown,
+  IconDeviceDesktop,
+  IconMoon,
+  IconSun,
+} from "@tabler/icons-astro";
+import { getLocale } from "../i18n";
 
 const lang = getLocale(Astro.currentLocale);
 const themes = [
-  { value: 'system', label: lang === 'es' ? 'Sistema' : 'System', Icon: IconDeviceDesktop },
-  { value: 'light', label: lang === 'es' ? 'Claro' : 'Light', Icon: IconSun },
-  { value: 'dark', label: lang === 'es' ? 'Oscuro' : 'Dark', Icon: IconMoon },
+  {
+    value: "system",
+    label: lang === "es" ? "Sistema" : "System",
+    Icon: IconDeviceDesktop,
+  },
+  { value: "light", label: lang === "es" ? "Claro" : "Light", Icon: IconSun },
+  { value: "dark", label: lang === "es" ? "Oscuro" : "Dark", Icon: IconMoon },
 ] as const;
 ---
 
-<details class="theme-switcher relative font-mono text-xs" data-theme-switcher data-selected="system">
+<details
+  class="theme-switcher relative font-mono text-xs"
+  data-theme-switcher
+  data-selected="system"
+>
   <summary class="flex min-h-10 cursor-pointer list-none items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-card)] px-3 leading-none text-[var(--color-text)] transition-colors hover:border-[var(--color-accent)]/60 [&::-webkit-details-marker]:hidden">
-    <span class="sr-only">{lang === 'es' ? 'Tema:' : 'Theme:'}</span>
-    {
-      themes.map(({ value, label, Icon }) => (
-        <span class="theme-current items-center gap-2" data-theme-current={value}>
-          <Icon size={17} stroke={1.7} aria-hidden="true" />
-          <span>{label}</span>
-        </span>
-      ))
-    }
-    <IconChevronDown size={14} stroke={1.7} class="text-[var(--color-muted)]" aria-hidden="true" />
+    <span class="sr-only">{lang === "es" ? "Tema:" : "Theme:"}</span>
+    {themes.map(({ value, label, Icon }) => (
+      <span class="theme-current items-center gap-2" data-theme-current={value}>
+        <Icon size={17} stroke={1.7} aria-hidden="true" />
+        <span>{label}</span>
+      </span>
+    ))}
+    <IconChevronDown
+      size={14}
+      stroke={1.7}
+      class="text-[var(--color-muted)]"
+      aria-hidden="true"
+    />
   </summary>
   <div class="absolute right-0 z-30 mt-2 w-36 rounded-xl border border-[var(--color-border)] bg-[var(--color-card)] p-1 shadow-xl">
-    {
-      themes.map(({ value, label, Icon }) => (
-        <label class="flex min-h-10 cursor-pointer items-center gap-2 rounded-lg px-2.5 text-[var(--color-muted)] transition-colors hover:bg-[var(--color-accent)]/10 hover:text-[var(--color-text)] has-checked:bg-[var(--color-accent)]/15 has-checked:text-[var(--color-text)] has-focus-visible:outline-2 has-focus-visible:outline-offset-[-2px] has-focus-visible:outline-[var(--color-accent)]">
-          <input class="sr-only" type="radio" name="theme" value={value} checked={value === 'system'} data-theme-option />
-          <Icon size={17} stroke={1.7} aria-hidden="true" />
-          <span class="flex-1">{label}</span>
-          <IconCheck size={15} stroke={2} class="theme-check" aria-hidden="true" />
-        </label>
-      ))
-    }
+    {themes.map(({ value, label, Icon }) => (
+      <label class="flex min-h-10 cursor-pointer items-center gap-2 rounded-lg px-2.5 text-[var(--color-muted)] transition-colors hover:bg-[var(--color-accent)]/10 hover:text-(--color-text) has-checked:bg-[var(--color-accent)]/15 has-checked:text-[var(--color-text)] has-focus-visible:outline-2 has-focus-visible:outline-offset-[-2px] has-focus-visible:outline-[var(--color-accent)]">
+        <input
+          class="sr-only"
+          type="radio"
+          name="theme"
+          value={value}
+          checked={value === "system"}
+          data-theme-option
+        />
+        <Icon size={17} stroke={1.7} aria-hidden="true" />
+        <span class="flex-1">{label}</span>
+        <IconCheck
+          size={15}
+          stroke={2}
+          class="theme-check"
+          aria-hidden="true"
+        />
+      </label>
+    ))}
   </div>
 </details>
 
 <style>
-  .theme-current, .theme-check { display: none; }
+  .theme-current,
+  .theme-check {
+    display: none;
+  }
   [data-selected="system"] [data-theme-current="system"],
   [data-selected="light"] [data-theme-current="light"],
-  [data-selected="dark"] [data-theme-current="dark"] { display: flex; align-items: center; }
-  summary :global(svg), label :global(svg) { display: block; flex: none; }
-  label:has(input:checked) .theme-check { display: block; }
+  [data-selected="dark"] [data-theme-current="dark"] {
+    display: flex;
+    align-items: center;
+  }
+  summary :global(svg),
+  label :global(svg) {
+    display: block;
+    flex: none;
+  }
+  label:has(input:checked) .theme-check {
+    display: block;
+  }
 </style>
 
 <script>
   const syncThemeSwitcher = () => {
-    const switcher = document.querySelector<HTMLElement>('[data-theme-switcher]');
-    const theme = document.documentElement.dataset.theme || 'system';
-    const option = switcher?.querySelector<HTMLInputElement>(`[data-theme-option][value="${theme}"]`);
+    const switcher = document.querySelector<HTMLElement>(
+      "[data-theme-switcher]",
+    );
+    const theme = document.documentElement.dataset.theme || "system";
+    const option = switcher?.querySelector<HTMLInputElement>(
+      `[data-theme-option][value="${theme}"]`,
+    );
     if (switcher && option) {
       switcher.dataset.selected = theme;
       option.checked = true;
@@ -58,34 +101,49 @@ const themes = [
   };
 
   syncThemeSwitcher();
-  document.addEventListener('astro:page-load', syncThemeSwitcher);
-  document.addEventListener('change', (event) => {
+  document.addEventListener("astro:page-load", syncThemeSwitcher);
+  document.addEventListener("change", (event) => {
     const option = event.target;
-    if (!(option instanceof HTMLInputElement) || !option.matches('[data-theme-option]')) return;
+    if (
+      !(option instanceof HTMLInputElement) ||
+      !option.matches("[data-theme-option]")
+    )
+      return;
     const theme = option.value;
-    if (theme === 'light' || theme === 'dark') {
+    if (theme === "light" || theme === "dark") {
       document.documentElement.dataset.theme = theme;
     } else {
       delete document.documentElement.dataset.theme;
     }
     try {
-      if (theme === 'system') localStorage.removeItem('theme');
-      else localStorage.setItem('theme', theme);
+      if (theme === "system") localStorage.removeItem("theme");
+      else localStorage.setItem("theme", theme);
     } catch {}
     syncThemeSwitcher();
-    const switcher = option.closest<HTMLDetailsElement>('[data-theme-switcher]');
+    const switcher = option.closest<HTMLDetailsElement>(
+      "[data-theme-switcher]",
+    );
     if (switcher) switcher.open = false;
   });
 
-  document.addEventListener('click', (event) => {
-    const switcher = document.querySelector<HTMLDetailsElement>('[data-theme-switcher]');
-    if (switcher && event.target instanceof Node && !switcher.contains(event.target)) switcher.open = false;
-  });
-  document.addEventListener('keydown', (event) => {
-    const switcher = document.querySelector<HTMLDetailsElement>('[data-theme-switcher]');
-    if (event.key === 'Escape' && switcher?.open) {
+  document.addEventListener("click", (event) => {
+    const switcher = document.querySelector<HTMLDetailsElement>(
+      "[data-theme-switcher]",
+    );
+    if (
+      switcher &&
+      event.target instanceof Node &&
+      !switcher.contains(event.target)
+    )
       switcher.open = false;
-      switcher.querySelector('summary')?.focus();
+  });
+  document.addEventListener("keydown", (event) => {
+    const switcher = document.querySelector<HTMLDetailsElement>(
+      "[data-theme-switcher]",
+    );
+    if (event.key === "Escape" && switcher?.open) {
+      switcher.open = false;
+      switcher.querySelector("summary")?.focus();
     }
   });
 </script>

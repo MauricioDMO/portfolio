@@ -10,8 +10,7 @@ summary: "Sistema interno para realizar conteos de inventario, consultar product
 intro: "Herramienta operativa para contar inventario con mayor claridad, sincronización en tiempo real y menos trabajo manual."
 category: business-software
 status: production
-featured: true
-featuredOrder: 3
+featuredOrder: 5
 draft: false
 technologies:
   - TypeScript

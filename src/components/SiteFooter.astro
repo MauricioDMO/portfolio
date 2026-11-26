@@ -1,6 +1,6 @@
 ---
-import { site } from '../data/site';
-import { getLocale, localizedPath, t } from '../i18n';
+import { site } from "../data/site";
+import { getLocale, localizedPath, t } from "../i18n";
 
 type Props = {
   label?: string;
@@ -8,7 +8,7 @@ type Props = {
 };
 
 const lang = getLocale(Astro.currentLocale);
-const { label = 'MauricioDMO', homeLink = false } = Astro.props;
+const { label = "MauricioDMO", homeLink = false } = Astro.props;
 ---
 
 <footer class="border-t border-[var(--color-border)]/60 py-10 text-[var(--color-muted)]">
@@ -16,15 +16,63 @@ const { label = 'MauricioDMO', homeLink = false } = Astro.props;
     <span>{t(label, lang)}</span>
     {homeLink ? (
       <div class="flex flex-wrap items-center gap-4">
-        <a class="transition-colors hover:text-[var(--color-text)]" href={localizedPath('', lang)} data-track="nav_section" data-track-section="inicio" data-track-source="footer">{t('components.backHome', lang)}</a>
-        <a class="transition-colors hover:text-[var(--color-text)]" href={site.github} target="_blank" rel="noreferrer" data-track="social_link" data-track-network="github" data-track-source="footer">GitHub</a>
-        <a class="transition-colors hover:text-[var(--color-text)]" href={site.linkedin} target="_blank" rel="noreferrer" data-track="social_link" data-track-network="linkedin" data-track-source="footer">LinkedIn</a>
+        <a
+          class="transition-colors hover:text-(--color-text)"
+          href={localizedPath("", lang)}
+          data-track="nav_section"
+          data-track-section="inicio"
+          data-track-source="footer"
+        >
+          {t("components.backHome", lang)}
+        </a>
+        <a
+          class="transition-colors hover:text-(--color-text)"
+          href={site.github}
+          target="_blank"
+          rel="noreferrer"
+          data-track="social_link"
+          data-track-network="github"
+          data-track-source="footer"
+        >
+          GitHub
+        </a>
+        <a
+          class="transition-colors hover:text-(--color-text)"
+          href={site.linkedin}
+          target="_blank"
+          rel="noreferrer"
+          data-track="social_link"
+          data-track-network="linkedin"
+          data-track-source="footer"
+        >
+          LinkedIn
+        </a>
       </div>
     ) : (
       <div class="flex flex-wrap items-center gap-4">
-        <span>{t('components.footerTagline', lang)}</span>
-        <a class="transition-colors hover:text-[var(--color-text)]" href={site.github} target="_blank" rel="noreferrer" data-track="social_link" data-track-network="github" data-track-source="footer">GitHub</a>
-        <a class="transition-colors hover:text-[var(--color-text)]" href={site.linkedin} target="_blank" rel="noreferrer" data-track="social_link" data-track-network="linkedin" data-track-source="footer">LinkedIn</a>
+        <span>{t("components.footerTagline", lang)}</span>
+        <a
+          class="transition-colors hover:text-(--color-text)"
+          href={site.github}
+          target="_blank"
+          rel="noreferrer"
+          data-track="social_link"
+          data-track-network="github"
+          data-track-source="footer"
+        >
+          GitHub
+        </a>
+        <a
+          class="transition-colors hover:text-(--color-text)"
+          href={site.linkedin}
+          target="_blank"
+          rel="noreferrer"
+          data-track="social_link"
+          data-track-network="linkedin"
+          data-track-source="footer"
+        >
+          LinkedIn
+        </a>
       </div>
     )}
   </div>

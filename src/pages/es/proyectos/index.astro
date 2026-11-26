@@ -9,7 +9,7 @@ import { getPublishedEntries } from '../../../lib/content';
 
 const lang = getLocale(Astro.currentLocale);
 const entries = await getPublishedEntries('projects', lang) as CollectionEntry<'projects'>[];
-const description = t('Cada proyecto muestra contexto, decisiones e impacto. El stack importa, pero la parte fuerte es entender el proceso y convertirlo en una herramienta mantenible.', lang);
+const description = t('seo.projectsDescription', lang);
 ---
 
 <Layout

@@ -1,7 +1,6 @@
 import { enFlat } from './lang/en';
 import { esFlat } from './lang/es';
 import type { Locale } from './schema';
-import { sourceKeys } from './source-keys';
 
 export type { Locale } from './schema';
 export type { LanguageDictionary, Section, SectionName } from './schema';
@@ -22,13 +21,20 @@ export function getLocale(currentLocale: string | undefined): Locale {
   return currentLocale === 'en' ? 'en' : defaultLocale;
 }
 
+/** Reverse lookup built from the Spanish source dictionary, so no manual key map is needed. */
+const sourceToKey: Record<string, string> = {};
+// ponytail: primera ocurrencia gana si dos claves comparten el mismo texto; las traducciones pueden diferir.
+for (const [key, value] of Object.entries(esFlat)) {
+  if (!(value in sourceToKey)) sourceToKey[value] = key;
+}
+
 /**
  * Translate a Spanish source string into the requested locale.
  * Spanish is the source of truth: unknown strings pass through unchanged.
  */
 export function t(text: string, lang: Locale): string {
   const dict = lang === 'es' ? esFlat : enFlat;
-  const key = text in dict ? text : sourceKeys[text];
+  const key = text in dict ? text : sourceToKey[text];
   return (key && dict[key]) || text;
 }
 
@@ -80,6 +86,10 @@ function buildLocalizedPath(bare: string, lang: Locale): string {
 
   if (bare === 'proyectos' || bare === 'projects') {
     return `${base}${lang === 'en' ? 'projects' : 'proyectos'}/`;
+  }
+
+  if (bare === 'sobre-mi' || bare === 'about') {
+    return `${base}${lang === 'en' ? 'about' : 'sobre-mi'}/`;
   }
 
   const project = bare.match(/^(?:proyectos|projects)\/([^/]+)$/);

@@ -26,7 +26,7 @@ const textColor = compact ? 'text-[var(--color-muted)]' : 'text-[var(--color-tex
   <p class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]">
     {t('components.tools', lang)}
   </p>
-  <ul class="mt-3 flex flex-wrap gap-2 p-0" aria-label={t(label, lang)}>
+  <ul class="mt-3 flex flex-wrap [flex-wrap:wrap_balance]! gap-2 p-0" aria-label={t(label, lang)}>
     {
       items.map((item) => {
         const normalized = item.trim().toLowerCase();
@@ -39,7 +39,8 @@ const textColor = compact ? 'text-[var(--color-muted)]' : 'text-[var(--color-tex
               class={`inline-flex items-center gap-1.5 rounded-full border border-white/10 px-2.5 py-1.5 font-mono text-xs ${textColor}`}
               style={tech ? `--tech-color: ${tech.color}` : undefined}
             >
-              {tech && <img class="size-3.5 object-contain" src={tech.icon} alt="" aria-hidden="true" />}
+              {tech && <img class={`${tech.iconLight ? 'tech-icon ' : ''}size-3.5 object-contain`} src={tech.icon} alt="" aria-hidden="true" />}
+              {tech?.iconLight && <img class="tech-icon-light size-3.5 object-contain" src={tech.iconLight} alt="" aria-hidden="true" />}
               <span>{tech?.name ?? item}</span>
             </span>
           </li>

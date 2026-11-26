@@ -10,7 +10,6 @@ summary: "Sistema web para emitir, firmar, enviar, respaldar y consultar Documen
 intro: "Plataforma fiscal en producción que conecta un sistema legado con el flujo moderno de facturación electrónica, reduciendo trabajo manual y mejorando la trazabilidad."
 category: business-software
 status: production
-featured: true
 featuredOrder: 1
 draft: false
 technologies:

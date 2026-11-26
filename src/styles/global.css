@@ -44,6 +44,28 @@
   }
 }
 
+.tech-icon-light {
+  display: none;
+}
+
+:root[data-theme="light"] .tech-icon {
+  display: none;
+}
+
+:root[data-theme="light"] .tech-icon-light {
+  display: block;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]):not([data-theme="light"]) .tech-icon {
+    display: none;
+  }
+
+  :root:not([data-theme="dark"]):not([data-theme="light"]) .tech-icon-light {
+    display: block;
+  }
+}
+
 * {
   box-sizing: border-box;
 }

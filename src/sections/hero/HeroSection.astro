@@ -1,9 +1,8 @@
 ---
 import {
   IconArrowUpRight,
-  IconBrandGithub,
-  IconBrandLinkedin,
   IconMail,
+  IconMapPin,
 } from "@tabler/icons-astro";
 import { computeTimeline } from "tegaki";
 import TegakiRenderer from "tegaki/astro";
@@ -11,7 +10,6 @@ import caveat from "tegaki/fonts/caveat";
 import ButtonLink from "../../components/ButtonLink.astro";
 import { site } from "../../data/site";
 import { getLocale, t } from "../../i18n";
-import HeroSignalCard from "./components/HeroSignalCard.astro";
 
 const lang = getLocale(Astro.currentLocale);
 const heroTitleLines = [t("hero.titleLine1", lang), t("hero.titleLine2", lang)];
@@ -21,11 +19,6 @@ const secondLineDelay =
   computeTimeline(heroTitleLines[0], caveat).totalDuration / heroTitleSpeed +
   0.12;
 
-const focusPoints = [
-  "Landings y sitios web claros",
-  "Experiencias web cuidadas",
-  "Sistemas internos mantenibles",
-];
 ---
 
 <section class="mx-auto grid w-[min(calc(100%-2rem),1120px)] items-center gap-8 py-16 md:grid-cols-[1.12fr_0.88fr] md:py-20 lg:gap-12">
@@ -59,21 +52,17 @@ const focusPoints = [
     <p class="mt-6 max-w-165 text-[clamp(1.02rem,1.5vw,1.2rem)] leading-[1.65] text-[var(--color-muted)]">
       {t("hero.intro", lang)}
     </p>
-    <ul
-      class="mt-6 grid gap-2 text-sm text-[var(--color-text)] sm:grid-cols-3"
-      aria-label={t("hero.focusLabel", lang)}
-    >
-      {focusPoints.map((point) => (
-        <li class="flex items-center gap-2 rounded border border-[var(--color-border)]/80 bg-[var(--color-surface)]/70 px-3 py-2">
-          <span
-            class="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--color-accent)]"
-            aria-hidden="true"
-          />
-          {t(point, lang)}
-        </li>
-      ))}
-    </ul>
-    <div class="mt-7 flex flex-wrap gap-3">
+    {
+      site.availability.remote && (
+        <p class="mt-3 flex items-center gap-2 text-sm text-[var(--color-muted)]">
+          <IconMapPin size={16} stroke={1.8} aria-hidden="true" />
+          <span>
+            {t("hero.locationPrefix", lang)} {site.availability.location}. {t("hero.remoteAvailable", lang)}
+          </span>
+        </p>
+      )
+    }
+    <div class="mt-8 flex flex-wrap gap-3">
       <ButtonLink
         href="#proyectos"
         variant="primary"
@@ -92,36 +81,21 @@ const focusPoints = [
         {t("hero.talkCta", lang)}
       </ButtonLink>
     </div>
-    <div class="mt-5 flex flex-wrap items-center gap-3 text-sm text-[var(--color-muted)]">
-      <span class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-muted)]">
-        {t("hero.alsoOn", lang)}
-      </span>
-      <a
-        class="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)]/70 px-3 py-2 text-[var(--color-text)] no-underline transition hover:-translate-y-0.5 hover:border-[var(--color-accent)]/70 hover:text-[var(--color-text)]"
-        href={site.github}
-        target="_blank"
-        rel="noreferrer"
-        data-track="social_link"
-        data-track-network="github"
-        data-track-source="hero"
-      >
-        <IconBrandGithub size={18} stroke={1.8} aria-hidden="true" />
-        GitHub
-      </a>
-      <a
-        class="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)]/70 px-3 py-2 text-[var(--color-text)] no-underline transition hover:-translate-y-0.5 hover:border-[var(--color-accent)]/70 hover:text-[var(--color-text)]"
-        href={site.linkedin}
-        target="_blank"
-        rel="noreferrer"
-        data-track="social_link"
-        data-track-network="linkedin"
-        data-track-source="hero"
-      >
-        <IconBrandLinkedin size={18} stroke={1.8} aria-hidden="true" />
-        LinkedIn
-      </a>
-    </div>
   </div>
 
-  <HeroSignalCard />
+  <div class="relative overflow-hidden rounded-[6px] border border-[var(--color-border)] bg-[var(--color-card)]/75">
+    <div
+      class="pointer-events-none absolute -left-12 top-10 h-40 w-40 rounded-full bg-[var(--color-accent)]/10 blur-3xl"
+      aria-hidden="true"
+    >
+    </div>
+    <img
+      src="/mauricio-dmo.webp"
+      width="900"
+      height="1013"
+      alt={t("hero.photoAlt", lang)}
+      class="relative mx-auto block h-[16rem] w-full object-contain object-bottom sm:h-[20rem]"
+      fetchpriority="high"
+    />
+  </div>
 </section>

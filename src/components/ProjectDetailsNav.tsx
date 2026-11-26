@@ -90,11 +90,10 @@ export default function ProjectDetailsNav({ items, lang = 'es' }: ProjectDetails
                 aria-current={isActive ? 'location' : undefined}
                 data-track="project_section"
                 data-track-section={item.id}
-                className={`flex min-h-11 items-center gap-2 whitespace-nowrap rounded-full px-3 py-1.5 font-mono text-[0.72rem] uppercase tracking-[0.08em] no-underline transition md:whitespace-normal md:rounded-none md:border-l md:px-3 md:py-2 ${
-                  isActive
+                className={`flex min-h-11 items-center gap-2 whitespace-nowrap rounded-full px-3 py-1.5 font-mono text-[0.72rem] uppercase tracking-[0.08em] no-underline transition md:whitespace-normal md:rounded-none md:border-l md:px-3 md:py-2 ${isActive
                     ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-text)]'
-                    : 'border-transparent text-[var(--color-muted)] hover:text-[var(--color-text)]'
-                }`}
+                    : 'border-transparent text-[var(--color-muted)] hover:text-(--color-text)'
+                  }`}
               >
                 <span className={isActive ? 'text-[var(--color-accent)]' : 'text-[var(--color-accent)]/65'}>
                   {item.number}

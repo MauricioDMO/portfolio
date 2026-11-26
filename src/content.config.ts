@@ -24,7 +24,6 @@ const projects = defineCollection({
     description: text,
     category: z.enum(['business-software', 'developer-tools', 'infrastructure', 'experiments']),
     status: z.enum(['production', 'in-development', 'experimental', 'completed', 'archived']).optional(),
-    featured: z.boolean().default(false),
     featuredOrder: z.number().int().nonnegative().optional(),
     draft: z.boolean().default(true),
     technologies: z.array(text).default([]),

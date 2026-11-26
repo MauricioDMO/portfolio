@@ -4,7 +4,6 @@ import {
   IconDatabase,
   IconServer,
   IconSparkles,
-  IconTool,
 } from "@tabler/icons-astro";
 import SectionHeader from "../../components/SectionHeader.astro";
 import TechPill from "../../components/TechPill.astro";
@@ -17,31 +16,10 @@ const lang = getLocale(Astro.currentLocale);
 type StackItem = [title: string, text: string, Icon: typeof IconCode];
 
 const stack: StackItem[] = [
-  [
-    "Frontend",
-    "Interfaces con Next.js, Astro, React y Tailwind, cuidando estados, responsive, experiencia de usuario, accesibilidad y flujos que reduzcan fricción para usuarios operativos.",
-    IconCode,
-  ],
-  [
-    "Backend",
-    "APIs con Node.js y Express, autenticación con JWT, reglas de negocio, validaciones e integraciones que conectan el sistema con servicios de terceros.",
-    IconServer,
-  ],
-  [
-    "Datos",
-    "Modelado y consultas con PostgreSQL, Turso, Prisma, priorizando consistencia, trazabilidad y mantenimiento. Los datos son el corazón del sistema, no una parte olvidada.",
-    IconDatabase,
-  ],
-  [
-    "Operación",
-    "Despliegues, almacenamiento, Git, Linux, Bash, Docker y servicios cloud. La infraestructura es parte del sistema, no un extra, y la mantengo con el mismo cuidado que el resto del software.",
-    IconTool,
-  ],
-  [
-    "Proceso",
-    "Elijo herramientas que ayuden a construir sistemas claros, rápidos y mantenibles. No me caso con ninguna tecnología, sino que busco la mejor para cada proyecto y contexto.",
-    IconSparkles,
-  ],
+  ["stack.specialtySoftwareTitle", "stack.specialtySoftwareText", IconCode],
+  ["stack.specialtyAiTitle", "stack.specialtyAiText", IconSparkles],
+  ["stack.specialtyInfraTitle", "stack.specialtyInfraText", IconServer],
+  ["stack.specialtyDataTitle", "stack.specialtyDataText", IconDatabase],
 ];
 ---
 
@@ -54,13 +32,14 @@ const stack: StackItem[] = [
     />
 
     <div
-      class="mb-8 flex flex-wrap gap-5 justify-center"
+      class="mb-8 flex flex-wrap [flex-wrap:wrap_balance]! gap-2.5 justify-center"
       aria-label={t("stack.techLabel", lang)}
     >
       {Object.values(techs).map((tech) => (
         <TechPill
           name={tech.name}
           src={tech.icon}
+          lightSrc={tech.iconLight}
           href={tech.href}
           color={tech.color}
         />
@@ -68,12 +47,11 @@ const stack: StackItem[] = [
     </div>
 
     <div class="grid gap-3 md:grid-cols-6">
-      {stack.map(([title, text, Icon], index) => (
+      {stack.map(([title, text, Icon]) => (
         <StackCard
           title={t(title, lang)}
           text={t(text, lang)}
           Icon={Icon}
-          offset={index === 3}
         />
       ))}
     </div>

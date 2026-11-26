@@ -10,7 +10,6 @@ summary: "Web system for issuing, signing, sending, backing up, and looking up E
 intro: "Production tax platform that connects a legacy system with the modern electronic invoicing flow, reducing manual work and improving traceability."
 category: business-software
 status: production
-featured: true
 featuredOrder: 1
 draft: false
 technologies:

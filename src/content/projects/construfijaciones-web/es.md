@@ -9,7 +9,6 @@ description: Sitio web corporativo y comercial orientado a presentar la empresa,
 intro: Sitio comercial pensado para ordenar la presencia digital de la empresa y hacer más fácil entender su oferta.
 category: business-software
 status: production
-featured: true
 featuredOrder: 2
 draft: false
 technologies:

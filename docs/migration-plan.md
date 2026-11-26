@@ -383,6 +383,8 @@ Estos textos son borradores que deberán revisarse antes de su publicación.
 
 **Decisión del propietario:** los proyectos se conservan exactamente como están en este momento —mosaico de cuatro destacados en la portada, catálogo y casos de estudio con su disposición actual—. La Fase 5 no debe reordenarlos, rediseñarlos ni eliminarlos.
 
+**Actualización posterior:** el propietario pidió que el mosaico se derive automáticamente de `featuredOrder` y eliminó el campo `featured`; el catálogo y la portada comparten ahora ese único criterio de orden.
+
 Mostrar un máximo inicial de cuatro proyectos:
 
 - Sistema de facturación electrónica.

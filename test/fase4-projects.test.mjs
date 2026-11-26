@@ -224,31 +224,40 @@ test('migrated projects keep their URLs, text and images in the new structure', 
   });
 });
 
-test('featured section renders only featured entries, ordered by featuredOrder', (t) => {
+test('featured section shows the first four projects by featuredOrder', (t) => {
   const root = fixture(t, {
     files: {
-      'projects/alpha/es.md': entry({ id: 'alpha', locale: 'es', slug: 'alpha-es', title: 'Destacado Alfa', description: 'Proyecto destacado de prueba', category: 'developer-tools', featured: true, featuredOrder: 2, draft: false }),
-      'projects/alpha/en.md': entry({ id: 'alpha', locale: 'en', slug: 'alpha-en', title: 'Featured Alpha', description: 'Synthetic featured project', category: 'developer-tools', featured: true, featuredOrder: 2, draft: false }),
-      'projects/beta/es.md': entry({ id: 'beta', locale: 'es', slug: 'beta-es', title: 'Destacado Beta', description: 'Proyecto destacado de prueba', category: 'developer-tools', featured: true, featuredOrder: 1, draft: false }),
-      'projects/beta/en.md': entry({ id: 'beta', locale: 'en', slug: 'beta-en', title: 'Featured Beta', description: 'Synthetic featured project', category: 'developer-tools', featured: true, featuredOrder: 1, draft: false }),
-      'projects/gamma/es.md': entry({ id: 'gamma', locale: 'es', slug: 'gamma-es', title: 'Oculto Gamma', description: 'Proyecto no destacado', category: 'experiments', featured: false, draft: false }),
-      'projects/gamma/en.md': entry({ id: 'gamma', locale: 'en', slug: 'gamma-en', title: 'Hidden Gamma', description: 'Synthetic non-featured project', category: 'experiments', featured: false, draft: false }),
+      'projects/alpha/es.md': entry({ id: 'alpha', locale: 'es', slug: 'alpha-es', title: 'Destacado Alfa', description: 'Proyecto destacado de prueba', category: 'developer-tools', featuredOrder: 2, draft: false }),
+      'projects/alpha/en.md': entry({ id: 'alpha', locale: 'en', slug: 'alpha-en', title: 'Featured Alpha', description: 'Synthetic featured project', category: 'developer-tools', featuredOrder: 2, draft: false }),
+      'projects/beta/es.md': entry({ id: 'beta', locale: 'es', slug: 'beta-es', title: 'Destacado Beta', description: 'Proyecto destacado de prueba', category: 'developer-tools', featuredOrder: 1, draft: false }),
+      'projects/beta/en.md': entry({ id: 'beta', locale: 'en', slug: 'beta-en', title: 'Featured Beta', description: 'Synthetic featured project', category: 'developer-tools', featuredOrder: 1, draft: false }),
+      'projects/gamma/es.md': entry({ id: 'gamma', locale: 'es', slug: 'gamma-es', title: 'Tercero Gamma', description: 'Tercer proyecto de prueba', category: 'experiments', featuredOrder: 3, draft: false }),
+      'projects/gamma/en.md': entry({ id: 'gamma', locale: 'en', slug: 'gamma-en', title: 'Third Gamma', description: 'Third synthetic project', category: 'experiments', featuredOrder: 3, draft: false }),
+      'projects/delta/es.md': entry({ id: 'delta', locale: 'es', slug: 'delta-es', title: 'Cuarto Delta', description: 'Cuarto proyecto de prueba', category: 'experiments', featuredOrder: 4, draft: false }),
+      'projects/delta/en.md': entry({ id: 'delta', locale: 'en', slug: 'delta-en', title: 'Fourth Delta', description: 'Fourth synthetic project', category: 'experiments', featuredOrder: 4, draft: false }),
+      'projects/epsilon/es.md': entry({ id: 'epsilon', locale: 'es', slug: 'epsilon-es', title: 'Quinto Epsilon', description: 'Quinto proyecto de prueba', category: 'experiments', featuredOrder: 5, draft: false }),
+      'projects/epsilon/en.md': entry({ id: 'epsilon', locale: 'en', slug: 'epsilon-en', title: 'Fifth Epsilon', description: 'Fifth synthetic project', category: 'experiments', featuredOrder: 5, draft: false }),
     },
   });
 
   const result = build(root);
   assert.equal(result.status, 0, `build failed:\n${output(result)}`);
 
-  for (const [index, featured, other, hidden] of [
-    ['es', 'Destacado Beta', 'Destacado Alfa', 'Oculto Gamma'],
-    ['en', 'Featured Beta', 'Featured Alpha', 'Hidden Gamma'],
+  for (const [index, first, second, third, fourth, fifth] of [
+    ['es', 'Destacado Beta', 'Destacado Alfa', 'Tercero Gamma', 'Cuarto Delta', 'Quinto Epsilon'],
+    ['en', 'Featured Beta', 'Featured Alpha', 'Third Gamma', 'Fourth Delta', 'Fifth Epsilon'],
   ]) {
     const home = html(root, `${index}/`);
-    assert.ok(home.includes(featured) && home.includes(other), `${index} home must show featured projects`);
-    assert.ok(home.indexOf(featured) < home.indexOf(other), `${index} featuredOrder not respected`);
-    assert.equal(home.includes(hidden), false, `${index} home showed a non-featured project`);
-    // It is published, so exclusion comes from `featured`, not from being a draft.
-    assert.ok(html(root, `${index}/${index === 'es' ? 'proyectos' : 'projects'}/${index === 'es' ? 'gamma-es' : 'gamma-en'}`).includes(hidden));
+    const shown = [first, second, third, fourth];
+    for (const title of shown) {
+      assert.ok(home.includes(title), `${index} home must show ${title}`);
+    }
+    for (let position = 1; position < shown.length; position += 1) {
+      assert.ok(home.indexOf(shown[position - 1]) < home.indexOf(shown[position]), `${index} featuredOrder not respected`);
+    }
+    assert.equal(home.includes(fifth), false, `${index} home showed a fifth project`);
+    // It is published and only excluded from the mosaic by its order.
+    assert.ok(html(root, `${index}/${index === 'es' ? 'proyectos' : 'projects'}/${index === 'es' ? 'epsilon-es' : 'epsilon-en'}`).includes(fifth));
   }
 });
 

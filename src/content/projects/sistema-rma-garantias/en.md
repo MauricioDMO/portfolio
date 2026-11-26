@@ -9,8 +9,7 @@ description: System for logging, documenting, and tracking warranty and return p
 intro: Internal tool so every warranty has context, status, evidence, and continuity throughout the review cycle.
 category: business-software
 status: archived
-featured: true
-featuredOrder: 4
+featuredOrder: 6
 draft: false
 technologies:
   - Next.js

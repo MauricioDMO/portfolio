@@ -9,15 +9,47 @@ import ProjectDetailsNav from "./ProjectDetailsNav";
 import ProjectTools from "./ProjectTools.astro";
 import ButtonLink from "./ButtonLink.astro";
 import {
-  IconArrowLeft, IconArrowUpRight, IconBolt, IconBrain, IconBrandAstro,
-  IconBrandDocker, IconBuildingStore, IconChartBar, IconClipboardList,
-  IconCloudUpload, IconCode, IconDatabase, IconDeviceDesktopAnalytics,
-  IconExternalLink, IconFileInvoice, IconFileSpreadsheet, IconFileTypePdf,
-  IconForms, IconHistory, IconLayoutDashboard, IconLifebuoy, IconLock,
-  IconMail, IconMailForward, IconPackage, IconPhoto, IconPlugConnected,
-  IconReceiptTax, IconRefresh, IconRobot, IconRoute, IconSearch, IconServer,
-  IconShieldCheck, IconStack2, IconTags, IconTargetArrow, IconTruckDelivery,
-  IconUserCheck, IconUsersGroup,
+  IconArrowLeft,
+  IconArrowUpRight,
+  IconBolt,
+  IconBrain,
+  IconBrandAstro,
+  IconBrandDocker,
+  IconBrandGithub,
+  IconBuildingStore,
+  IconChartBar,
+  IconClipboardList,
+  IconCloudUpload,
+  IconCode,
+  IconDatabase,
+  IconDeviceDesktopAnalytics,
+  IconExternalLink,
+  IconFileInvoice,
+  IconFileSpreadsheet,
+  IconFileTypePdf,
+  IconForms,
+  IconHistory,
+  IconLayoutDashboard,
+  IconLifebuoy,
+  IconLock,
+  IconMail,
+  IconMailForward,
+  IconPackage,
+  IconPhoto,
+  IconPlugConnected,
+  IconReceiptTax,
+  IconRefresh,
+  IconRobot,
+  IconRoute,
+  IconSearch,
+  IconServer,
+  IconShieldCheck,
+  IconStack2,
+  IconTags,
+  IconTargetArrow,
+  IconTruckDelivery,
+  IconUserCheck,
+  IconUsersGroup,
 } from "@tabler/icons-astro";
 import { t } from "../i18n";
 import { site } from "../data/site";
@@ -44,24 +76,48 @@ const categories: Record<string, { es: string; en: string }> = {
 const { Content, headings } = await render(entry);
 const project = entry.collection === "projects" ? entry : undefined;
 const icons: Record<string, typeof IconBolt> = {
-  "arrow-up-right": IconArrowUpRight, bolt: IconBolt, brain: IconBrain,
-  "brand-astro": IconBrandAstro, "brand-docker": IconBrandDocker,
-  "building-store": IconBuildingStore, "chart-bar": IconChartBar,
-  "clipboard-list": IconClipboardList, "cloud-upload": IconCloudUpload,
-  code: IconCode, database: IconDatabase, "device-desktop-analytics": IconDeviceDesktopAnalytics,
-  "file-invoice": IconFileInvoice, "file-spreadsheet": IconFileSpreadsheet,
-  "file-type-pdf": IconFileTypePdf, forms: IconForms, history: IconHistory,
-  "layout-dashboard": IconLayoutDashboard, lifebuoy: IconLifebuoy, lock: IconLock,
-  "mail-forward": IconMailForward, package: IconPackage, photo: IconPhoto,
-  "plug-connected": IconPlugConnected, "receipt-tax": IconReceiptTax,
-  refresh: IconRefresh, robot: IconRobot, route: IconRoute, search: IconSearch,
-  server: IconServer, "shield-check": IconShieldCheck, "stack-2": IconStack2,
-  tags: IconTags, "target-arrow": IconTargetArrow, "truck-delivery": IconTruckDelivery,
-  "user-check": IconUserCheck, "users-group": IconUsersGroup,
+  "arrow-up-right": IconArrowUpRight,
+  bolt: IconBolt,
+  brain: IconBrain,
+  "brand-astro": IconBrandAstro,
+  "brand-docker": IconBrandDocker,
+  "building-store": IconBuildingStore,
+  "chart-bar": IconChartBar,
+  "clipboard-list": IconClipboardList,
+  "cloud-upload": IconCloudUpload,
+  code: IconCode,
+  database: IconDatabase,
+  "device-desktop-analytics": IconDeviceDesktopAnalytics,
+  "file-invoice": IconFileInvoice,
+  "file-spreadsheet": IconFileSpreadsheet,
+  "file-type-pdf": IconFileTypePdf,
+  forms: IconForms,
+  history: IconHistory,
+  "layout-dashboard": IconLayoutDashboard,
+  lifebuoy: IconLifebuoy,
+  lock: IconLock,
+  "mail-forward": IconMailForward,
+  package: IconPackage,
+  photo: IconPhoto,
+  "plug-connected": IconPlugConnected,
+  "receipt-tax": IconReceiptTax,
+  refresh: IconRefresh,
+  robot: IconRobot,
+  route: IconRoute,
+  search: IconSearch,
+  server: IconServer,
+  "shield-check": IconShieldCheck,
+  "stack-2": IconStack2,
+  tags: IconTags,
+  "target-arrow": IconTargetArrow,
+  "truck-delivery": IconTruckDelivery,
+  "user-check": IconUserCheck,
+  "users-group": IconUsersGroup,
 };
-const HeaderIcon = project?.data.icon && Object.hasOwn(icons, project.data.icon)
-  ? icons[project.data.icon]
-  : undefined;
+const HeaderIcon =
+  project?.data.icon && Object.hasOwn(icons, project.data.icon)
+    ? icons[project.data.icon]
+    : undefined;
 const lang = entry.data.locale;
 const labels = {
   noImages: t("components.noImages", lang),
@@ -151,7 +207,7 @@ const structuredData = project
           <header>
             <a
               href={`/${lang}/${lang === "es" ? "proyectos" : "projects"}/`}
-              class="inline-flex min-h-11 items-center gap-2 text-sm text-[var(--color-muted)] no-underline transition-colors hover:text-[var(--color-text)]"
+              class="inline-flex min-h-11 items-center gap-2 text-sm text-[var(--color-muted)] no-underline transition-colors hover:text-(--color-text)"
               data-track="nav_section"
               data-track-section="proyectos"
               data-track-source="project_page"
@@ -220,7 +276,7 @@ const structuredData = project
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <IconExternalLink size={18} stroke={1.8} aria-hidden="true" />
+                  <IconBrandGithub size={18} stroke={1.8} aria-hidden="true" />
                   {lang === "es" ? "Repositorio" : "Repository"}
                 </ButtonLink>
               )}

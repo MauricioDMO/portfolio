@@ -2,25 +2,6 @@
 import { getLocale, t } from '../../i18n';
 
 const lang = getLocale(Astro.currentLocale);
-const focusAreas = [
-  {
-    label: "Frontend principal",
-    text: "Interfaces claras con React, Next.js, TypeScript, Tailwind y Astro cuando el proyecto necesita una experiencia rápida, moderna y enfocada.",
-  },
-  {
-    label: "Sistemas internos",
-    text: "Herramientas para ordenar información, reducir tareas manuales y hacer que los procesos diarios sean más fáciles de seguir.",
-  },
-  {
-    label: "Automatización",
-    text: "Soluciones que eliminan pasos repetitivos, conectan flujos y ayudan a que el equipo invierta menos tiempo en trabajo operativo.",
-  },
-  {
-    label: "Infra en progreso",
-    text: "Estoy fortaleciendo despliegues, servicios cloud, Linux, Docker y operaciones para entender mejor el ciclo completo del software.",
-  },
-];
-
 const profile = [
   ["Nombre", "Mauricio Martínez"],
   ["Foco", "Frontend con criterio full-stack"],
@@ -118,21 +99,6 @@ const profile = [
           </p>
         </article>
       </aside>
-    </div>
-
-    <div class="mt-4 grid gap-3 md:grid-cols-4">
-      {
-        focusAreas.map((area, index) => (
-          <article class="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)]/80 p-5 transition-colors hover:border-[var(--color-accent)]/45 hover:bg-[var(--color-card)]">
-            <p class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]">
-              {t(area.label, lang)}
-            </p>
-            <p class="mt-3 text-sm leading-relaxed text-[var(--color-muted)]">
-              {t(area.text, lang)}
-            </p>
-          </article>
-        ))
-      }
     </div>
   </div>
 </section>
