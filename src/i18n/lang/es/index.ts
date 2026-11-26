@@ -11,7 +11,9 @@ import { workflow } from './workflow';
 import { stack } from './stack';
 import { projectsSection } from './projectsSection';
 import { projects } from './projects';
+import { blog } from './blog';
 import { components } from './components';
+import { search } from './search';
 
 /** Spanish source dictionary, grouped by section. */
 export const es = {
@@ -27,7 +29,9 @@ export const es = {
   stack,
   projectsSection,
   projects,
+  blog,
   components,
+  search,
 } satisfies LanguageDictionary;
 
 export type EsSections = typeof es;

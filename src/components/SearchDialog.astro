@@ -1,0 +1,339 @@
+---
+import { IconSearch, IconX } from "@tabler/icons-astro";
+import { t, type Locale } from "../i18n";
+
+type Props = { lang: Locale };
+const { lang } = Astro.props;
+---
+
+<button
+  type="button"
+  class="inline-flex size-8 items-center justify-center rounded-full border border-(--color-border) text-(--color-muted) transition-colors hover:text-(--color-text)"
+  aria-label={t("search.openLabel", lang)}
+  aria-haspopup="dialog"
+  aria-controls="site-search"
+  aria-keyshortcuts="Control+K Meta+K"
+  data-search-open
+  data-track="search_open"
+>
+  <IconSearch size={17} stroke={1.8} aria-hidden="true" />
+</button>
+
+<dialog
+  id="site-search"
+  class="fixed inset-0 m-auto w-[min(calc(100%-1.5rem),640px)] max-h-[80vh] overflow-hidden rounded-[10px] border border-(--color-border) bg-(--color-card) p-0 text-(--color-text) shadow-2xl"
+  aria-labelledby="site-search-title"
+  data-search-dialog
+  data-label-project={t("search.projectKind", lang)}
+  data-label-post={t("search.postKind", lang)}
+  data-label-page={t("search.pageKind", lang)}
+  data-label-empty-title={t("search.emptyTitle", lang)}
+  data-label-empty-description={t("search.emptyDescription", lang)}
+>
+  <div class="flex flex-col p-4">
+    <h2 id="site-search-title" class="sr-only">{t("search.title", lang)}</h2>
+    <div
+      class="flex items-center gap-3 rounded-[6px] border border-(--color-border) bg-(--color-bg) px-3 py-2"
+    >
+      <IconSearch size={18} stroke={1.8} class="shrink-0 text-(--color-muted)" aria-hidden="true" />
+      <input
+        id="site-search-input"
+        type="search"
+        class="min-w-0 flex-1 bg-transparent text-(--color-text) outline-none placeholder:text-(--color-muted)"
+        role="combobox"
+        aria-autocomplete="list"
+        aria-controls="site-search-results"
+        aria-describedby="site-search-instructions"
+        aria-expanded="false"
+        autocomplete="off"
+        spellcheck="false"
+        placeholder={t("search.placeholder", lang)}
+        data-search-input
+      />
+      <button
+        type="button"
+        class="shrink-0 rounded p-1 text-(--color-muted) hover:text-(--color-text)"
+        aria-label={t("search.closeLabel", lang)}
+        data-search-close
+      >
+        <IconX size={18} stroke={1.8} aria-hidden="true" />
+      </button>
+    </div>
+    <ul
+      id="site-search-results"
+      class="mt-3 max-h-[55vh] list-none overflow-y-auto p-0"
+      role="listbox"
+      aria-label={t("search.resultsLabel", lang)}
+      data-search-results
+    ></ul>
+    <p
+      id="site-search-instructions"
+      class="mt-3 border-t border-(--color-border) pt-2 text-xs text-(--color-muted)"
+    >
+      {t("search.instructions", lang)}
+    </p>
+    <div class="py-8 text-center" data-search-empty hidden>
+      <p class="text-lg text-(--color-text)" data-search-empty-title></p>
+      <p class="mt-2 text-sm text-(--color-muted)" data-search-empty-description></p>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  type SearchItem = {
+    locale: "es" | "en";
+    type: "project" | "post" | "page";
+    title: string;
+    description: string;
+    category: string;
+    url: string;
+  };
+
+  type WindowWithShortcut = Window & { __siteSearchShortcut?: boolean };
+
+  let indexPromise: Promise<SearchItem[]> | undefined;
+
+  const normalize = (value: string) =>
+    value
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+
+  function loadIndex(): Promise<SearchItem[]> {
+    if (!indexPromise) {
+      indexPromise = fetch("/search-index.json")
+        .then((response) => (response.ok ? response.json() : []))
+        .catch(() => [] as SearchItem[]);
+    }
+    return indexPromise;
+  }
+
+  function initSearch() {
+    const dialog = document.querySelector<HTMLDialogElement>("[data-search-dialog]");
+    const openButton = document.querySelector<HTMLButtonElement>("[data-search-open]");
+    const closeButton = dialog?.querySelector<HTMLButtonElement>("[data-search-close]");
+    const input = dialog?.querySelector<HTMLInputElement>("[data-search-input]");
+    const list = dialog?.querySelector<HTMLElement>("[data-search-results]");
+    const empty = dialog?.querySelector<HTMLElement>("[data-search-empty]");
+    if (!dialog || !openButton || !closeButton || !input || !list || !empty) return;
+    if (dialog.dataset.searchReady === "true") return;
+    dialog.dataset.searchReady = "true";
+
+    const lang = document.documentElement.lang.startsWith("en") ? "en" : "es";
+    const kindLabel = (type: SearchItem["type"]) =>
+      dialog.dataset[
+        type === "project" ? "labelProject" : type === "post" ? "labelPost" : "labelPage"
+      ] ?? type;
+
+    empty.querySelector<HTMLElement>("[data-search-empty-title]")!.textContent =
+      dialog.dataset.labelEmptyTitle ?? "";
+    empty.querySelector<HTMLElement>("[data-search-empty-description]")!.textContent =
+      dialog.dataset.labelEmptyDescription ?? "";
+
+    let all: SearchItem[] = [];
+    let active = -1;
+
+    const setActive = (index: number) => {
+      const options = Array.from(list.children) as HTMLElement[];
+      active = options.length ? (index + options.length) % options.length : -1;
+      options.forEach((option, current) => {
+        option.setAttribute("aria-selected", String(current === active));
+        option.toggleAttribute("data-active", current === active);
+      });
+      if (active >= 0) {
+        input.setAttribute("aria-activedescendant", options[active].id);
+        options[active].scrollIntoView({ block: "nearest" });
+      } else {
+        input.removeAttribute("aria-activedescendant");
+      }
+    };
+
+    const render = () => {
+      const tokens = normalize(input.value.trim()).split(/\s+/).filter(Boolean);
+      const matches = all
+        .filter((item) => item.locale === lang)
+        .flatMap((item) => {
+          const title = normalize(item.title);
+          const category = normalize(item.category);
+          const description = normalize(item.description);
+          if (tokens.length && !tokens.every((token) => `${title} ${category} ${description}`.includes(token))) {
+            return [];
+          }
+          const score = tokens.reduce((total, token) => {
+            if (title.startsWith(token)) return total + 4;
+            if (title.includes(token)) return total + 3;
+            if (category.includes(token)) return total + 2;
+            return total + 1;
+          }, 0);
+          return [{ item, score }];
+        })
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 8);
+
+      list.replaceChildren(
+        ...matches.map(({ item }, index) => {
+          const option = document.createElement("li");
+          option.id = `site-search-option-${index}`;
+          option.setAttribute("role", "option");
+          option.setAttribute("aria-selected", "false");
+          option.dataset.searchOption = "";
+          // pointermove solo responde a movimiento real: scrollIntoView no debe robar la selección del teclado.
+          option.addEventListener("pointermove", () => {
+            if (index !== active) setActive(index);
+          });
+
+          const link = document.createElement("a");
+          link.href = item.url;
+          link.tabIndex = -1;
+          link.className = "site-search-option-link";
+          link.dataset.track = "search_select";
+          link.dataset.trackType = item.type;
+
+          const meta = document.createElement("p");
+          meta.className = "site-search-option-meta";
+          meta.textContent = `${kindLabel(item.type)} · ${item.category}`;
+
+          const title = document.createElement("p");
+          title.className = "site-search-option-title";
+          title.textContent = item.title;
+
+          const description = document.createElement("p");
+          description.className = "site-search-option-description";
+          description.textContent = item.description;
+
+          link.append(meta, title, description);
+          option.append(link);
+          return option;
+        }),
+      );
+
+      empty.hidden = matches.length > 0;
+      input.setAttribute("aria-expanded", String(matches.length > 0));
+      setActive(matches.length ? 0 : -1);
+    };
+
+    openButton.addEventListener("click", async () => {
+      if (dialog.open) {
+        dialog.close();
+        return;
+      }
+      dialog.showModal();
+      input.value = "";
+      render();
+      input.focus();
+      const loaded = await loadIndex();
+      if (dialog.open) {
+        all = loaded;
+        render();
+      }
+    });
+
+    closeButton.addEventListener("click", () => dialog.close());
+
+    input.addEventListener("input", render);
+
+    input.addEventListener("keydown", (event) => {
+      const options = list.children.length;
+      switch (event.key) {
+        case "ArrowDown":
+          event.preventDefault();
+          setActive(active + 1);
+          break;
+        case "ArrowUp":
+          event.preventDefault();
+          setActive(active - 1);
+          break;
+        case "Home":
+          event.preventDefault();
+          setActive(0);
+          break;
+        case "End":
+          event.preventDefault();
+          setActive(options - 1);
+          break;
+        case "Enter":
+          if (active < 0) return;
+          event.preventDefault();
+          (list.children[active] as HTMLElement).querySelector("a")?.click();
+          break;
+        case "Escape":
+          dialog.close();
+          break;
+      }
+    });
+  }
+
+  const browserWindow = window as WindowWithShortcut;
+  if (!browserWindow.__siteSearchShortcut) {
+    browserWindow.__siteSearchShortcut = true;
+    document.addEventListener("keydown", (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        document.querySelector<HTMLButtonElement>("[data-search-open]")?.click();
+      }
+    });
+  }
+
+  document.addEventListener("astro:page-load", initSearch);
+  document.addEventListener("astro:before-swap", () => {
+    document.querySelector<HTMLDialogElement>("[data-search-dialog]")?.close();
+  });
+  initSearch();
+</script>
+
+<style is:global>
+  dialog::backdrop {
+    background: color-mix(in srgb, var(--color-bg) 80%, transparent);
+    backdrop-filter: blur(3px);
+  }
+
+  [data-search-input]::-webkit-search-cancel-button {
+    display: none;
+  }
+
+  [data-search-results][hidden],
+  [data-search-empty][hidden] {
+    display: none;
+  }
+
+  [data-search-results]:empty {
+    display: none;
+  }
+
+  .site-search-option-link {
+    display: block;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    padding: 0.75rem;
+    text-decoration: none;
+  }
+
+  .site-search-option-meta {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .site-search-option-title {
+    margin-top: 0.25rem;
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .site-search-option-description {
+    margin-top: 0.15rem;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+  }
+
+  [data-search-option][data-active] .site-search-option-link {
+    border-color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 26%, transparent);
+  }
+
+  [data-search-option][data-active] .site-search-option-title {
+    color: var(--color-accent);
+  }
+</style>

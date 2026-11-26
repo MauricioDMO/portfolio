@@ -12,7 +12,9 @@ import { workflow } from './workflow';
 import { stack } from './stack';
 import { projectsSection } from './projectsSection';
 import { projects } from './projects';
+import { blog } from './blog';
 import { components } from './components';
+import { search } from './search';
 
 /** English dictionary, grouped by section; keys mirror the Spanish source. */
 export const en: Localized<EsSections> = {
@@ -28,7 +30,9 @@ export const en: Localized<EsSections> = {
   stack,
   projectsSection,
   projects,
+  blog,
   components,
+  search,
 };
 
 export type EnSections = typeof en;

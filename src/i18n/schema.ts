@@ -20,7 +20,9 @@ export const sections = [
   'stack',
   'projectsSection',
   'projects',
+  'blog',
   'components',
+  'search',
 ] as const;
 
 export type SectionName = (typeof sections)[number];
