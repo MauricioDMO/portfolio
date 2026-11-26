@@ -1,0 +1,121 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { IconArrowUpRight } from "@tabler/icons-astro";
+import ButtonLink from "../../components/ButtonLink.astro";
+import SiteFooter from "../../components/SiteFooter.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+import Layout from "../../layouts/Layout.astro";
+import { site } from "../../data/site";
+import { getLocale, localeMeta, localizedPath, t } from "../../i18n";
+import { getPublishedEntries } from "../../lib/content";
+
+const lang = getLocale(Astro.currentLocale);
+const pathname = localizedPath("blog", lang);
+const description = t("seo.blogDescription", lang);
+const title = `${t("blog.eyebrow", lang)} | ${site.fullName}`;
+const entries = (await getPublishedEntries("blog", lang)) as CollectionEntry<"blog">[];
+
+const posts = [...entries]
+  .filter((entry) => entry.data.publishedAt)
+  .sort((a, b) => b.data.publishedAt!.getTime() - a.data.publishedAt!.getTime())
+  .map((entry) => {
+    const words = entry.body?.trim().split(/\s+/).filter(Boolean).length ?? 0;
+    return {
+      entry,
+      href: `/${lang}/blog/${entry.data.slug}/`,
+      category: t(`blog.categories.${entry.data.category}`, lang),
+      date: entry.data.publishedAt!.toLocaleDateString(
+        lang === "es" ? "es-SV" : "en-US",
+        { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" },
+      ),
+      minutes: Math.max(1, Math.ceil(words / 200)),
+    };
+  });
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: title,
+    url: new URL(pathname, site.url).toString(),
+    inLanguage: localeMeta[lang].lang,
+    description,
+  },
+];
+---
+
+<Layout title={title} description={description} pathname={pathname} structuredData={structuredData}>
+  <SiteHeader />
+
+  <main class="mx-auto w-[min(calc(100%-2rem),1120px)] py-20 md:py-24">
+    <header class="max-w-225">
+      <p class="font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-accent)]">
+        {t("blog.eyebrow", lang)}
+      </p>
+      <h1 class="mt-4 text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.95] tracking-[-0.06em] text-[var(--color-text)]">
+        {t("blog.title", lang)}
+      </h1>
+      <p class="mt-6 max-w-190 text-[clamp(1.05rem,1.6vw,1.3rem)] leading-[1.6] text-[var(--color-muted)]">
+        {t("blog.description", lang)}
+      </p>
+    </header>
+
+    {
+      posts.length > 0 ? (
+        <ul class="mt-14 grid gap-5 p-0 md:grid-cols-2">
+          {posts.map(({ entry, href, category, date, minutes }) => (
+            <li>
+              <a
+                class="group flex h-full flex-col rounded-[6px] border border-[var(--color-border)] bg-[var(--color-card)]/60 p-6 no-underline transition-colors hover:border-[var(--color-accent)]"
+                href={href}
+                data-track="nav_section"
+                data-track-section="blog"
+              >
+                <p class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]">
+                  {category}
+                </p>
+                <h2 class="mt-3 text-2xl leading-tight tracking-[-0.03em] text-[var(--color-text)]">
+                  {entry.data.title}
+                </h2>
+                <p class="mt-3 text-[var(--color-muted)]">{entry.data.description}</p>
+                <p class="mt-5 text-sm text-[var(--color-muted)]">
+                  <time datetime={entry.data.publishedAt!.toISOString()}>{date}</time>
+                  {" · "}
+                  {minutes} {t("blog.minRead", lang)}
+                </p>
+                {entry.data.tags.length > 0 && (
+                  <p class="mt-3 text-xs text-[var(--color-muted)]">
+                    {entry.data.tags.join(" · ")}
+                  </p>
+                )}
+                <span class="mt-6 inline-flex items-center gap-2 text-sm text-[var(--color-accent)]">
+                  {t("blog.readPost", lang)}
+                  <IconArrowUpRight size={16} stroke={1.8} aria-hidden="true" />
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div class="mt-14 max-w-190 rounded-[6px] border border-[var(--color-border)] bg-[var(--color-card)]/60 p-8">
+          <h2 class="text-2xl tracking-[-0.03em] text-[var(--color-text)]">
+            {t("blog.emptyTitle", lang)}
+          </h2>
+          <p class="mt-3 text-[var(--color-muted)]">{t("blog.emptyDescription", lang)}</p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <ButtonLink
+              href={localizedPath("proyectos", lang)}
+              event="nav_section"
+              eventData={{ section: "proyectos", source: "blog" }}
+            >
+              {t("contact.browseProjects", lang)}
+              <IconArrowUpRight size={18} stroke={1.8} aria-hidden="true" />
+            </ButtonLink>
+          </div>
+        </div>
+      )
+    }
+  </main>
+
+  <SiteFooter label={t("blog.eyebrow", lang)} homeLink />
+</Layout>

@@ -10,8 +10,8 @@ const date = z.union([z.iso.date(), z.date()]).transform((value) =>
 );
 const loader = (base: string) => glob({
   base,
-  pattern: '**/*.md',
-  generateId: ({ entry }) => entry.replace(/\.md$/, ''),
+  pattern: '**/*.{md,mdx}',
+  generateId: ({ entry }) => entry.replace(/\.(md|mdx)$/, ''),
 });
 
 const projects = defineCollection({

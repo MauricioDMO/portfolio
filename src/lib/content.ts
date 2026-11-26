@@ -6,8 +6,8 @@ import type { Locale } from '../i18n';
 type ContentKind = 'projects' | 'blog';
 type Entry = CollectionEntry<'projects'> | CollectionEntry<'blog'>;
 const contentFiles = {
-  projects: import.meta.glob('../content/projects/**/*.md'),
-  blog: import.meta.glob('../content/blog/**/*.md'),
+  projects: import.meta.glob('../content/projects/**/*.{md,mdx}'),
+  blog: import.meta.glob('../content/blog/**/*.{md,mdx}'),
 };
 
 /** Validate relationships before filtering so invalid drafts cannot hide mistakes. */

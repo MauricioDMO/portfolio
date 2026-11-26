@@ -15,6 +15,7 @@
     "deploy": "pnpm --filter portfolio... run build && wrangler deploy"
   },
   "dependencies": {
+    "@astrojs/mdx": "^6.0.3",
     "@astrojs/react": "^5.0.7",
     "@astrojs/sitemap": "^3.7.3",
     "@tabler/icons-astro": "^3.52.0",

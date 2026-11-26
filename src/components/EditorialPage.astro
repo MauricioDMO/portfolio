@@ -75,6 +75,15 @@ const categories: Record<string, { es: string; en: string }> = {
 };
 const { Content, headings } = await render(entry);
 const project = entry.collection === "projects" ? entry : undefined;
+const post = entry.collection === "blog" ? entry : undefined;
+const postDate = post?.data.publishedAt?.toLocaleDateString(
+  entry.data.locale === "es" ? "es-SV" : "en-US",
+  { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" },
+);
+const postMinutes = Math.max(
+  1,
+  Math.ceil((entry.body?.trim().split(/\s+/).filter(Boolean).length ?? 0) / 200),
+);
 const icons: Record<string, typeof IconBolt> = {
   "arrow-up-right": IconArrowUpRight,
   bolt: IconBolt,
@@ -193,7 +202,7 @@ const structuredData = project
   image={project?.data.gallery[0]?.src}
   structuredData={structuredData}
 >
-  <SiteHeader variant="project" />
+  <SiteHeader />
 
   <main
     class:list={[
@@ -299,8 +308,17 @@ const structuredData = project
           </div>
         </section>
       ) : (
-        <header class="max-w-225">
-          <p class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]">
+        <header class="mx-auto max-w-225">
+          <a
+            href={`/${lang}/blog/`}
+            class="inline-flex min-h-11 items-center gap-2 text-sm text-[var(--color-muted)] no-underline transition-colors hover:text-(--color-text)"
+            data-track="nav_section"
+            data-track-section="blog"
+          >
+            <IconArrowLeft size={18} stroke={1.8} aria-hidden="true" />
+            {t("blog.backToBlog", lang)}
+          </a>
+          <p class="mt-8 font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]">
             {categories[category]?.[lang] ?? category}
           </p>
           <h1 class="mt-6 text-[clamp(3rem,8vw,7rem)] leading-[0.92] tracking-[-0.08em] text-[var(--color-text)]">
@@ -309,6 +327,24 @@ const structuredData = project
           <p class="mt-7 max-w-190 text-[clamp(1.08rem,1.8vw,1.35rem)] leading-[1.65] text-[var(--color-muted)]">
             {description}
           </p>
+          {
+            post?.data.publishedAt && (
+              <p class="mt-5 text-sm text-[var(--color-muted)]">
+                <time datetime={post.data.publishedAt.toISOString()}>
+                  {t("blog.publishedOn", lang)} {postDate}
+                </time>
+                {" · "}
+                {postMinutes} {t("blog.minRead", lang)}
+              </p>
+            )
+          }
+          {
+            post && post.data.tags.length > 0 && (
+              <p class="mt-3 text-xs text-[var(--color-muted)]">
+                {post.data.tags.join(" · ")}
+              </p>
+            )
+          }
         </header>
       )}
 
@@ -325,7 +361,7 @@ const structuredData = project
           "mt-16",
           project && navItems.length
             ? "grid gap-6 md:gap-10 md:grid-cols-[190px_minmax(0,1fr)]"
-            : "max-w-190",
+            : "mx-auto max-w-190",
         ]}
       >
         {project && navItems.length > 0 && (
@@ -387,6 +423,10 @@ const structuredData = project
   .editorial-content :global(a) {
     color: var(--color-accent);
     text-decoration: underline;
+  }
+
+  .editorial-content :global(a.article-cta) {
+    text-decoration: none;
   }
 
   .editorial-content :global(code) {

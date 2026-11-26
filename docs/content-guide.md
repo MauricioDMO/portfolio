@@ -2,7 +2,7 @@
 
 ## Colecciones
 
-Astro carga Markdown desde `src/content/projects/` y `src/content/blog/`. Cada traducción es un archivo `ID/es.md` o `ID/en.md`, donde `ID` es el identificador compartido y estable. Los slugs pueden variar entre idiomas. Markdown es suficiente para esta fase; no se instaló MDX.
+Astro carga Markdown y MDX desde `src/content/projects/` y `src/content/blog/`. Cada traducción es un archivo `ID/es.md`, `ID/en.md`, `ID/es.mdx` o `ID/en.mdx`, donde `ID` es el identificador compartido y estable. Los slugs pueden variar entre idiomas. Para MDX, el proyecto incluye `@astrojs/mdx` registrado en `astro.config.mjs` y el loader acepta ambos formatos.
 
 Los cuatro proyectos existentes están migrados a `src/content/projects/` en ambos idiomas. Las fuentes anteriores permanecen en `src/data/projects/` y `src/i18n/lang/{es,en}/projects/` para las rutas históricas y como referencia; no eliminarlas sin verificar la migración y las redirecciones.
 
@@ -18,7 +18,7 @@ Proyectos aceptan `status`, `featured`, `featuredOrder`, `technologies`, `reposi
 
 Artículos aceptan `tags`, `publishedAt` y `updatedAt`; los artículos publicados requieren `publishedAt`. Categorías: `tutorials`, `engineering`, `experiments`, `insights`, `project-logs`. Fechas en formato `YYYY-MM-DD`; la actualización no puede ser anterior a la publicación.
 
-La portada opcional se declara como `cover: ./assets/cover.webp` y requiere `coverAlt` descriptivo. Astro valida la referencia y optimiza la imagen. El cuerpo admite Markdown, imágenes locales y diagramas SVG; no requiere componentes personalizados.
+La portada opcional se declara como `cover: ./assets/cover.webp` y requiere `coverAlt` descriptivo. Astro valida la referencia y optimiza la imagen. El cuerpo admite Markdown, imágenes locales y diagramas SVG. En archivos `.mdx` se pueden importar componentes de Astro o React y usarlos en el cuerpo; `src/content/blog/este-sitio-y-construfijaciones/{es,en}.mdx` importan `ButtonLink.astro` y `IconArrowUpRight` de Tabler. Para CTA dentro de artículos, `ButtonLink` ofrece `variant="ghost"` (borde tenue, texto de acento, sin relleno verde) y la clase `article-cta` evita el subrayado del enlace estándar del artículo. Para sustituir elementos HTML por componentes propios, hay que exportar `components` desde el MDX y pasarlos a `<Content components={...} />` en `src/components/EditorialPage.astro`.
 
 Para reutilizar capturas existentes en `public/projects/`, `gallery` acepta una lista de objetos con `src` y `alt`; la compilación valida que cada archivo exista. La primera imagen se usa en las tarjetas y todas aparecen en el carrusel.
 
