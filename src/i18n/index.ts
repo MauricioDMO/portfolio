@@ -70,6 +70,10 @@ function buildLocalizedPath(bare: string, lang: Locale): string {
     return `${base}${lang === 'en' ? 'about' : 'sobre-mi'}/`;
   }
 
+  if (bare === 'contacto' || bare === 'contact') {
+    return `${base}${lang === 'en' ? 'contact' : 'contacto'}/`;
+  }
+
   const project = bare.match(/^(?:proyectos|projects)\/([^/]+)$/);
   if (project) {
     const id = projectEsId(project[1]);

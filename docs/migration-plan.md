@@ -272,7 +272,7 @@ En dispositivos móviles se utilizará una navegación compacta y accesible.
 
 Esta estructura es una propuesta funcional. Adaptar su implementación al framework existente sin comprometer el comportamiento esperado.
 
-**Actualización del propietario (26 de noviembre de 2026):** `/cv` es el currículum en línea (experiencia, resultados, proyectos enlazados, habilidades, educación e idiomas) y `/sobre-mi` / `/about` es la página personal (historia, intereses, filosofía, «Cómo trabajo», IA con criterio, aprendizaje y objetivos). «Cómo trabajo» deja de ser una entrada independiente del menú. La rejilla de tecnologías y el ancla `#stack` permanecen en la portada: no se crea la página `/stack` propuesta.
+**Actualización del propietario (26 de noviembre de 2026):** `/cv` es el currículum en línea (experiencia, resultados, proyectos enlazados, habilidades, educación e idiomas) y `/sobre-mi` / `/about` es la página personal (historia, intereses, filosofía, «Cómo trabajo», IA con criterio, aprendizaje y objetivos). «Cómo trabajo» deja de ser una entrada independiente del menú. La rejilla de tecnologías y el ancla `#stack` permanecen en la portada: no se crea la página `/stack` propuesta. El 26 de noviembre de 2026 el propietario también descartó `/uses` y `/herramientas` por duplicar lo que ya está en la portada.
 
 # 7. Internacionalización
 
@@ -791,6 +791,8 @@ Para artículos extensos, considerar un índice de contenido si mejora la lectur
 Estas ideas no deben publicarse como artículos automáticamente generados. Se utilizarán como propuestas para desarrollar posteriormente.
 
 # 13. Página Uses
+
+**Decisión del propietario (26 de noviembre de 2026):** no se crea la página `/uses` ni `/herramientas`. El stack técnico ya se muestra en la rejilla `#stack` de la portada, y duplicarlo en una página propia no aporta valor suficiente. Este apartado queda como contexto, no como trabajo pendiente.
 
 Presentar las herramientas que utilizo realmente en mi día a día.
 
@@ -1393,8 +1395,7 @@ Tareas:
 - Implementar categorías y etiquetas.
 - Agregar syntax highlighting.
 - Configurar metadatos de artículos.
-- Implementar página Uses.
-- Organizar herramientas personales.
+- No implementar la página Uses: el propietario la descartó; el stack permanece en `#stack` de la portada.
 - Implementar la página de contacto dedicada en `/es/contacto` y `/en/contact` con correo, LinkedIn, GitHub, teléfono y enlace a Silver Wolf, sin formularios.
 - Centralizar en `src/data/site.ts` el teléfono `+503 79996844` y la URL `https://web.mauriciodmo.com`; el teléfono enlaza a `https://wa.me/50379996844` para abrir WhatsApp.
 - Incorporar enlaces profesionales.

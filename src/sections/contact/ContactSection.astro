@@ -1,13 +1,8 @@
 ---
-import {
-  IconArrowUpRight,
-  IconBrandGithub,
-  IconBrandLinkedin,
-  IconMail,
-} from "@tabler/icons-astro";
+import { IconArrowUpRight } from "@tabler/icons-astro";
 import ButtonLink from "../../components/ButtonLink.astro";
 import { site } from "../../data/site";
-import { getLocale, t } from "../../i18n";
+import { getLocale, localizedPath, t } from "../../i18n";
 
 const lang = getLocale(Astro.currentLocale);
 ---
@@ -21,6 +16,9 @@ const lang = getLocale(Astro.currentLocale);
       <h2 class="mt-4 text-[clamp(2rem,4vw,3.6rem)] leading-none tracking-[-0.06em] text-[var(--color-text)]">
         {t("contact.title", lang)}
       </h2>
+      <p class="mt-4 text-sm text-[var(--color-muted)]">
+        {t("hero.locationPrefix", lang)} {site.availability.location} · {t("hero.remoteAvailable", lang)}
+      </p>
     </div>
     <div>
       <p class="text-lg leading-relaxed text-[var(--color-muted)]">
@@ -28,13 +26,13 @@ const lang = getLocale(Astro.currentLocale);
       </p>
       <div class="mt-8 flex flex-wrap gap-3">
         <ButtonLink
-          href={`mailto:${site.email}`}
+          href={localizedPath("contacto", lang)}
           variant="primary"
-          event="contact_email"
-          eventData={{ source: "contact" }}
+          event="nav_section"
+          eventData={{ section: "contacto", source: "home" }}
         >
-          <IconMail size={18} stroke={1.8} aria-hidden="true" />
-          {t("contact.messageMe", lang)}
+          {t("contact.seeContact", lang)}
+          <IconArrowUpRight size={18} stroke={1.8} aria-hidden="true" />
         </ButtonLink>
         <ButtonLink
           href="#proyectos"
@@ -44,32 +42,6 @@ const lang = getLocale(Astro.currentLocale);
           {t("contact.browseProjects", lang)}
           <IconArrowUpRight size={18} stroke={1.8} aria-hidden="true" />
         </ButtonLink>
-      </div>
-      <div class="mt-6 flex flex-wrap gap-3 text-sm">
-        <a
-          class="inline-flex items-center gap-2 text-[var(--color-muted)] no-underline transition-colors hover:text-(--color-text)"
-          href={site.github}
-          target="_blank"
-          rel="noreferrer"
-          data-track="social_link"
-          data-track-network="github"
-          data-track-source="contact"
-        >
-          <IconBrandGithub size={18} stroke={1.8} aria-hidden="true" />
-          GitHub
-        </a>
-        <a
-          class="inline-flex items-center gap-2 text-[var(--color-muted)] no-underline transition-colors hover:text-(--color-text)"
-          href={site.linkedin}
-          target="_blank"
-          rel="noreferrer"
-          data-track="social_link"
-          data-track-network="linkedin"
-          data-track-source="contact"
-        >
-          <IconBrandLinkedin size={18} stroke={1.8} aria-hidden="true" />
-          LinkedIn
-        </a>
       </div>
     </div>
   </div>

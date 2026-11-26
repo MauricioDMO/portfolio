@@ -15,6 +15,7 @@ export const site = {
   whatsapp: 'https://wa.me/50379996844',
   github: 'https://github.com/MauricioDMO/',
   linkedin: 'https://www.linkedin.com/in/mauriciodmo/',
+  silverWolf: 'https://web.mauriciodmo.com',
   availability: {
     location: 'El Salvador',
     remote: true,
