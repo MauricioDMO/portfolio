@@ -1,6 +1,7 @@
 ---
 import {
   IconArrowUpRight,
+  IconFileCv,
   IconMail,
   IconMapPin,
 } from "@tabler/icons-astro";
@@ -9,7 +10,7 @@ import TegakiRenderer from "tegaki/astro";
 import caveat from "tegaki/fonts/caveat";
 import ButtonLink from "../../components/ButtonLink.astro";
 import { site } from "../../data/site";
-import { getLocale, t } from "../../i18n";
+import { getLocale, localizedPath, t } from "../../i18n";
 
 const lang = getLocale(Astro.currentLocale);
 const heroTitleLines = [t("hero.titleLine1", lang), t("hero.titleLine2", lang)];
@@ -71,6 +72,14 @@ const secondLineDelay =
       >
         {t("hero.seeProjectsCta", lang)}
         <IconArrowUpRight size={18} stroke={1.8} aria-hidden="true" />
+      </ButtonLink>
+      <ButtonLink
+        href={localizedPath("cv", lang)}
+        event="nav_section"
+        eventData={{ section: "cv", source: "hero" }}
+      >
+        <IconFileCv size={18} stroke={1.8} aria-hidden="true" />
+        {t("hero.cvCta", lang)}
       </ButtonLink>
       <ButtonLink
         href={`mailto:${site.email}`}

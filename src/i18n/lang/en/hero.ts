@@ -8,6 +8,7 @@ export const hero: SectionShape<typeof esHero> = {
   eyebrow: "Full-Stack Engineer · Internal systems · Useful UX",
   intro: "I'm MauricioDMO. I design and develop landing pages, websites, and internal tools with a focus on clarity, strong performance, and experiences that are easy for real people to use.",
   seeProjectsCta: "See real projects",
+  cvCta: "View CV",
   talkCta: "Let's talk about your project",
   locationPrefix: "Based in",
   remoteAvailable: "Open to remote opportunities.",

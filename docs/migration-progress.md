@@ -73,6 +73,7 @@ Actualizado: 26 de noviembre de 2026.
 - Ajuste solicitado: las secciones del CV web se distinguen mejor mediante el encabezado compartido `CvSectionHeading.astro`: regla alineada con el contenido, línea de acento y etiqueta grande en negrita; los títulos interiores pasan a `h3`.
 - El mapa id español ↔ slug inglés de proyectos se centralizó en `src/data/project-slugs.ts` y lo reutilizan la i18n y el generador de PDF.
 - Ajuste solicitado: aspecto de los PDF actualizado en `scripts/generate-cv-pdf.mjs`: tipografía Inter/IBM Plex Sans con Arial como respaldo (nombre 26 pt, encabezados 11,5 pt, cuerpo 10 pt), más separación entre secciones, encabezados sin barra vertical (solo regla horizontal fina), contacto con etiqueta y dato visible (correo, teléfono, portafolio, GitHub y LinkedIn) como enlaces, y cifras de impacto operativo en negrita; las URLs se muestran de forma compacta para que el PDF impreso conserve los datos de contacto. Etiquetas `cv.contactEmail`, `cv.contactPhone` y `cv.contactPortfolio` añadidas a ambos idiomas. `pnpm cv:pdf` regenera un único tamaño Carta por idioma con enlaces de contacto y proyectos verificados. Sin cambio de fase.
+- Ajuste solicitado: tercer botón en el hero de la portada («Ver CV» / «View CV») que enlaza al currículum en línea de cada idioma con icono `IconFileCv` de Tabler y analítica `nav_section`. Sin cambio de fase.
 
 ## Pendiente y riesgos
 
@@ -85,6 +86,7 @@ Actualizado: 26 de noviembre de 2026.
 - Medir Lighthouse y revisar accesibilidad y responsive manualmente en páginas representativas; aún no hay cifras verificadas.
 - Revisar capturas por datos privados; verificar enlaces históricos y redirecciones en el hosting.
 - El propietario confirmó que `public/projects/construfijaciones-dte/factura.webp` contiene datos de prueba; se conserva. Revisar independientemente las demás capturas antes de migrarlas.
+- Falta revisión visual del nuevo botón «Ver CV» del hero en escritorio y móvil.
 - Revisar visualmente el carrusel y las transiciones en ambos idiomas y en móvil; el contenido de proceso puede quedar oculto sin JavaScript.
 - Decidir si añadir herramientas de tipos, lint y pruebas en una fase apropiada; no se instalaron dependencias.
 - Conservar analítica de producción, contenido bilingüe y URLs existentes durante cada transición.
@@ -156,6 +158,8 @@ Textos de sobre mí: `pnpm build` correcto (29 páginas). En `dist` se verificar
 PDF del CV (26-11-2026): `pnpm cv:pdf` generó ambos PDF con `pdfinfo`: una página tamaño Carta (612 × 792 pts) y texto seleccionable; `pdftotext` confirmó los seis apartados, los datos de contacto y la ausencia de la referencia laboral de un tercero. `pnpm build` correcto (29 páginas); en `dist/cv/` están los dos archivos y en `dist/es/cv/index.html` y `dist/en/cv/index.html` el botón con `download` y el href del idioma correspondiente. Revisión visual del PDF en escritorio y de la página `/es/cv` a 1280 px y 375 px sin desbordamiento horizontal. No se ejecutaron pruebas sin aprobación.
 
 Ajustes finales del CV (26-11-2026): `pdfinfo` confirma una página Carta por idioma; `grep` sobre el PDF verificó cuatro anotaciones `/URI` con las rutas `/es/proyectos/{id}/` y `/en/projects/{slug}/`, sin slugs ingleses en el PDF español ni viceversa. `pdftotext` confirmó las dos entradas de educación en es/en. `pnpm build` correcto (29 páginas) y `git diff --check` correcto. En navegador se revisó la alineación de educación y la separación de secciones a 1280 px. No se ejecutaron pruebas sin aprobación.
+
+CTA del CV en la portada: `pnpm build` correcto (29 páginas). En `dist/es/index.html` y `dist/en/index.html` se verificó el tercer botón del hero con `href="/es/cv/"` y `href="/en/cv/"`, las etiquetas «Ver CV» y «View CV» y el evento `nav_section` con `section: "cv", source: "hero"`. `git diff --check` correcto. Falta revisión visual en navegador. No se ejecutaron pruebas sin aprobación.
 
 ## Archivos relevantes
 
