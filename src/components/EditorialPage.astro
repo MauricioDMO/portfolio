@@ -1,5 +1,5 @@
 ---
-import { render, type CollectionEntry } from "astro:content";
+import { getCollection, render, type CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
 import Layout from "../layouts/Layout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
@@ -51,7 +51,7 @@ import {
   IconUserCheck,
   IconUsersGroup,
 } from "@tabler/icons-astro";
-import { t } from "../i18n";
+import { localeMeta, t } from "../i18n";
 import { site } from "../data/site";
 
 type Props = {
@@ -76,6 +76,19 @@ const categories: Record<string, { es: string; en: string }> = {
 const { Content, headings } = await render(entry);
 const project = entry.collection === "projects" ? entry : undefined;
 const post = entry.collection === "blog" ? entry : undefined;
+const postTranslation = post
+  ? (await getCollection("blog")).find(
+      (candidate) =>
+        candidate.data.id === post.data.id &&
+        candidate.data.locale !== entry.data.locale &&
+        !candidate.data.draft,
+    )
+  : undefined;
+const alternatePathnames = postTranslation
+  ? {
+      [postTranslation.data.locale]: `/${postTranslation.data.locale}/blog/${postTranslation.data.slug}/`,
+    }
+  : undefined;
 const postDate = post?.data.publishedAt?.toLocaleDateString(
   entry.data.locale === "es" ? "es-SV" : "en-US",
   { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" },
@@ -191,7 +204,53 @@ const structuredData = project
         ],
       },
     ]
-  : undefined;
+  : post
+    ? [
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: title,
+          description,
+          url: new URL(Astro.url.pathname, site.url).toString(),
+          mainEntityOfPage: new URL(Astro.url.pathname, site.url).toString(),
+          datePublished: post.data.publishedAt?.toISOString(),
+          dateModified: (post.data.updatedAt ?? post.data.publishedAt)?.toISOString(),
+          articleSection: categories[post.data.category]?.[lang],
+          keywords: post.data.tags.join(", "),
+          inLanguage: localeMeta[lang].lang,
+          author: {
+            "@type": "Person",
+            name: site.fullName,
+            url: site.url,
+            sameAs: [site.linkedin, site.github],
+          },
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: t("projectPage.breadcrumbHome", lang),
+              item: new URL(`/${lang}/`, site.url).toString(),
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: t("blog.eyebrow", lang),
+              item: new URL(`/${lang}/blog/`, site.url).toString(),
+            },
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: title,
+              item: new URL(Astro.url.pathname, site.url).toString(),
+            },
+          ],
+        },
+      ]
+    : undefined;
 ---
 
 <Layout
@@ -201,6 +260,7 @@ const structuredData = project
   type="article"
   image={project?.data.gallery[0]?.src}
   structuredData={structuredData}
+  alternatePathnames={alternatePathnames}
 >
   <SiteHeader />
 

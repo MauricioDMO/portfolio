@@ -1,7 +1,14 @@
 ---
 import { ClientRouter } from "astro:transitions";
 import { site } from "../data/site";
-import { getLocale, localeMeta } from "../i18n";
+import {
+  defaultLocale,
+  getLocale,
+  localeMeta,
+  locales,
+  switchLocalePath,
+  type Locale,
+} from "../i18n";
 import "../styles/global.css";
 
 type Props = {
@@ -13,6 +20,8 @@ type Props = {
   robots?: string;
   preloadImages?: string[];
   structuredData?: Record<string, unknown> | Record<string, unknown>[];
+  /** Paths whose translation cannot be derived from the URL (e.g. blog slugs). */
+  alternatePathnames?: Partial<Record<Locale, string>>;
 };
 
 const {
@@ -24,12 +33,18 @@ const {
   robots = "index, follow, max-image-preview:large",
   preloadImages = [],
   structuredData,
+  alternatePathnames,
 } = Astro.props;
 
 const lang = getLocale(Astro.currentLocale);
 
 const canonicalUrl = new URL(pathname, site.url).toString();
-const imageUrl = image ? new URL(image, site.url).toString() : undefined;
+const imageUrl = new URL(image ?? "/mauricio-dmo.webp", site.url).toString();
+const alternates = locales.map((locale) => ({
+  locale,
+  path: alternatePathnames?.[locale] ?? switchLocalePath(pathname, locale),
+}));
+const xDefault = alternates.find((item) => item.locale === defaultLocale)!;
 const jsonLd = Array.isArray(structuredData)
   ? structuredData
   : structuredData
@@ -56,6 +71,20 @@ const jsonLd = Array.isArray(structuredData)
     <meta name="theme-color" content="#0d1210" />
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={canonicalUrl} />
+    {
+      alternates.map(({ locale, path }) => (
+        <link
+          rel="alternate"
+          hreflang={localeMeta[locale].lang}
+          href={new URL(path, site.url).toString()}
+        />
+      ))
+    }
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={new URL(xDefault.path, site.url).toString()}
+    />
     <link rel="sitemap" href="/sitemap-index.xml" />
     {
       preloadImages.map((src) => (
@@ -68,14 +97,13 @@ const jsonLd = Array.isArray(structuredData)
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:locale" content={localeMeta[lang].ogLocale} />
-    {imageUrl && <meta property="og:image" content={imageUrl} />}
-    {imageUrl && <meta property="og:image:alt" content={title} />}
-    <meta name="twitter:card" content={imageUrl ? "summary_large_image" : "summary"} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content={title} />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    {imageUrl && <meta name="twitter:image" content={imageUrl} />}
+    <meta name="twitter:image" content={imageUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
     {
       jsonLd.map((item) => (
         <script type="application/ld+json" set:html={JSON.stringify(item)} />
