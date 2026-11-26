@@ -7,6 +7,8 @@ export const seo: SectionShape<typeof esSeo> = {
   projectsDescription: "Every project shows context, decisions, and impact. The stack matters, but the real strength is understanding the process and turning it into a maintainable solution.",
   aboutDescription: "About Mauricio Martínez, a Full-Stack Engineer in El Salvador: I build software that makes people's work simpler.",
   cvDescription: "Online résumé of Mauricio Martínez, Full-Stack Engineer: experience, verified results, projects, skills, education, and languages.",
+  contactDescription: "Contact Mauricio Martínez, a Full-Stack Engineer in El Salvador: email, WhatsApp, GitHub, LinkedIn and availability for remote work.",
+  blogDescription: "Engineering notes from Mauricio Martínez about experiments, architecture decisions and lessons from real projects.",
   jobTitle: "Full-Stack Engineer",
   knowWebDev: "Web development",
   knowInternalSystems: "Internal systems",

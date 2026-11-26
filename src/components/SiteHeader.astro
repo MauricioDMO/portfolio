@@ -1,15 +1,10 @@
 ---
-import { site } from "../data/site";
 import { getLocale, localizedPath, t } from "../i18n";
 import BrandLink from "./BrandLink.astro";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
+import SearchDialog from "./SearchDialog.astro";
 import ThemeSwitcher from "./ThemeSwitcher.astro";
 
-type Props = {
-  variant?: "home" | "project";
-};
-
-const { variant = "home" } = Astro.props;
 const lang = getLocale(Astro.currentLocale);
 ---
 
@@ -18,94 +13,57 @@ const lang = getLocale(Astro.currentLocale);
     class="mx-auto flex min-h-18 w-[min(calc(100%-2rem),1120px)] items-center justify-between gap-6 max-md:flex-col max-md:items-start max-md:justify-center max-md:py-4"
     aria-label={t("components.mainNav", lang)}
   >
-    <BrandLink
-      label={
-        variant === "home"
-          ? t("components.homeLabel", lang)
-          : t("components.backHome", lang)
-      }
-    />
+    <BrandLink label={t("components.homeLabel", lang)} />
     <div class="flex flex-wrap items-center gap-4 pb-1 text-sm text-(--color-muted) max-md:w-full">
-      {variant === "home" ? (
-        <>
-          <a
-            class="whitespace-nowrap no-underline transition-colors hover:text-(--color-text)"
-            href={localizedPath("/proyectos", lang)}
-            data-track="nav_section"
-            data-track-section="proyectos"
-          >
-            {t("projectPage.breadcrumbProjects", lang)}
-          </a>
-          <a
-            class="whitespace-nowrap no-underline transition-colors hover:text-(--color-text)"
-            href={localizedPath("cv", lang)}
-            data-track="nav_section"
-            data-track-section="cv"
-          >
-            {t("cv.navLabel", lang)}
-          </a>
-          <a
-            class="whitespace-nowrap no-underline transition-colors hover:text-(--color-text)"
-            href={localizedPath("#stack", lang)}
-            data-track="nav_section"
-            data-track-section="stack"
-          >
-            {t("shared.stack", lang)}
-          </a>
-          <a
-            class="whitespace-nowrap no-underline transition-colors hover:text-(--color-text)"
-            href={localizedPath("sobre-mi", lang)}
-            data-track="nav_section"
-            data-track-section="sobre-mi"
-          >
-            {t("about.eyebrow", lang)}
-          </a>
-          <a
-            class="whitespace-nowrap no-underline transition-colors hover:text-(--color-text)"
-            href={localizedPath("#contacto", lang)}
-            data-track="nav_section"
-            data-track-section="contacto"
-          >
-            {t("contact.eyebrow", lang)}
-          </a>
-        </>
-      ) : (
-        <>
-          <a
-            class="whitespace-nowrap no-underline transition-colors hover:text-(--color-text)"
-            href={localizedPath("", lang)}
-            data-track="nav_section"
-            data-track-section="inicio"
-          >
-            {t("projectPage.breadcrumbHome", lang)}
-          </a>
-          <a
-            class="whitespace-nowrap no-underline transition-colors hover:text-(--color-text)"
-            href={localizedPath("#proyectos", lang)}
-            data-track="nav_section"
-            data-track-section="proyectos"
-            data-track-source="project_page"
-          >
-            {t("projectPage.breadcrumbProjects", lang)}
-          </a>
-          <a
-            class="whitespace-nowrap no-underline transition-colors hover:text-(--color-text)"
-            href={localizedPath("cv", lang)}
-            data-track="nav_section"
-            data-track-section="cv"
-          >
-            {t("cv.navLabel", lang)}
-          </a>
-          <a
-            class="whitespace-nowrap no-underline transition-colors hover:text-(--color-text)"
-            href={`mailto:${site.email}`}
-            data-track="contact_email"
-            data-track-source="header"
-          >
-            {t("contact.eyebrow", lang)}
-          </a>
-        </>
-      )}
+      <a
+        class="whitespace-nowrap no-underline transition-colors hover:text-(--color-text)"
+        href={localizedPath("/proyectos", lang)}
+        data-track="nav_section"
+        data-track-section="proyectos"
+      >
+        {t("projectPage.breadcrumbProjects", lang)}
+      </a>
+      <a
+        class="whitespace-nowrap no-underline transition-colors hover:text-(--color-text)"
+        href={localizedPath("cv", lang)}
+        data-track="nav_section"
+        data-track-section="cv"
+      >
+        {t("cv.navLabel", lang)}
+      </a>
+      <a
+        class="whitespace-nowrap no-underline transition-colors hover:text-(--color-text)"
+        href={localizedPath("#stack", lang)}
+        data-track="nav_section"
+        data-track-section="stack"
+      >
+        {t("shared.stack", lang)}
+      </a>
+      <a
+        class="whitespace-nowrap no-underline transition-colors hover:text-(--color-text)"
+        href={localizedPath("sobre-mi", lang)}
+        data-track="nav_section"
+        data-track-section="sobre-mi"
+      >
+        {t("about.eyebrow", lang)}
+      </a>
+      <a
+        class="whitespace-nowrap no-underline transition-colors hover:text-(--color-text)"
+        href={localizedPath("blog", lang)}
+        data-track="nav_section"
+        data-track-section="blog"
+      >
+        {t("blog.eyebrow", lang)}
+      </a>
+      <a
+        class="whitespace-nowrap no-underline transition-colors hover:text-(--color-text)"
+        href={localizedPath("contacto", lang)}
+        data-track="nav_section"
+        data-track-section="contacto"
+      >
+        {t("contact.eyebrow", lang)}
+      </a>
+      <SearchDialog lang={lang} />
       <LanguageSwitcher />
       <ThemeSwitcher />
     </div>

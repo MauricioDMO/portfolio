@@ -1,9 +1,9 @@
 ---
 import {
-  IconArrowUpRight,
   IconFileCv,
-  IconMail,
+  IconLayoutGrid,
   IconMapPin,
+  IconMessage,
 } from "@tabler/icons-astro";
 import { computeTimeline } from "tegaki";
 import TegakiRenderer from "tegaki/astro";
@@ -65,13 +65,13 @@ const secondLineDelay =
     }
     <div class="mt-8 flex flex-wrap gap-3">
       <ButtonLink
-        href="#proyectos"
+        href={localizedPath("proyectos", lang)}
         variant="primary"
         event="nav_section"
         eventData={{ section: "proyectos", source: "hero" }}
       >
+        <IconLayoutGrid size={18} stroke={1.8} aria-hidden="true" />
         {t("hero.seeProjectsCta", lang)}
-        <IconArrowUpRight size={18} stroke={1.8} aria-hidden="true" />
       </ButtonLink>
       <ButtonLink
         href={localizedPath("cv", lang)}
@@ -82,11 +82,11 @@ const secondLineDelay =
         {t("hero.cvCta", lang)}
       </ButtonLink>
       <ButtonLink
-        href={`mailto:${site.email}`}
-        event="contact_email"
-        eventData={{ source: "hero" }}
+        href={localizedPath("contacto", lang)}
+        event="nav_section"
+        eventData={{ section: "contacto", source: "hero" }}
       >
-        <IconMail size={18} stroke={1.8} aria-hidden="true" />
+        <IconMessage size={18} stroke={1.8} aria-hidden="true" />
         {t("hero.talkCta", lang)}
       </ButtonLink>
     </div>

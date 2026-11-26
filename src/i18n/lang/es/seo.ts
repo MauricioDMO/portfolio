@@ -4,6 +4,8 @@ export const seo = {
   projectsDescription: "Cada proyecto muestra contexto, decisiones e impacto. El stack importa, pero la parte fuerte es entender el proceso y convertirlo en una herramienta mantenible.",
   aboutDescription: "Sobre Mauricio Martínez, Full-Stack Engineer en El Salvador: construyo software que simplifica el trabajo de las personas.",
   cvDescription: "Currículum en línea de Mauricio Martínez, Full-Stack Engineer: experiencia, resultados verificables, proyectos, habilidades, educación e idiomas.",
+  contactDescription: "Contacta con Mauricio Martínez, Full-Stack Engineer en El Salvador: correo, WhatsApp, GitHub, LinkedIn y disponibilidad para trabajo remoto.",
+  blogDescription: "Notas técnicas de Mauricio Martínez sobre ingeniería, experimentos y lecciones de proyectos reales.",
   jobTitle: "Full-Stack Engineer",
   knowWebDev: "Desarrollo web",
   knowInternalSystems: "Sistemas internos",

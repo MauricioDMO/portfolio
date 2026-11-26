@@ -4,7 +4,7 @@ export const hero = {
   titleLine2: "que ordenan operaciones.",
   eyebrow: "Full-Stack Engineer · Sistemas internos · UX útil",
   intro: "Soy MauricioDMO. Diseño y desarrollo landings, sitios web y herramientas internas con foco en claridad, buen rendimiento y experiencias fáciles de usar para personas reales.",
-  seeProjectsCta: "Ver proyectos reales",
+  seeProjectsCta: "Ver proyectos",
   cvCta: "Ver CV",
   talkCta: "Hablemos de tu proyecto",
   locationPrefix: "Desde",
