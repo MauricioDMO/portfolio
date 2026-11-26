@@ -4,7 +4,7 @@ Actualizado: 26 de noviembre de 2026.
 
 ## Fase actual
 
-**Fase 8 — Buscador global: completada el 26 de noviembre de 2026** (el propietario aprobó el inicio). El buscador usa un índice JSON generado en compilación y un diálogo nativo con atajo `Ctrl/Cmd + K`, sin dependencias nuevas. Las fases 0 a 7 siguen concluidas: `/es/cv` y `/en/cv` son el currículum en línea, `/es/sobre-mi` y `/en/about` la página personal, los PDF bilingües están publicados, y `/es/contacto`, `/en/contact`, `/es/blog` y `/en/blog` están operativos. No se crea `/uses` ni `/herramientas`: el stack sigue en `#stack` de la portada. **Fase 9 — SEO, optimización y pruebas: pendiente de aprobación explícita para iniciarla.**
+**Fase 8 — Buscador global: completada el 26 de noviembre de 2026** (el propietario aprobó el inicio). El buscador usa un índice JSON generado en compilación y un diálogo nativo con atajo `Ctrl/Cmd + K`, sin dependencias nuevas. Las fases 0 a 7 siguen concluidas: `/es/cv` y `/en/cv` son el currículum en línea, `/es/sobre-mi` y `/en/about` la página personal, los PDF bilingües están publicados, y `/es/contacto`, `/en/contact`, `/es/blog` y `/en/blog` están operativos. No se crea `/uses` ni `/herramientas`: el stack sigue en `#stack` de la portada. **Fase 9 — SEO, optimización y pruebas: completada el 26 de noviembre de 2026** (el propietario aprobó el trabajo y su cierre). Quedan como comprobaciones atrasadas, no como trabajo de esta fase: medir Lighthouse/Core Web Vitals (sin herramienta instalada), verificar las 301 en el dominio publicado y ejecutar pruebas (esta última, solo con autorización explícita). Las fases 0 a 8 siguen concluidas y no se avanza a la Fase 10 sin aprobación.
 
 ## Completado
 
@@ -99,32 +99,31 @@ Actualizado: 26 de noviembre de 2026.
 - Ajuste solicitado por el propietario: el resultado activo muestra ahora borde y fondo de acento y título en color de acento, y la pista de teclado es visible bajo los resultados. Antes las flechas solo desplazaban la lista y no era evidente qué resultado estaba seleccionado; el resaltado fallaba porque la regla CSS apuntaba a `data-search-option` y el `<li>` no llevaba ese atributo.
 - Ajuste solicitado: barra de desplazamiento propia en `src/styles/global.css`, derivada de los tokens de acento y borde con `color-mix`, redondeada y con `scrollbar-width: thin`/`scrollbar-color` como equivalente para Firefox. Aplica al documento y a áreas con scroll interno, como la lista del buscador. Sin cambio de fase.
 - Corrección solicitada por el propietario: al llegar al último resultado y pulsar abajo saltaba al tercero, y desde el primero hacia arriba al antepenúltimo. La causa era el cursor quieto sobre la lista: `scrollIntoView` movía el contenido y disparaba `mouseenter` en otra opción, sobrescribiendo la selección del teclado. Se sustituyó `mouseenter` por `pointermove`, que solo responde a movimiento real del ratón; el resaltado al pasar el cursor sigue funcionando. Sin cambio de fase.
+- Fase 9: `Layout.astro` emite `hreflang="es"`, `hreflang="en"` y `hreflang="x-default"` con pares recíprocos derivados de `switchLocalePath`; las fichas del blog pasan la ruta traducida real porque sus slugs difieren entre idiomas. El canónico ya existente se conserva y el `x-default` apunta a la versión española, idioma por defecto.
+- Fase 9: imagen social predeterminada (`/mauricio-dmo.webp`) en `og:image`/`twitter:image` para las páginas que no definen una imagen propia; se retiró el `<link>` a `/favicon.ico`, que no existe en `public/`, y se conserva `favicon.svg`.
+- Fase 9: datos estructurados `BlogPosting` y `BreadcrumbList` para los artículos, con fecha real del frontmatter, autor, sección y etiquetas; los casos de estudio ya tenían `CreativeWork` y `BreadcrumbList`, y el CV, «Sobre mí» y contacto `ProfilePage` con `Person`.
+- Fase 9: las tarjetas de «Cómo trabajo» siguen siendo visibles sin JavaScript mediante un `<style is:inline>` dentro de `<noscript>`, sin cambiar la animación con JS activo.
+- Decisión de la fase 9: no se configura `i18n` en `@astrojs/sitemap` porque generaría pares `hreflang` incorrectos al no conocer los slugs traducidos de proyectos, artículos y rutas como `sobre-mi`/`about`; las referencias bilingües viven en el HTML, que es la fuente verificada.
+- Cierre de la Fase 9 confirmado por el propietario el 26 de noviembre de 2026: se acepta el SEO implementado y la documentación; Lighthouse, las redirecciones en producción y la ejecución de pruebas quedan registradas como comprobaciones pendientes.
+- El propietario dio por completadas el 26 de noviembre de 2026 las revisiones de privacidad y visuales (capturas, casos nuevos, carrusel, transiciones, contacto y blog), el bloque de contenido y las decisiones abiertas; en esta sesión no se añadieron artículos ni se cambió la redacción.
+- Auditoría de enlaces del 26 de noviembre de 2026: 1.128 referencias internas y anclas revisadas sin roturas; 26 URLs del índice de búsqueda, 26 del sitemap, 16 destinos de redirección y los dos PDF existen. De 47 enlaces externos, todos respondieron 2xx salvo `linux.org` (desafío de Cloudflare para clientes automatizados) y LinkedIn (authwall de inicio de sesión); ambos cargan en navegador, por lo que no hubo que corregir ningún destino.
 
 ## Pendiente y riesgos
 
-- Confirmar que «Hermes» en la VPS corresponde a Hermes Agent de Nous Research; el caso de estudio usa esa interpretación, derivada del servicio listado por Coolify y de la documentación oficial.
-- Revisar privacidad y autorización de las capturas restantes antes de publicar; verificar métricas existentes.
-- Revisar visualmente los dos casos nuevos en ambos idiomas y en móvil, incluida la galería de Coolify; verificar que las capturas no muestren información sensible.
-- Medir Lighthouse y revisar accesibilidad y responsive manualmente en páginas representativas; aún no hay cifras verificadas.
-- Revisar capturas por datos privados; verificar enlaces históricos y redirecciones en el hosting.
-- El propietario confirmó que `public/projects/construfijaciones-dte/factura.webp` contiene datos de prueba; se conserva. Revisar independientemente las demás capturas antes de migrarlas.
-- Revisar visualmente el carrusel y las transiciones en ambos idiomas y en móvil; el contenido de proceso puede quedar oculto sin JavaScript.
+- Atrasado a la Fase 10: medir Lighthouse y revisar accesibilidad y responsive manualmente en páginas representativas; aún no hay cifras verificadas. La revisión responsive inicial de la Fase 9 no encontró desbordamiento a 375 px ni a 1280 px en las páginas comprobadas.
+- Atrasado a la Fase 10: verificar las 16 redirecciones 301 en el hosting (las reglas locales siguen intactas).
 - Decidir si añadir herramientas de tipos, lint y pruebas en una fase apropiada; no se instalaron dependencias.
 - Conservar analítica de producción, contenido bilingüe y URLs existentes durante cada transición.
-- Revisar visualmente la página de contacto y el listado del blog en ambos idiomas, en escritorio y móvil.
-- El blog ya tiene un primer artículo real sobre el sitio y Construfijaciones; siguen pendientes los artículos técnicos propuestos en el plan (facturación electrónica, infraestructura, etc.).
-- Crear redirecciones o actualizar enlaces externos que apuntaran a una hipotética página Uses; no se crearon rutas nuevas para ella.
 - Fase 6 resuelta: currículums en inglés y español derivados del mismo contenido verificado, optimizados para impresión y ATS, con botones de descarga ya publicados. El PDF recibido no se publicó tal cual: solo estaba en español e incluía una referencia laboral con datos personales de un tercero.
 - Fase 5: el propietario eligió «Full-Stack Engineer» como título; el hero y los metadatos ya lo usan. La redacción manuscrita del hero se conserva.
 
 ## Decisiones y preguntas abiertas
 
+El propietario dio por cerradas el 26 de noviembre de 2026 las decisiones que seguían abiertas (slugs ingleses, diferencia entre `DESIGN.md` y lo implementado, y ampliación de historia/certificaciones); no se registraron cambios de redacción ni de diseño en esta sesión.
+
 - Mantener por ahora Astro, salida estática y Cloudflare; propuesta de evolución incremental, no aprobación para rediseñar.
 - El propietario eligió detectar idioma en `/` y dirigir a `/es` o `/en`, conforme al plan; conservar enlaces antiguos de proyectos.
-- Revisar los slugs ingleses iniciales y su impacto SEO antes de publicar.
 - El propietario aprobó la Fase 1, conservando la identidad actual y con temas light/dark/system.
-- La tipografía y el ancho documentados en `DESIGN.md` difieren de lo implementado. Se propone conservar la apariencia actual y discutir cambios significativos, incluida la escritura del hero.
-- La fotografía ya está disponible. Siguen pendientes la ampliación de la historia personal, las certificaciones y la verificación de herramientas y servicios autohospedados antes de publicarlos.
 - Los PDF en inglés y español se derivan del mismo contenido verificado del CV web, con presentación optimizada para impresión y ATS; se generan con `pnpm cv:pdf` usando Chrome headless, sin añadir dependencias.
 - El propietario decidió publicar en el CV web solo experiencia y educación, más su teléfono `+503 79996844` (WhatsApp); se excluyen el teléfono distinto del PDF y la referencia laboral de un tercero. El correo de contacto es `contacto@mauriciodmo.com`.
 - Fase 7: el propietario descartó la página Uses porque el stack ya está en la portada; no se crean `/uses` ni `/herramientas`. Aceptó en cambio usar el stack verificado del repositorio como referencia, sin inventar herramientas ni descripciones.
@@ -203,6 +202,8 @@ Scrollbars: `pnpm build` correcto (35 páginas). En el CSS compilado se verifica
 
 Wrap del buscador: `pnpm build` correcto (35 páginas). Con ocho resultados, `End` + `ArrowDown` pasa al índice 0 y `Home` + `ArrowUp` al 7, aunque se dispare `mouseenter` sobre otra opción; `pointermove` sobre una opción sigue seleccionándola. No se ejecutaron pruebas sin aprobación.
 
+Fase 9 (26-11-2026): `pnpm build` correcto (35 páginas). En el HTML generado se verificó que portada, catálogo, caso de estudio, artículo y «Sobre mí» emiten los tres `hreflang` con pares recíprocos: `/es/proyectos/sistema-inventario/` ↔ `/en/projects/inventory-management/`, `/es/blog/este-sitio-y-construfijaciones/` ↔ `/en/blog/this-site-and-construfijaciones/` y `/es/sobre-mi/` ↔ `/en/about/`; `x-default` apunta al equivalente español. El `sitemap-0.xml` sigue con 26 URLs y sin alternates (decisión documentada). `og:image` aparece en todas las páginas revisadas; no queda ninguna referencia a `favicon.ico`. Los artículos emiten `BlogPosting` con `datePublished` real y `BreadcrumbList`; en `/en/about/` el `<noscript>` conserva las tarjetas visibles. Un recorrido estático sobre los 35 HTML no encontró enlaces internos rotos. En navegador se revisaron `/es/`, `/es/sobre-mi/`, `/es/blog/este-sitio-y-construfijaciones/` y `/en/projects/`: a 375 px no hay desbordamiento horizontal (`scrollWidth` 375 = `innerWidth`), el `lang` del documento es el correcto y los tres `hreflang` están presentes; a 1280 px tampoco hay desbordamiento en la portada. `lighthouse` no está instalado en el entorno; sin cifras. No se ejecutaron pruebas sin aprobación.
+
 ## Archivos relevantes
 
 - `docs/migration-plan.md`: plan original.
@@ -253,7 +254,11 @@ Wrap del buscador: `pnpm build` correcto (35 páginas). Con ocho resultados, `En
 - `src/components/SearchDialog.astro`: botón en la cabecera, diálogo, filtrado y navegación por teclado del buscador.
 - `src/i18n/lang/{es,en}/search.ts`, `src/i18n/schema.ts`, `src/i18n/lang/{es,en}/index.ts`: sección `search` y etiquetas del buscador.
 - `src/components/SiteHeader.astro`: botón del buscador en el menú compartido.
+- `src/layouts/Layout.astro`: `hreflang` (es/en/x-default), imagen social predeterminada y link de favicon válido.
+- `src/components/EditorialPage.astro`: ruta traducida del artículo y datos `BlogPosting`/`BreadcrumbList`.
+- `src/sections/process/ProcessSection.astro`: contenido visible sin JavaScript.
+- `docs/redirects.md`: decisión sobre `hreflang` en el sitemap y comprobaciones de la fase 9.
 
 ## Próximo paso
 
-Fase 8 completada: el buscador está implementado, compilado y revisado en navegador en ambos idiomas, escritorio y móvil. El siguiente paso es la **Fase 9 — SEO, optimización y pruebas**, previa aprobación explícita: metadatos y `hreflang` bilingües, sitemap, canonical, datos estructurados, redirecciones en el hosting, Lighthouse/accesibilidad/responsive y ejecución de pruebas (esta última solo con tu autorización). No avanzar a la Fase 9 sin aprobación.
+Fase 9 completada y cerrada con la aprobación del propietario. También cerró las revisiones de privacidad/visuales, el contenido y las decisiones abiertas, y pidió solo verificar enlaces: la auditoría no encontró roturas ni destinos que corregir. Comprobaciones atrasadas para la Fase 10: medir Lighthouse y Core Web Vitals en páginas representativas (no hay herramienta instalada), revisar accesibilidad y responsive de forma manual, verificar las redirecciones en producción y ejecutar `node --test test/*.test.mjs` **solo con autorización explícita**. El siguiente paso es proponer el inicio de la **Fase 10 — Publicación y limpieza**; no avanzar sin aprobación.
