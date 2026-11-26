@@ -1,14 +1,14 @@
 const rawSiteUrl =
-  import.meta.env.PUBLIC_SITE_URL ??
-  import.meta.env.SITE_URL ??
+  import.meta.env?.PUBLIC_SITE_URL ??
+  import.meta.env?.SITE_URL ??
   'https://mauriciodmo.com';
 
 export const site = {
   name: 'MauricioDMO',
   fullName: 'Mauricio Martinez',
-  title: 'MauricioDMO | Desarrollo web, sistemas internos y automatizacion',
+  title: 'MauricioDMO | Full-Stack Engineer',
   description:
-    'Portafolio de MauricioDMO, desarrollador web full-stack enfocado en landings, sitios web, sistemas internos y automatizacion de procesos reales.',
+    'Portafolio de Mauricio Martinez, Full-Stack Engineer enfocado en sistemas internos, automatizacion de procesos y aplicaciones web.',
   url: rawSiteUrl.replace(/\/$/, ''),
   email: 'contacto@mauriciodmo.com',
   phone: '+503 79996844',

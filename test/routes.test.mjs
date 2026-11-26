@@ -41,6 +41,13 @@ test('switchLocalePath maps /es/proyectos ids to /en/projects slugs and back', (
   }
 });
 
+test('CV routes are locale-neutral', () => {
+  assert.equal(localizedPath('cv', 'es'), '/es/cv/');
+  assert.equal(localizedPath('cv', 'en'), '/en/cv/');
+  assert.equal(switchLocalePath('/es/cv/', 'en'), '/en/cv/');
+  assert.equal(switchLocalePath('/en/cv/', 'es'), '/es/cv/');
+});
+
 test('locale switch preserves query and hash', () => {
   assert.equal(
     switchLocalePath('/es/proyectos/sistema-inventario/?filter=all#galeria', 'en'),

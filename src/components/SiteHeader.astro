@@ -38,11 +38,11 @@ const lang = getLocale(Astro.currentLocale);
           </a>
           <a
             class="whitespace-nowrap no-underline transition-colors hover:text-(--color-text)"
-            href={localizedPath("sobre-mi#proceso", lang)}
+            href={localizedPath("cv", lang)}
             data-track="nav_section"
-            data-track-section="proceso"
+            data-track-section="cv"
           >
-            {t("workflow.eyebrow", lang)}
+            {t("cv.navLabel", lang)}
           </a>
           <a
             class="whitespace-nowrap no-underline transition-colors hover:text-(--color-text)"
@@ -87,6 +87,14 @@ const lang = getLocale(Astro.currentLocale);
             data-track-source="project_page"
           >
             {t("projectPage.breadcrumbProjects", lang)}
+          </a>
+          <a
+            class="whitespace-nowrap no-underline transition-colors hover:text-(--color-text)"
+            href={localizedPath("cv", lang)}
+            data-track="nav_section"
+            data-track-section="cv"
+          >
+            {t("cv.navLabel", lang)}
           </a>
           <a
             class="whitespace-nowrap no-underline transition-colors hover:text-(--color-text)"

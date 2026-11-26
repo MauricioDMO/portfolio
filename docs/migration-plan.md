@@ -55,7 +55,7 @@ El estado de disponibilidad debe ser configurable y no estar codificado directam
 
 Mi título profesional principal será:
 
-**Software Engineer**
+**Full-Stack Engineer** (decisión del propietario del 26 de noviembre de 2026; sustituye la propuesta original de «Software Engineer»).
 
 Las áreas que tendrán mayor protagonismo serán:
 
@@ -252,6 +252,7 @@ En dispositivos móviles se utilizará una navegación compacta y accesible.
 ├── /en
 │   ├── /projects
 │   │   └── /[slug]
+│   ├── /cv
 │   ├── /about
 │   ├── /blog
 │   │   └── /[slug]
@@ -261,6 +262,7 @@ En dispositivos móviles se utilizará una navegación compacta y accesible.
 └── /es
     ├── /proyectos
     │   └── /[slug]
+    ├── /cv
     ├── /sobre-mi
     ├── /blog
     │   └── /[slug]
@@ -269,6 +271,8 @@ En dispositivos móviles se utilizará una navegación compacta y accesible.
 ```
 
 Esta estructura es una propuesta funcional. Adaptar su implementación al framework existente sin comprometer el comportamiento esperado.
+
+**Actualización del propietario (26 de noviembre de 2026):** `/cv` es el currículum en línea (experiencia, resultados, proyectos enlazados, habilidades, educación e idiomas) y `/sobre-mi` / `/about` es la página personal (historia, intereses, filosofía, «Cómo trabajo», IA con criterio, aprendizaje y objetivos). «Cómo trabajo» deja de ser una entrada independiente del menú. La rejilla de tecnologías y el ancla `#stack` permanecen en la portada: no se crea la página `/stack` propuesta.
 
 # 7. Internacionalización
 
@@ -361,7 +365,7 @@ Propuesta inicial en inglés:
 
 **Hey, I'm Mauricio.**
 
-**Software Engineer**
+**Full-Stack Engineer**
 
 I build software, automate processes and explore new technologies to solve real-world problems.
 
@@ -371,7 +375,7 @@ Propuesta inicial en español:
 
 **Hola, soy Mauricio.**
 
-**Software Engineer**
+**Full-Stack Engineer**
 
 Desarrollo software, automatizo procesos y exploro nuevas tecnologías para resolver problemas reales.
 
@@ -634,7 +638,7 @@ Revisar las capturas de pantalla antes de publicarlas.
 
 # 11. Página Sobre mí: CV web
 
-La página Sobre mí funcionará principalmente como un currículum web: presentará de forma clara, verificable y fácil de recorrer mi perfil profesional. Puede incluir contexto personal, pero no debe convertirse en una biografía extensa ni repetir información de otras páginas.
+La página Sobre mí presentará quién soy y cómo pienso: historia breve, intereses, filosofía, metodología de trabajo, IA con criterio, aprendizaje continuo y objetivos profesionales. No debe convertirse en una biografía extensa ni repetir información de otras páginas. El currículum web verificable vive en `/cv` (ver el apartado 6.2 y la actualización del 26 de noviembre de 2026).
 
 ## 11.1. Presentación
 

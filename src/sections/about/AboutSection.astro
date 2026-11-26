@@ -2,12 +2,6 @@
 import { getLocale, t } from '../../i18n';
 
 const lang = getLocale(Astro.currentLocale);
-const profile = [
-  ["Nombre", "Mauricio Martínez"],
-  ["Foco", "Frontend con criterio full-stack"],
-  ["Trabajo", "Sistemas internos, automatización y presencia web"],
-  ["Forma", "Rapidez, responsabilidad y aprendizaje continuo"],
-];
 ---
 
 <section class="border-t border-[var(--color-border)]/60 py-18" id="sobre-mi">
@@ -27,7 +21,7 @@ const profile = [
         >
         </div>
 
-        <div class="relative pl-5 md:pl-8 mx-auto max-w-3xl">
+        <div class="relative mx-auto max-w-3xl pl-5 md:pl-8">
           <p
             class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]"
           >
@@ -36,48 +30,36 @@ const profile = [
           <h2
             class="mt-5 max-w-190 text-[clamp(2.25rem,5vw,4.8rem)] leading-[0.95] tracking-[-0.07em] text-[var(--color-text)]"
           >
-            {t('about.title', lang)}
+            {t('about.storyTitle', lang)}
           </h2>
 
           <div
             class="mt-7 max-w-175 space-y-4 text-[1.02rem] leading-relaxed text-[var(--color-muted)]"
           >
-            <p>
-              {t('about.bio1', lang)}
-            </p>
-            <p>
-              {t('about.bio2', lang)}
-            </p>
-            <p>
-              {t('about.bio3', lang)}
-            </p>
+            <p>{t('about.bio1', lang)}</p>
+            <p>{t('about.bio2', lang)}</p>
           </div>
         </div>
       </article>
 
       <aside class="grid gap-4 md:grid-cols-2">
         <article
-          class="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)]/90 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.22)]"
+          class="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)]/90 p-5"
         >
           <p
             class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]"
           >
-            {t('about.profileEyebrow', lang)}
+            {t('about.interestsEyebrow', lang)}
           </p>
-          <dl class="mt-5 divide-y divide-[var(--color-border)]/75">
+          <ul class="mt-4 grid gap-3 p-0">
             {
-              profile.map(([label, value]) => (
-                <div class="grid gap-1 py-3 first:pt-0 last:pb-0 sm:grid-cols-[0.36fr_0.64fr]">
-                  <dt class="font-mono text-[0.7rem] uppercase tracking-[0.08em] text-[var(--color-muted)]">
-                    {t(label, lang)}
-                  </dt>
-                  <dd class="text-sm leading-relaxed text-[var(--color-text)]">
-                    {t(value, lang)}
-                  </dd>
-                </div>
+              ['about.interest1', 'about.interest2', 'about.interest3'].map((key) => (
+                <li class="list-none pl-4 leading-relaxed text-[var(--color-muted)] before:mr-2 before:content-['·']">
+                  {t(key, lang)}
+                </li>
               ))
             }
-          </dl>
+          </ul>
         </article>
 
         <article
@@ -88,7 +70,7 @@ const profile = [
           >
             {t('about.aiEyebrow', lang)}
           </p>
-          <p class="mt-3 leading-relaxed text-[var(--color-muted)]">
+          <p class="mt-3 text-lg leading-snug text-[var(--color-text)]">
             {t('about.ai1', lang)}
           </p>
           <p class="mt-3 leading-relaxed text-[var(--color-muted)]">

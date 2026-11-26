@@ -5,6 +5,7 @@ import { seo } from './seo';
 import { projectPage } from './projectPage';
 import { hero } from './hero';
 import { about } from './about';
+import { cv } from './cv';
 import { contact } from './contact';
 import { workflow } from './workflow';
 import { stack } from './stack';
@@ -20,6 +21,7 @@ export const es = {
   projectPage,
   hero,
   about,
+  cv,
   contact,
   workflow,
   stack,

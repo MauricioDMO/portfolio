@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "cv:pdf": "node scripts/generate-cv-pdf.mjs",
     "preview": "pnpm --filter portfolio... run build && wrangler dev",
     "astro": "astro",
     "generate-types": "wrangler types",

@@ -2,6 +2,7 @@
 type Props = {
   href: string;
   variant?: "primary" | "secondary";
+  download?: string;
   class?: string;
   target?: string;
   rel?: string;
@@ -9,7 +10,7 @@ type Props = {
   eventData?: Record<string, string>;
 };
 
-const { href, variant = "secondary", class: customClass, target, rel, event, eventData } = Astro.props;
+const { href, variant = "secondary", download, class: customClass, target, rel, event, eventData } = Astro.props;
 
 const tracking = event
   ? {
@@ -30,6 +31,6 @@ const variants = {
 };
 ---
 
-<a class={`${base} ${variants[variant]} ${customClass || ""}`} href={href} target={target} rel={rel} {...tracking}>
+<a class={`${base} ${variants[variant]} ${customClass || ""}`} href={href} download={download} target={target} rel={rel} {...tracking}>
   <slot />
 </a>

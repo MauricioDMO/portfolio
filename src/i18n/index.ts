@@ -1,6 +1,9 @@
+import { projectEnSlug, projectEsId } from '../data/project-slugs';
 import { enFlat } from './lang/en';
 import { esFlat } from './lang/es';
 import type { Locale } from './schema';
+
+export { projectEnSlug, projectEsId } from '../data/project-slugs';
 
 export type { Locale } from './schema';
 export type { LanguageDictionary, Section, SectionName } from './schema';
@@ -36,31 +39,6 @@ export function t(text: string, lang: Locale): string {
   const dict = lang === 'es' ? esFlat : enFlat;
   const key = text in dict ? text : sourceToKey[text];
   return (key && dict[key]) || text;
-}
-
-/**
- * Stable project identifiers. The Spanish id is the internal source of truth;
- * the English slug is the public segment used under /en/projects/.
- */
-const projectSlugs: Record<string, string> = {
-  'facturacion-electronica-dte': 'electronic-invoicing',
-  'sistema-inventario': 'inventory-management',
-  'sistema-rma-garantias': 'warranty-management',
-  'construfijaciones-web': 'construfijaciones-web',
-};
-
-const slugToId: Record<string, string> = Object.fromEntries(
-  Object.entries(projectSlugs).map(([id, slug]) => [slug, id]),
-);
-
-/** English public slug for a Spanish project id (identity when unmapped). */
-export function projectEnSlug(id: string): string {
-  return projectSlugs[id] ?? id;
-}
-
-/** Spanish id for an English project slug or a Spanish id (identity when unmapped). */
-export function projectEsId(slugOrId: string): string {
-  return slugToId[slugOrId] ?? slugOrId;
 }
 
 /** Separate query/hash from the path so the suffix survives a locale switch. */

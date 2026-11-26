@@ -1,0 +1,333 @@
+---
+import {
+  IconArrowUpRight,
+  IconBrandGithub,
+  IconBrandLinkedin,
+  IconDownload,
+  IconMail,
+  IconPhone,
+} from "@tabler/icons-astro";
+import ButtonLink from "../../components/ButtonLink.astro";
+import CvSectionHeading from "../../components/CvSectionHeading.astro";
+import SiteFooter from "../../components/SiteFooter.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+import Layout from "../../layouts/Layout.astro";
+import { cvDuties, cvProjects, cvResults, cvSkills } from "../../data/cv";
+import { site } from "../../data/site";
+import { getLocale, localeMeta, localizedPath, t } from "../../i18n";
+
+const lang = getLocale(Astro.currentLocale);
+const pathname = localizedPath("cv", lang);
+const title = `${t("cv.eyebrow", lang)} | ${site.fullName}`;
+const description = t("seo.cvDescription", lang);
+
+const eyebrow =
+  "font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-accent)]";
+const sectionClass = "pb-12";
+
+const duties = cvDuties.map((key) => t(key, lang));
+const results = cvResults.map((key) => t(key, lang));
+const metrics = [
+  [t("cv.metric1", lang), t("cv.metric1Label", lang)],
+  [t("cv.metric2", lang), t("cv.metric2Label", lang)],
+  [t("cv.metric3", lang), t("cv.metric3Label", lang)],
+];
+const skills = cvSkills.map(([label, items]) => [t(label, lang), t(items, lang)]);
+const languages = [
+  [t("cv.languageSpanish", lang), t("cv.languageSpanishLevel", lang)],
+  [t("cv.languageEnglish", lang), t("cv.languageEnglishLevel", lang)],
+];
+const projects = cvProjects.map(([id, title, description, stack]) => ({
+  id,
+  title: t(title, lang),
+  description: t(description, lang),
+  stack,
+}));
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    name: title,
+    url: new URL(pathname, site.url).toString(),
+    inLanguage: localeMeta[lang].lang,
+    description,
+    mainEntity: {
+      "@type": "Person",
+      name: site.fullName,
+      alternateName: site.name,
+      url: site.url,
+      email: `mailto:${site.email}`,
+      telephone: site.phone,
+      sameAs: [site.linkedin, site.github],
+      jobTitle: t("cv.role", lang),
+      knowsAbout: skills.map(([label]) => label),
+    },
+  },
+];
+---
+
+<Layout
+  title={title}
+  description={description}
+  pathname={pathname}
+  image="/mauricio-dmo.webp"
+  structuredData={structuredData}
+>
+  <SiteHeader />
+
+  <main>
+    <section class="mx-auto w-[min(calc(100%-2rem),1120px)] py-14">
+      <p class={eyebrow}>{t("cv.eyebrow", lang)}</p>
+      <h1 class="mt-4 text-[clamp(2.5rem,6vw,4.5rem)] leading-none tracking-[-0.06em] text-[var(--color-text)]">
+        {site.fullName}
+      </h1>
+      <p class="mt-3 text-xl text-[var(--color-text)]">{t("cv.role", lang)}</p>
+      <p class="mt-2 text-sm text-[var(--color-muted)]">{t("cv.location", lang)}</p>
+      <p class="mt-5 max-w-185 leading-relaxed text-[var(--color-muted)]">
+        {t("cv.intro", lang)}
+      </p>
+      <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-[var(--color-muted)]">
+        <a
+          class="inline-flex items-center gap-2 no-underline transition-colors hover:text-(--color-text)"
+          href={site.whatsapp}
+          target="_blank"
+          rel="noreferrer"
+          data-track="contact_phone"
+          data-track-source="cv"
+        >
+          <IconPhone size={16} stroke={1.8} aria-hidden="true" />
+          {site.phone}
+        </a>
+        <a
+          class="inline-flex items-center gap-2 no-underline transition-colors hover:text-(--color-text)"
+          href={`mailto:${site.email}`}
+          data-track="contact_email"
+          data-track-source="cv"
+        >
+          <IconMail size={16} stroke={1.8} aria-hidden="true" />
+          {site.email}
+        </a>
+        <a
+          class="inline-flex items-center gap-2 no-underline transition-colors hover:text-(--color-text)"
+          href={site.github}
+          target="_blank"
+          rel="noreferrer"
+          data-track="social_link"
+          data-track-network="github"
+          data-track-source="cv"
+        >
+          <IconBrandGithub size={16} stroke={1.8} aria-hidden="true" />
+          GitHub
+        </a>
+        <a
+          class="inline-flex items-center gap-2 no-underline transition-colors hover:text-(--color-text)"
+          href={site.linkedin}
+          target="_blank"
+          rel="noreferrer"
+          data-track="social_link"
+          data-track-network="linkedin"
+          data-track-source="cv"
+        >
+          <IconBrandLinkedin size={16} stroke={1.8} aria-hidden="true" />
+          LinkedIn
+        </a>
+      </div>
+      <div class="mt-6">
+        <ButtonLink
+          href={`/cv/mauricio-martinez-cv-${lang}.pdf`}
+          download={`mauricio-martinez-cv-${lang}.pdf`}
+          variant="primary"
+          event="cv_download"
+          eventData={{ source: "cv", locale: lang }}
+        >
+          <IconDownload size={18} stroke={1.8} aria-hidden="true" />
+          {t("cv.downloadPdf", lang)}
+        </ButtonLink>
+      </div>
+    </section>
+
+    <section class={sectionClass} id="experiencia">
+      <div class="mx-auto w-[min(calc(100%-2rem),1120px)]">
+        <CvSectionHeading label={t("cv.experienceEyebrow", lang)} />
+        <h3 class="text-2xl text-[var(--color-text)]">
+          {t("cv.experienceRole", lang)}
+        </h3>
+        <p class="mt-1 text-[var(--color-muted)]">
+          {t("cv.experienceCompany", lang)}
+        </p>
+        <p class="mt-1 text-sm text-[var(--color-muted)]">
+          {t("cv.experiencePeriod", lang)}
+        </p>
+        <ul class="mt-5 grid gap-2 p-0">
+          {
+            duties.map((duty) => (
+              <li class="list-none pl-4 text-[var(--color-muted)] before:mr-2 before:content-['·']">
+                {duty}
+              </li>
+            ))
+          }
+        </ul>
+
+        <dl class="mt-7 grid gap-3 sm:grid-cols-3">
+          {
+            metrics.map(([value, label]) => (
+              <div class="rounded-md border border-[var(--color-border)] bg-[var(--color-card)]/75 p-4">
+                <dt class="text-2xl font-semibold text-[var(--color-accent)]">
+                  {value}
+                </dt>
+                <dd class="mt-1 text-sm text-[var(--color-muted)]">{label}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <p class="mt-6 text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]">
+          {t("cv.resultsEyebrow", lang)}
+        </p>
+        <ul class="mt-3 grid gap-2 p-0 text-sm leading-relaxed text-[var(--color-muted)]">
+          {
+            results.map((result) => (
+              <li class="list-none pl-4 before:mr-2 before:content-['·']">
+                {result}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section class={sectionClass} id="proyectos">
+      <div class="mx-auto w-[min(calc(100%-2rem),1120px)]">
+        <CvSectionHeading label={t("cv.projectsEyebrow", lang)} />
+        <ul class="mt-5 grid gap-4 p-0 md:grid-cols-2">
+          {
+            projects.map((project) => (
+              <li class="list-none rounded-md border border-[var(--color-border)] bg-[var(--color-card)]/75 p-5">
+                <a
+                  class="inline-flex items-center gap-2 font-semibold text-[var(--color-text)] no-underline transition-colors hover:text-(--color-accent)"
+                  href={localizedPath(`proyectos/${project.id}`, lang)}
+                >
+                  <span>{project.title}</span>
+                  <IconArrowUpRight size={16} stroke={1.8} aria-hidden="true" />
+                </a>
+                <p class="mt-2 text-sm leading-relaxed text-[var(--color-muted)]">
+                  {project.description}
+                </p>
+                <p class="mt-3 font-mono text-xs text-[var(--color-muted)]">
+                  {project.stack}
+                </p>
+                <a
+                  class="mt-3 inline-flex items-center gap-1 text-sm text-[var(--color-accent)] no-underline hover:underline"
+                  href={localizedPath(`proyectos/${project.id}`, lang)}
+                >
+                  {t("cv.projectLink", lang)}
+                  <IconArrowUpRight size={14} stroke={1.8} aria-hidden="true" />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section class={sectionClass} id="habilidades">
+      <div class="mx-auto w-[min(calc(100%-2rem),1120px)]">
+        <CvSectionHeading label={t("cv.skillsEyebrow", lang)} />
+        <dl class="mt-5 grid gap-3 md:grid-cols-2">
+          {
+            skills.map(([label, items]) => (
+              <div class="rounded-md border border-[var(--color-border)] bg-[var(--color-card)]/75 p-4">
+                <dt class="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-accent)]">
+                  {label}
+                </dt>
+                <dd class="mt-2 text-sm leading-relaxed text-[var(--color-muted)]">
+                  {items}
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </section>
+
+    <section class={sectionClass} id="educacion">
+      <div class="mx-auto w-[min(calc(100%-2rem),1120px)]">
+        <CvSectionHeading label={t("cv.educationEyebrow", lang)} />
+        <div class="grid gap-6 md:grid-cols-2">
+          <div>
+            <h3 class="text-2xl text-[var(--color-text)]">
+              {t("cv.educationDegree", lang)}
+            </h3>
+            <p class="mt-2 text-[var(--color-text)]">
+              {t("cv.educationSchool", lang)}
+            </p>
+            <p class="mt-1 text-sm text-[var(--color-muted)]">
+              {t("cv.educationStatus", lang)}
+            </p>
+          </div>
+          <div>
+            <h3 class="text-2xl text-[var(--color-text)]">
+              {t("cv.educationCubo", lang)}
+            </h3>
+            <p class="mt-2 text-[var(--color-text)]">
+              {t("cv.educationCuboSchool", lang)}
+            </p>
+            <p class="mt-1 text-sm text-[var(--color-muted)]">
+              {t("cv.educationCuboStatus", lang)}
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class={sectionClass} id="idiomas">
+      <div class="mx-auto w-[min(calc(100%-2rem),1120px)]">
+        <CvSectionHeading label={t("cv.languagesEyebrow", lang)} />
+        <dl class="mt-5 grid gap-3 sm:grid-cols-2">
+          {
+            languages.map(([name, level]) => (
+              <div class="flex flex-wrap items-baseline justify-between gap-2 rounded-md border border-[var(--color-border)] bg-[var(--color-card)]/75 p-4">
+                <dt class="text-[var(--color-text)]">{name}</dt>
+                <dd class="text-sm text-[var(--color-muted)]">{level}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </section>
+
+    <section class={sectionClass} id="contacto">
+      <div class="mx-auto w-[min(calc(100%-2rem),1120px)]">
+        <CvSectionHeading label={t("cv.contactEyebrow", lang)} />
+        <div class="grid gap-5 md:grid-cols-[0.8fr_1.2fr]">
+          <p class="text-lg leading-relaxed text-[var(--color-muted)]">
+            {t("cv.contactText", lang)}
+          </p>
+          <div class="flex flex-wrap items-center gap-3">
+            <ButtonLink
+              href={site.whatsapp}
+              target="_blank"
+              rel="noreferrer"
+              variant="primary"
+              event="contact_phone"
+              eventData={{ source: "cv" }}
+            >
+              <IconPhone size={18} stroke={1.8} aria-hidden="true" />
+              {site.phone}
+            </ButtonLink>
+            <ButtonLink
+              href={`mailto:${site.email}`}
+              event="contact_email"
+              eventData={{ source: "cv" }}
+            >
+              <IconMail size={18} stroke={1.8} aria-hidden="true" />
+              {site.email}
+            </ButtonLink>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter label="Currículum" homeLink />
+</Layout>

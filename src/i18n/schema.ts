@@ -14,6 +14,7 @@ export const sections = [
   'projectPage',
   'hero',
   'about',
+  'cv',
   'contact',
   'workflow',
   'stack',

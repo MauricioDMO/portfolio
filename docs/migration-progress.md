@@ -1,10 +1,10 @@
 # Seguimiento de migración
 
-Actualizado: 25 de noviembre de 2026.
+Actualizado: 26 de noviembre de 2026.
 
 ## Fase actual
 
-**Fase 6 — Sobre mí y currículum**, implementada en el alcance aprobado: CV web bilingüe en `/es/sobre-mi` y `/en/about` con experiencia, educación, conocimientos, contacto y el resumen de fortalezas/métricas; la portada quedó en hero mínimo (foto, titular, descripción, disponibilidad y botones), proyectos, stack y contacto. Quedan los PDF descargables y la historia personal. No iniciar la Fase 7 sin aprobación explícita.
+**Fase 6 — Sobre mí y currículum**, reorientada por decisión del propietario el 26 de noviembre de 2026: `/es/cv` y `/en/cv` son el currículum en línea; `/es/sobre-mi` y `/en/about` son la página personal. El título profesional es **Full-Stack Engineer**. La portada sigue en hero mínimo (foto, titular, descripción, disponibilidad y botones), proyectos, stack y contacto; no se crea la página `/stack` propuesta. Los PDF descargables en ambos idiomas ya están generados y enlazados desde `/cv`. Queda únicamente ampliar la historia personal si el propietario lo desea. No iniciar la Fase 7 sin aprobación explícita.
 
 ## Completado
 
@@ -57,7 +57,22 @@ Actualizado: 25 de noviembre de 2026.
 - Fase 6: rutas `/es/sobre-mi` y `/en/about` con una plantilla compartida: presentación con foto, experiencia real (responsabilidades y resultados verificables), educación en curso, conocimientos agrupados, contacto con teléfono/WhatsApp y correo, y las secciones reutilizadas de About y proceso. Sin botón de descarga de CV.
 - Fase 6: navegación actualizada para enlazar a las rutas del CV web y a `#proceso` dentro de ellas; equivalencias `sobre-mi` ↔ `about` añadidas a `localizedPath`.
 - Fase 6: el correo de contacto centralizado pasa a ser `contacto@mauriciodmo.com`; el teléfono `+503 79996844` y su enlace de WhatsApp también quedan en `src/data/site.ts`.
-- Ajuste solicitado: la portada se redujo de nuevo a petición del propietario. Se quitaron del hero los tres chips de enfoque, la fila de GitHub/LinkedIn (disponible en el footer) y la tarjeta de fortalezas/cifras; se conservan la foto, el titular, la descripción, la disponibilidad y los dos botones. La tarjeta se movió al CV web como `ProfileSignalCard` (sección `#resumen`) con sus textos bilingües.
+- Ajuste solicitado: la portada se redujo de nuevo a petición del propietario. Se quitaron del hero los tres chips de enfoque, la fila de GitHub/LinkedIn (disponible en el footer) y la tarjeta de fortalezas/cifras; se conservan la foto, el titular, la descripción, la disponibilidad y los dos botones.
+- Decisión del propietario (26-11-2026): título profesional **Full-Stack Engineer**; `/cv` pasa a ser el currículum en línea y `/sobre-mi` / `/about` la página personal; se descarta la página `/stack` y sus tecnologías siguen en la portada.
+- Fase 6: marco compartido `src/pages/cv/_CvPageFrame.astro` y rutas `/es/cv` y `/en/cv` con presentación, contacto, experiencia, impacto operativo, cuatro proyectos enlazados a sus casos, habilidades (incluidas Negocio, Herramientas e IA con criterio), educación e idiomas. Sin botón de PDF hasta tener los documentos definitivos. El teléfono `+503 79996844` (WhatsApp) aparece en la cabecera y en el contacto; el sitio corporativo ocupa la segunda posición de los proyectos, por petición del propietario.
+- Fase 6: `/es/sobre-mi` y `/en/about` reescritos como página personal con historia, intereses, filosofía, IA con criterio, las cinco etapas de «Cómo trabajo», aprendizaje continuo y objetivos profesionales; enlace destacado al currículum.
+- Fase 6: eliminado `ProfileSignalCard.astro` y sus textos sin uso en `hero`; el componente mostraba «4 proyectos reales», métrica que el propietario prefirió no destacar.
+- Fase 6: navegación actualizada (Currículum en las dos variantes, «Cómo trabajo» fuera del menú, `#stack` conservado en la portada); metadatos y `jobTitle` bilingües ajustados a Full-Stack Engineer.
+- Ajuste solicitado: `--color-muted` pasa de `#9baaa0` a `#c6d5cb` en tema oscuro y de `#496253` a `#345139` en tema claro, para aumentar el contraste del texto de cuerpo. Un único token en `src/styles/global.css` cubre ambos temas (explícito y preferencia del sistema).
+- Ajuste solicitado: textos de `/es/sobre-mi` y `/en/about` reescritos con el contenido proporcionado: propuesta de valor «Construyo software que simplifica el trabajo de las personas.», ubicación junto al título, botón «Contactar» hacia `#contacto`, dos párrafos en «Un poco sobre mí», intereses como título + descripción, «Delego tareas, no decisiones.» como titular de la tarjeta de IA, cinco pasos con frases cortas y cierre «Trabajemos juntos». Se eliminaron los bloques de filosofía, aprendizaje y objetivos por redundantes con el proceso y el cierre. Sin cambio de fase.
+- Fase 6 completada en lo que no depende del propietario: datos estáticos del CV centralizados en `src/data/cv.ts` y compartidos entre el CV web y el generador de PDF.
+- Fase 6: `scripts/generate-cv-pdf.mjs` genera `public/cv/mauricio-martinez-cv-{es,en}.pdf` desde los mismos textos i18n y datos de `src/data/site.ts`, con Chrome headless y sin dependencias nuevas. Comando: `pnpm cv:pdf`.
+- Fase 6: botón «Descargar CV en PDF» / «Download résumé (PDF)» en la cabecera de `/cv`, con atributo `download`, evento de analítica `cv_download` y enlace a la versión del idioma correspondiente. `ButtonLink` admite ahora el atributo `download`.
+- Ajuste solicitado: los PDF son tamaño Carta (Letter) y tienen más estilo (cabecera con regla de acento, encabezados con barra lateral, viñetas y etiquetas con color). Los títulos de los cuatro proyectos son enlaces reales al caso de estudio en el idioma del PDF.
+- Ajuste solicitado: educación incorpora «CUBO+ y CUBO AI — Oficina Nacional De Bitcoin — En curso, generación 2026» en el CV web y en ambos PDF, con traducción al inglés. Las dos entradas de educación quedan alineadas en la web.
+- Ajuste solicitado: las secciones del CV web se distinguen mejor mediante el encabezado compartido `CvSectionHeading.astro`: regla alineada con el contenido, línea de acento y etiqueta grande en negrita; los títulos interiores pasan a `h3`.
+- El mapa id español ↔ slug inglés de proyectos se centralizó en `src/data/project-slugs.ts` y lo reutilizan la i18n y el generador de PDF.
+- Ajuste solicitado: aspecto de los PDF actualizado en `scripts/generate-cv-pdf.mjs`: tipografía Inter/IBM Plex Sans con Arial como respaldo (nombre 26 pt, encabezados 11,5 pt, cuerpo 10 pt), más separación entre secciones, encabezados sin barra vertical (solo regla horizontal fina), contacto con etiqueta y dato visible (correo, teléfono, portafolio, GitHub y LinkedIn) como enlaces, y cifras de impacto operativo en negrita; las URLs se muestran de forma compacta para que el PDF impreso conserve los datos de contacto. Etiquetas `cv.contactEmail`, `cv.contactPhone` y `cv.contactPortfolio` añadidas a ambos idiomas. `pnpm cv:pdf` regenera un único tamaño Carta por idioma con enlaces de contacto y proyectos verificados. Sin cambio de fase.
 
 ## Pendiente y riesgos
 
@@ -75,8 +90,9 @@ Actualizado: 25 de noviembre de 2026.
 - Conservar analítica de producción, contenido bilingüe y URLs existentes durante cada transición.
 - Fase 5: publicaciones recientes ocultas mientras la colección del blog esté vacía.
 - Fase 5: sección final de contacto compacta con enlace a `/es/contacto` y `/en/contact`; se hace junto con la página dedicada en Fase 7 para no dejar enlaces rotos.
-- Fase 6: currículums en inglés y español derivados del mismo contenido verificado, optimizados para impresión y ATS; no mostrar botones de descarga hasta tener los documentos definitivos. El PDF recibido no se publica tal cual: solo está en español e incluye una referencia laboral con datos personales de un tercero.
-- Fase 5: revisar con el propietario la escritura del hero (posicionamiento como «Software Engineer») antes de sustituir el texto manuscrito actual.
+- Fase 6 resuelta: currículums en inglés y español derivados del mismo contenido verificado, optimizados para impresión y ATS, con botones de descarga ya publicados. El PDF recibido no se publicó tal cual: solo estaba en español e incluía una referencia laboral con datos personales de un tercero.
+- Fase 5: el propietario eligió «Full-Stack Engineer» como título; el hero y los metadatos ya lo usan. La redacción manuscrita del hero se conserva.
+- Fase 6: ampliar la historia personal con preguntas específicas si el propietario lo desea; el texto actual es el resumen que ya existía en el sitio.
 
 ## Decisiones y preguntas abiertas
 
@@ -85,8 +101,8 @@ Actualizado: 25 de noviembre de 2026.
 - Revisar los slugs ingleses iniciales y su impacto SEO antes de publicar.
 - El propietario aprobó la Fase 1, conservando la identidad actual y con temas light/dark/system.
 - La tipografía y el ancho documentados en `DESIGN.md` difieren de lo implementado. Se propone conservar la apariencia actual y discutir cambios significativos, incluida la escritura del hero.
-- La fotografía ya está disponible. Siguen pendientes la historia profesional, las certificaciones, los PDF del CV en ambos idiomas y la verificación de herramientas y servicios autohospedados antes de publicarlos.
-- Para la Fase 6, Sobre mí será principalmente un CV web; los PDF en inglés y español se derivarán del mismo contenido verificado y tendrán una presentación optimizada para impresión.
+- La fotografía ya está disponible. Siguen pendientes la ampliación de la historia personal, las certificaciones y la verificación de herramientas y servicios autohospedados antes de publicarlos.
+- Los PDF en inglés y español se derivan del mismo contenido verificado del CV web, con presentación optimizada para impresión y ATS; se generan con `pnpm cv:pdf` usando Chrome headless, sin añadir dependencias.
 - El propietario decidió publicar en el CV web solo experiencia y educación, más su teléfono `+503 79996844` (WhatsApp); se excluyen el teléfono distinto del PDF y la referencia laboral de un tercero. El correo de contacto es `contacto@mauriciodmo.com`.
 
 ## Validación
@@ -131,6 +147,16 @@ Fase 2: compilación Astro correcta con caché Vite aislada, 19 páginas generad
 
 Fase 1: compilación y pruebas manuales de tema y viewport 375 px correctas. `astro check` requiere dependencias no instaladas; no hay lint configurado. Sin evaluación Lighthouse o WCAG concluyente.
 
+CV y página personal (26-11-2026): `pnpm build` correcto (29 páginas). En `dist` se verificaron `/es/cv/` y `/en/cv/` en el sitemap, las cuatro rutas con `lang` correcto, el teléfono `+503 79996844` y su enlace de WhatsApp tanto en la cabecera como en el contacto del CV, y ausencia de cadenas españolas en las versiones inglesas. En navegador se revisaron las cuatro páginas en 1910 px y a 375 px sin desbordamiento horizontal (`scrollWidth` 375 = `innerWidth`); las cinco etapas de «Cómo trabajo» aparecen al desplazarse. No se ejecutaron pruebas sin aprobación.
+
+Contraste del texto: `pnpm build` correcto (29 páginas). En navegador se comprobó el token aplicado a `#habilidades dd`: `rgb(198, 213, 203)` en tema oscuro y `rgb(52, 81, 57)` en tema claro, tanto con preferencia del sistema como con `data-theme` explícito. No se ejecutaron pruebas sin aprobación.
+
+Textos de sobre mí: `pnpm build` correcto (29 páginas). En `dist` se verificaron las tres frases de marca y los textos nuevos en es/en, la ausencia de cadenas españolas en `/en/about` (salvo la dirección de correo) y la desaparición de los bloques eliminados. `git diff --check`: correcto. No se ejecutaron pruebas sin aprobación.
+
+PDF del CV (26-11-2026): `pnpm cv:pdf` generó ambos PDF con `pdfinfo`: una página tamaño Carta (612 × 792 pts) y texto seleccionable; `pdftotext` confirmó los seis apartados, los datos de contacto y la ausencia de la referencia laboral de un tercero. `pnpm build` correcto (29 páginas); en `dist/cv/` están los dos archivos y en `dist/es/cv/index.html` y `dist/en/cv/index.html` el botón con `download` y el href del idioma correspondiente. Revisión visual del PDF en escritorio y de la página `/es/cv` a 1280 px y 375 px sin desbordamiento horizontal. No se ejecutaron pruebas sin aprobación.
+
+Ajustes finales del CV (26-11-2026): `pdfinfo` confirma una página Carta por idioma; `grep` sobre el PDF verificó cuatro anotaciones `/URI` con las rutas `/es/proyectos/{id}/` y `/en/projects/{slug}/`, sin slugs ingleses en el PDF español ni viceversa. `pdftotext` confirmó las dos entradas de educación en es/en. `pnpm build` correcto (29 páginas) y `git diff --check` correcto. En navegador se revisó la alineación de educación y la separación de secciones a 1280 px. No se ejecutaron pruebas sin aprobación.
+
 ## Archivos relevantes
 
 - `docs/migration-plan.md`: plan original.
@@ -159,8 +185,16 @@ Fase 1: compilación y pruebas manuales de tema y viewport 375 px correctas. `as
 - `src/pages/about/_AboutPageFrame.astro`, `src/pages/es/sobre-mi/index.astro`, `src/pages/en/about/index.astro`: CV web bilingüe.
 - `src/i18n/lang/{es,en}/{about,seo}.ts`: textos del CV y metadatos de la nueva página.
 - `src/sections/about/AboutSection.astro`, `src/sections/process/ProcessSection.astro`, `src/sections/about/components/ProfileSignalCard.astro`: secciones movidas de la portada al CV web.
-- `src/data/site.ts`: correo `contacto@mauriciodmo.com`, teléfono y WhatsApp centralizados.
+- `src/data/site.ts`: correo `contacto@mauriciodmo.com`, teléfono y WhatsApp centralizados; título del sitio como Full-Stack Engineer.
+- `src/pages/cv/_CvPageFrame.astro`, `src/pages/{es,en}/cv/index.astro`: currículum en línea bilingüe.
+- `src/i18n/lang/{es,en}/cv.ts`: textos del currículum; `src/i18n/schema.ts` y `src/i18n/lang/{es,en}/index.ts`: sección registrada.
+- `src/pages/about/_AboutPageFrame.astro`, `src/sections/about/AboutSection.astro`: página personal; `ProfileSignalCard.astro` eliminado.
+- `src/data/cv.ts`: duties, resultados, habilidades y proyectos compartidos por el CV web y los PDF.
+- `src/data/project-slugs.ts`: mapa id español ↔ slug inglés compartido por `src/i18n/index.ts` y el generador de PDF.
+- `scripts/generate-cv-pdf.mjs`, `public/cv/mauricio-martinez-cv-{es,en}.pdf`: generación y resultados de los currículums descargables.
+- `src/components/ButtonLink.astro`: soporte del atributo `download` para los enlaces a los PDF.
+- `src/components/CvSectionHeading.astro`: encabezado compartido de las secciones del CV web.
 
 ## Próximo paso
 
-Completar la Fase 6 con los PDF del CV en ambos idiomas y decidir si se añade la historia personal breve. Las publicaciones recientes siguen ocultas hasta la Fase 7; la página de contacto dedicada también se implementa en la Fase 7, previa aprobación. Comprobar SEO y redirecciones en el hosting antes de publicar. No avanzar a la Fase 7 sin aprobación.
+La Fase 6 queda pendiente solo de la ampliación de la historia personal, que el propietario proporcionará. Una vez recibida, actualizar `/es/sobre-mi` y `/en/about` y cerrar la fase. Las publicaciones recientes siguen ocultas hasta la Fase 7; la página de contacto dedicada también se implementa en la Fase 7, previa aprobación. Comprobar SEO y redirecciones en el hosting antes de publicar. No avanzar a la Fase 7 sin aprobación.
