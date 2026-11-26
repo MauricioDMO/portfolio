@@ -4,7 +4,7 @@ Actualizado: 26 de noviembre de 2026.
 
 ## Fase actual
 
-**Fase 6 — Sobre mí y currículum**, reorientada por decisión del propietario el 26 de noviembre de 2026: `/es/cv` y `/en/cv` son el currículum en línea; `/es/sobre-mi` y `/en/about` son la página personal. El título profesional es **Full-Stack Engineer**. La portada sigue en hero mínimo (foto, titular, descripción, disponibilidad y botones), proyectos, stack y contacto; no se crea la página `/stack` propuesta. Los PDF descargables en ambos idiomas ya están generados y enlazados desde `/cv`. Queda únicamente ampliar la historia personal si el propietario lo desea. No iniciar la Fase 7 sin aprobación explícita.
+**Fase 8 — Buscador global: completada el 26 de noviembre de 2026** (el propietario aprobó el inicio). El buscador usa un índice JSON generado en compilación y un diálogo nativo con atajo `Ctrl/Cmd + K`, sin dependencias nuevas. Las fases 0 a 7 siguen concluidas: `/es/cv` y `/en/cv` son el currículum en línea, `/es/sobre-mi` y `/en/about` la página personal, los PDF bilingües están publicados, y `/es/contacto`, `/en/contact`, `/es/blog` y `/en/blog` están operativos. No se crea `/uses` ni `/herramientas`: el stack sigue en `#stack` de la portada. **Fase 9 — SEO, optimización y pruebas: pendiente de aprobación explícita para iniciarla.**
 
 ## Completado
 
@@ -74,27 +74,48 @@ Actualizado: 26 de noviembre de 2026.
 - El mapa id español ↔ slug inglés de proyectos se centralizó en `src/data/project-slugs.ts` y lo reutilizan la i18n y el generador de PDF.
 - Ajuste solicitado: aspecto de los PDF actualizado en `scripts/generate-cv-pdf.mjs`: tipografía Inter/IBM Plex Sans con Arial como respaldo (nombre 26 pt, encabezados 11,5 pt, cuerpo 10 pt), más separación entre secciones, encabezados sin barra vertical (solo regla horizontal fina), contacto con etiqueta y dato visible (correo, teléfono, portafolio, GitHub y LinkedIn) como enlaces, y cifras de impacto operativo en negrita; las URLs se muestran de forma compacta para que el PDF impreso conserve los datos de contacto. Etiquetas `cv.contactEmail`, `cv.contactPhone` y `cv.contactPortfolio` añadidas a ambos idiomas. `pnpm cv:pdf` regenera un único tamaño Carta por idioma con enlaces de contacto y proyectos verificados. Sin cambio de fase.
 - Ajuste solicitado: tercer botón en el hero de la portada («Ver CV» / «View CV») que enlaza al currículum en línea de cada idioma con icono `IconFileCv` de Tabler y analítica `nav_section`. Sin cambio de fase.
+- Cierre de la Fase 6 confirmado por el propietario el 26 de noviembre de 2026: CV web, página personal y PDFs bilingües se consideran definitivos para esta fase.
+- Fase 7: decisión del propietario de no migrar la página Uses; el stack técnico ya está en la portada (`#stack`). Se documenta en el plan y se retira de las tareas pendientes.
+- Fase 7: `site.silverWolf` centraliza `https://web.mauriciodmo.com` y `site.whatsapp` abre el teléfono en WhatsApp.
+- Fase 7: rutas `/es/contacto` y `/en/contact` con marco compartido `src/pages/contact/_ContactPageFrame.astro`: canales (correo, WhatsApp, GitHub, LinkedIn), disponibilidad profesional y enlace a Silver Wolf, sin formularios; equivalencia `contacto` ↔ `contact` en `localizedPath`.
+- Fase 7: navegación con enlaces a Blog y a la página de contacto dedicada, en lugar del ancla `#contacto`; en las fichas de proyecto «Contacto» también apunta a esa página.
+- Fase 7: cierre de portada compacto con disponibilidad y enlace a la página de contacto; el listado de canales ya no se duplica en la portada.
+- Fase 7: sección i18n `blog` en es/en con categorías, estado vacío, fecha y tiempo de lectura; rutas `/es/blog` y `/en/blog` con marco compartido y plantilla editorial que muestra fecha, categoría, etiquetas y enlace de vuelta al blog.
+- Fase 7: la colección del blog sigue vacía, por lo que el listado muestra el estado vacío y no hay publicaciones recientes en la portada.
+- Ajuste solicitado: el CTA del hero pasa a «Ver proyectos» / «See projects» (sin «reales»), lleva al catálogo localizado (`/es/proyectos` y `/en/projects`) y usa `IconLayoutGrid` de Tabler; «Hablemos de tu proyecto» lleva a la página de contacto dedicada, con `IconMessage` y evento `nav_section` en lugar de `mailto:`.
+- Ajuste solicitado: RAG añadido a los pills del stack y a las listas de herramientas en `src/data/techs.ts`, con el icono `cube-3d-sphere` de Tabler (`IconCube3dSphere`) renderizado directamente en `TechPill.astro` y `ProjectTools.astro`; enlace al paper original. Sin cambio de fase.
+- Ajuste solicitado: MCP añadido a los pills del stack y a las listas de herramientas con el SVG de `public/svg/modelcontextprotocol.svg` (relleno negro, tema claro) y la variante nueva `public/svg/modelcontextprotocol-dark.svg` (relleno blanco, tema oscuro), enlace a `modelcontextprotocol.io`. Sin cambio de fase.
+- Ajuste solicitado: Skills añadido a los pills del stack y a las listas de herramientas con el icono `file-text-cog` de Tabler (`IconFileTextCog`), enlace a `agentskills.io`. Sin cambio de fase.
+- Ajuste solicitado: reordenadas las entradas de `src/data/techs.ts` por similitud para los pills del stack — Bitcoin (BTCPay Server, Bitcoin) primero, IA (OpenCode, RAG, MCP, Skills) en segundo lugar y después frontend, backend, bases de datos, infraestructura y herramientas. No cambió ninguna entrada ni las claves; Hermes Agent se mantiene en infraestructura por formar parte del caso autohospedado. Sin cambio de fase.
+- Post de prueba eliminado. Primer artículo real, bilingüe y en MDX: `src/content/blog/este-sitio-y-construfijaciones/{es,en}.mdx` explica el portafolio y Construfijaciones con datos verificados del CV y del caso web, e incluye una captura existente y un enlace en línea al caso. Para MDX se añadió `@astrojs/mdx@6.0.3` (compatible con Astro 6), se registró `mdx()` en `astro.config.mjs` y el loader y `lib/content.ts` aceptan `.md` y `.mdx`. Sin cambio de fase.
+- Ajuste solicitado: el botón verde del artículo se sustituyó por un CTA compacto con borde tenue, texto de acento e icono de Tabler (`ButtonLink` con `variant="ghost"`), centrado dentro de la columna con un contenedor `flex justify-center`; los enlaces del cuerpo siguen siendo Markdown. La cabecera y el cuerpo de las fichas del blog se centran con `mx-auto` en `EditorialPage.astro`, sin cambiar la disposición de los casos de estudio.
+- Ajuste solicitado de redacción en el primer artículo (es/en): tono más natural y eliminación del párrafo que explicaba que el contenido vive en Markdown/MDX y que el artículo usa componentes de Astro. Se conservan todos los datos, enlaces, imagen y CTA. Sin cambio de fase.
+- Ajuste solicitado: encabezado unificado en todas las páginas. Se eliminó la prop `variant` de `src/components/SiteHeader.astro` (antes `home`, con seis enlaces, y `project`, con cuatro) y se retiró `variant="project"` del catálogo, los casos de estudio, el listado del blog y la ficha de artículo. El mismo menú (Proyectos, CV, Stack, Sobre mí, Blog, Contacto) aparece ahora en portada, CV, sobre mí, contacto, catálogo, casos y artículos, en ambos idiomas; la única diferencia por página es el destino del selector de idioma, que apunta a la traducción de la página actual. Sin cambio de fase.
+- Fase 8: endpoint `src/pages/search-index.json.ts` que genera durante la compilación un índice con los proyectos y artículos publicados en ambos idiomas; reutiliza `getPublishedEntries` y `localizedPath`, por lo que excluye borradores y usa las URLs definitivas.
+- Fase 8: `src/components/SearchDialog.astro` añade un botón en la cabecera con icono de Tabler, diálogo nativo con atajo `Ctrl/Cmd + K`, búsqueda sin distinción de tildes ni mayúsculas, coincidencias parciales, orden por relevancia, navegación con flechas/Inicio/Fin/Enter/Escape y estado vacío traducido. Los resultados se filtran por el idioma de la página.
+- Fase 8: nueva sección i18n `search` en es/en con los textos del diálogo y las etiquetas de categoría de los proyectos; registrada en `schema.ts` y en los índices de ambos idiomas.
+- Ajuste visual del buscador: centrado explícito del diálogo porque el reset de Tailwind anula el `margin: auto` propio de `<dialog>`, y oculto el botón nativo de limpiar del campo.
+- Ajuste solicitado por el propietario: el índice incluye también las seis páginas principales por idioma (inicio, proyectos, CV, sobre mí, blog y contacto), con títulos y descripciones de SEO ya traducidos. Buscar «proyectos» abre `/es/proyectos/`; el índice pasa a 26 entradas.
+- Ajuste solicitado por el propietario: el resultado activo muestra ahora borde y fondo de acento y título en color de acento, y la pista de teclado es visible bajo los resultados. Antes las flechas solo desplazaban la lista y no era evidente qué resultado estaba seleccionado; el resaltado fallaba porque la regla CSS apuntaba a `data-search-option` y el `<li>` no llevaba ese atributo.
+- Ajuste solicitado: barra de desplazamiento propia en `src/styles/global.css`, derivada de los tokens de acento y borde con `color-mix`, redondeada y con `scrollbar-width: thin`/`scrollbar-color` como equivalente para Firefox. Aplica al documento y a áreas con scroll interno, como la lista del buscador. Sin cambio de fase.
+- Corrección solicitada por el propietario: al llegar al último resultado y pulsar abajo saltaba al tercero, y desde el primero hacia arriba al antepenúltimo. La causa era el cursor quieto sobre la lista: `scrollIntoView` movía el contenido y disparaba `mouseenter` en otra opción, sobrescribiendo la selección del teclado. Se sustituyó `mouseenter` por `pointermove`, que solo responde a movimiento real del ratón; el resaltado al pasar el cursor sigue funcionando. Sin cambio de fase.
 
 ## Pendiente y riesgos
 
 - Confirmar que «Hermes» en la VPS corresponde a Hermes Agent de Nous Research; el caso de estudio usa esa interpretación, derivada del servicio listado por Coolify y de la documentación oficial.
 - Revisar privacidad y autorización de las capturas restantes antes de publicar; verificar métricas existentes.
 - Revisar visualmente los dos casos nuevos en ambos idiomas y en móvil, incluida la galería de Coolify; verificar que las capturas no muestren información sensible.
-- Implementar el listado del blog en la Fase 7.
-- Centralizar la URL de Silver Wolf en `src/data/site.ts` al implementar la página de contacto; el teléfono ya está centralizado y enlaza a `https://wa.me/50379996844`.
-- Crear las rutas `/es/contacto` y `/en/contact` en su fase, con correo, LinkedIn, GitHub, teléfono y Silver Wolf, los textos en `src/i18n/lang/{es,en}/contact.ts` y el cierre de la portada enlazando a ellas.
 - Medir Lighthouse y revisar accesibilidad y responsive manualmente en páginas representativas; aún no hay cifras verificadas.
 - Revisar capturas por datos privados; verificar enlaces históricos y redirecciones en el hosting.
 - El propietario confirmó que `public/projects/construfijaciones-dte/factura.webp` contiene datos de prueba; se conserva. Revisar independientemente las demás capturas antes de migrarlas.
-- Falta revisión visual del nuevo botón «Ver CV» del hero en escritorio y móvil.
 - Revisar visualmente el carrusel y las transiciones en ambos idiomas y en móvil; el contenido de proceso puede quedar oculto sin JavaScript.
 - Decidir si añadir herramientas de tipos, lint y pruebas en una fase apropiada; no se instalaron dependencias.
 - Conservar analítica de producción, contenido bilingüe y URLs existentes durante cada transición.
-- Fase 5: publicaciones recientes ocultas mientras la colección del blog esté vacía.
-- Fase 5: sección final de contacto compacta con enlace a `/es/contacto` y `/en/contact`; se hace junto con la página dedicada en Fase 7 para no dejar enlaces rotos.
+- Revisar visualmente la página de contacto y el listado del blog en ambos idiomas, en escritorio y móvil.
+- El blog ya tiene un primer artículo real sobre el sitio y Construfijaciones; siguen pendientes los artículos técnicos propuestos en el plan (facturación electrónica, infraestructura, etc.).
+- Crear redirecciones o actualizar enlaces externos que apuntaran a una hipotética página Uses; no se crearon rutas nuevas para ella.
 - Fase 6 resuelta: currículums en inglés y español derivados del mismo contenido verificado, optimizados para impresión y ATS, con botones de descarga ya publicados. El PDF recibido no se publicó tal cual: solo estaba en español e incluía una referencia laboral con datos personales de un tercero.
 - Fase 5: el propietario eligió «Full-Stack Engineer» como título; el hero y los metadatos ya lo usan. La redacción manuscrita del hero se conserva.
-- Fase 6: ampliar la historia personal con preguntas específicas si el propietario lo desea; el texto actual es el resumen que ya existía en el sitio.
 
 ## Decisiones y preguntas abiertas
 
@@ -106,6 +127,9 @@ Actualizado: 26 de noviembre de 2026.
 - La fotografía ya está disponible. Siguen pendientes la ampliación de la historia personal, las certificaciones y la verificación de herramientas y servicios autohospedados antes de publicarlos.
 - Los PDF en inglés y español se derivan del mismo contenido verificado del CV web, con presentación optimizada para impresión y ATS; se generan con `pnpm cv:pdf` usando Chrome headless, sin añadir dependencias.
 - El propietario decidió publicar en el CV web solo experiencia y educación, más su teléfono `+503 79996844` (WhatsApp); se excluyen el teléfono distinto del PDF y la referencia laboral de un tercero. El correo de contacto es `contacto@mauriciodmo.com`.
+- Fase 7: el propietario descartó la página Uses porque el stack ya está en la portada; no se crean `/uses` ni `/herramientas`. Aceptó en cambio usar el stack verificado del repositorio como referencia, sin inventar herramientas ni descripciones.
+- Fase 7: la sección de publicaciones recientes de la portada se deriva de la colección `blog` y solo aparece cuando hay artículos publicados; el listado del blog muestra un estado vacío mientras tanto.
+- Fase 8: se eligió un índice JSON generado en compilación y filtrado local, sin Pagefind, Fuse.js ni MiniSearch: el contenido actual son siete entradas por idioma y no justifica una dependencia. Se añadirá una librería de búsqueda solo si el índice crece o necesita indexación de texto completo.
 
 ## Validación
 
@@ -161,6 +185,24 @@ Ajustes finales del CV (26-11-2026): `pdfinfo` confirma una página Carta por id
 
 CTA del CV en la portada: `pnpm build` correcto (29 páginas). En `dist/es/index.html` y `dist/en/index.html` se verificó el tercer botón del hero con `href="/es/cv/"` y `href="/en/cv/"`, las etiquetas «Ver CV» y «View CV» y el evento `nav_section` con `section: "cv", source: "hero"`. `git diff --check` correcto. Falta revisión visual en navegador. No se ejecutaron pruebas sin aprobación.
 
+Fase 7 (26-11-2026): `pnpm build` correcto (33 páginas; aviso esperado por colección de blog vacía). En `dist` se comprobó que `/es/contacto/`, `/en/contact/`, `/es/blog/` y `/en/blog/` están en el sitemap, que las páginas de contacto emiten correo, teléfono y Silver Wolf en ambos idiomas, que el listado del blog muestra el estado vacío traducido y que no hay cadenas españolas en las versiones inglesas. La navegación de la portada apunta a `/es/blog/` y `/es/contacto/` (y equivalentes en inglés), y el cierre de la portada ya no duplica el listado de canales. La sección de publicaciones recientes no se renderiza mientras no haya artículos. `git diff --check` correcto. Falta revisión visual en navegador, en escritorio y móvil. No se ejecutaron pruebas sin aprobación.
+
+CTA del hero: `pnpm build` correcto (33 páginas). En `dist/es/index.html` y `dist/en/index.html` se verificaron los textos «Ver proyectos» / «See projects», los enlaces a `/es/proyectos/` y `/en/projects/`, el enlace de contacto a `/es/contacto/` y `/en/contact/` y las clases `tabler-icon-layout-grid` y `tabler-icon-message`. `git diff --check` correcto. No se ejecutaron pruebas sin aprobación.
+
+Orden de las tools: `pnpm build` correcto (33 páginas; aviso esperado por colección de blog vacía). En `dist/es/index.html` se comprobó que los 42 pills del stack se emiten en el orden Bitcoin → IA → frontend → backend → bases de datos → infraestructura → herramientas, sin entradas duplicadas ni perdidas. `git diff --check` correcto. No se ejecutaron pruebas sin aprobación.
+
+MDX y primer artículo: `pnpm build` correcto (35 páginas). En `dist` se generaron `/es/blog/este-sitio-y-construfijaciones/` y `/en/blog/this-site-and-construfijaciones/`; ambos listados y portadas enlazan a ellos, el HTML contiene la imagen de Construfijaciones, el CTA `article-cta` con icono `tabler-icon-arrow-up-right` y las clases `mx-auto` en la cabecera y el cuerpo del blog. Los botones `primary` y `secondary` conservan sus clases originales. `pnpm peers check` limpio tras fijar `@astrojs/mdx@6.0.3`. En navegador y servidor local se verificaron el CTA y ambos artículos con HTTP 200. `git diff --check` correcto. No se ejecutaron pruebas sin aprobación.
+
+Redacción del artículo: `pnpm build` correcto (35 páginas) y `git diff --check` correcto. `grep` sobre el HTML generado confirmó que ni el artículo en español ni el inglés mencionan Markdown ni MDX; se mantienen la imagen, el CTA y los enlaces del cuerpo. No se ejecutaron pruebas sin aprobación.
+
+Header unificado: `pnpm build` correcto (35 páginas). En el HTML generado se comparó el primer `<header>` de portada, catálogo, caso de estudio, listado del blog y ficha de artículo en es/en: los siete enlaces del menú principal coinciden en todas las páginas; las únicas diferencias son los `href` del selector de idioma, que apuntan a la traducción equivalente de la página actual. No se ejecutaron pruebas sin aprobación.
+
+Fase 8 (26-11-2026): `pnpm build` correcto (35 páginas) con `/search-index.json` generado: 26 entradas, seis proyectos, un artículo y seis páginas principales por idioma, sin borradores. En navegador se verificó en `/es/` y `/en/` que `Ctrl+K` abre el diálogo con el foco en el campo, que `garantias` sin tilde encuentra «Sistema RMA / Garantías», que `inventario` no devuelve resultados en `/en/` y que `inventory` abre `/en/projects/inventory-management/` con Enter; `Escape` cierra el diálogo. Se revisó el centrado y la ausencia de desbordamiento horizontal a 375 px, en temas oscuro y claro. Tras el ajuste solicitado, buscar «proyectos» muestra «Proyectos» como primer resultado con destino `/es/proyectos/`, y `ArrowDown` resalta el siguiente resultado con borde y fondo de acento mientras `aria-activedescendant` sigue al elemento activo. `git diff --check` correcto. No se ejecutaron pruebas sin aprobación.
+
+Scrollbars: `pnpm build` correcto (35 páginas). En el CSS compilado se verificaron `scrollbar-width: thin`, `scrollbar-color` y las reglas `::-webkit-scrollbar*` con `color-mix` de los tokens. En navegador, el thumb del documento computa `color(srgb 0.27 0.47 0.34)` en tema oscuro y `color(srgb 0.41 0.60 0.48)` en claro, con borde `rgb(13, 18, 16)` en oscuro y radio `999px`. No se ejecutaron pruebas sin aprobación.
+
+Wrap del buscador: `pnpm build` correcto (35 páginas). Con ocho resultados, `End` + `ArrowDown` pasa al índice 0 y `Home` + `ArrowUp` al 7, aunque se dispare `mouseenter` sobre otra opción; `pointermove` sobre una opción sigue seleccionándola. No se ejecutaron pruebas sin aprobación.
+
 ## Archivos relevantes
 
 - `docs/migration-plan.md`: plan original.
@@ -198,7 +240,20 @@ CTA del CV en la portada: `pnpm build` correcto (29 páginas). En `dist/es/index
 - `scripts/generate-cv-pdf.mjs`, `public/cv/mauricio-martinez-cv-{es,en}.pdf`: generación y resultados de los currículums descargables.
 - `src/components/ButtonLink.astro`: soporte del atributo `download` para los enlaces a los PDF.
 - `src/components/CvSectionHeading.astro`: encabezado compartido de las secciones del CV web.
+- `src/pages/contact/_ContactPageFrame.astro`, `src/pages/es/contacto/index.astro`, `src/pages/en/contact/index.astro`: página de contacto bilingüe con canales, disponibilidad y Silver Wolf.
+- `src/pages/blog/_BlogIndexFrame.astro`, `src/pages/es/blog/index.astro`, `src/pages/en/blog/index.astro`: listado del blog con estado vacío, fecha, categoría y tiempo de lectura.
+- `src/sections/blog/BlogSection.astro`, `src/pages/{es,en}/index.astro`: publicaciones recientes condicionadas a la colección y cierre compacto con enlace al contacto.
+- `src/i18n/lang/{es,en}/{blog,contact,seo}.ts`, `src/i18n/schema.ts`, `src/i18n/index.ts`: sección `blog`, textos nuevos y equivalencias `contacto` ↔ `contact`.
+- `src/components/EditorialPage.astro`: ficha de artículo con fecha, etiquetas y vuelta al blog.
+- `src/components/SiteHeader.astro`, `src/sections/contact/ContactSection.astro`: navegación y cierre de portada apuntando a las rutas nuevas.
+- `src/data/site.ts`: URL de Silver Wolf centralizada.
+- `astro.config.mjs`, `src/content.config.ts`, `src/lib/content.ts`: integración MDX y loaders `.md`/`.mdx`.
+- `src/content/blog/este-sitio-y-construfijaciones/{es,en}.mdx`: primer artículo real, con imagen y componente importado.
+- `src/pages/search-index.json.ts`: índice bilingüe de contenido publicado, generado en compilación.
+- `src/components/SearchDialog.astro`: botón en la cabecera, diálogo, filtrado y navegación por teclado del buscador.
+- `src/i18n/lang/{es,en}/search.ts`, `src/i18n/schema.ts`, `src/i18n/lang/{es,en}/index.ts`: sección `search` y etiquetas del buscador.
+- `src/components/SiteHeader.astro`: botón del buscador en el menú compartido.
 
 ## Próximo paso
 
-La Fase 6 queda pendiente solo de la ampliación de la historia personal, que el propietario proporcionará. Una vez recibida, actualizar `/es/sobre-mi` y `/en/about` y cerrar la fase. Las publicaciones recientes siguen ocultas hasta la Fase 7; la página de contacto dedicada también se implementa en la Fase 7, previa aprobación. Comprobar SEO y redirecciones en el hosting antes de publicar. No avanzar a la Fase 7 sin aprobación.
+Fase 8 completada: el buscador está implementado, compilado y revisado en navegador en ambos idiomas, escritorio y móvil. El siguiente paso es la **Fase 9 — SEO, optimización y pruebas**, previa aprobación explícita: metadatos y `hreflang` bilingües, sitemap, canonical, datos estructurados, redirecciones en el hosting, Lighthouse/accesibilidad/responsive y ejecución de pruebas (esta última solo con tu autorización). No avanzar a la Fase 9 sin aprobación.
