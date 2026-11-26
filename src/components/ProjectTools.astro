@@ -1,5 +1,5 @@
 ---
-import { techs, type TechKey } from '../data/techs';
+import { techs, type Tech, type TechKey } from '../data/techs';
 import { getLocale, t } from '../i18n';
 
 type Props = {
@@ -30,8 +30,9 @@ const textColor = compact ? 'text-[var(--color-muted)]' : 'text-[var(--color-tex
     {
       items.map((item) => {
         const normalized = item.trim().toLowerCase();
-        const tech = (Object.hasOwn(techs, normalized) ? techs[normalized as TechKey] : undefined) ??
+        const tech: Tech | undefined = (Object.hasOwn(techs, normalized) ? techs[normalized as TechKey] : undefined) ??
           Object.values(techs).find((candidate) => candidate.name.toLowerCase() === normalized);
+        const TechIcon = tech?.Icon;
 
         return (
           <li class="list-none">
@@ -39,8 +40,9 @@ const textColor = compact ? 'text-[var(--color-muted)]' : 'text-[var(--color-tex
               class={`inline-flex items-center gap-1.5 rounded-full border border-white/10 px-2.5 py-1.5 font-mono text-xs ${textColor}`}
               style={tech ? `--tech-color: ${tech.color}` : undefined}
             >
-              {tech && <img class={`${tech.iconLight ? 'tech-icon ' : ''}size-3.5 object-contain`} src={tech.icon} alt="" aria-hidden="true" />}
-              {tech?.iconLight && <img class="tech-icon-light size-3.5 object-contain" src={tech.iconLight} alt="" aria-hidden="true" />}
+              {tech?.icon && <img class={`${tech.iconLight ? 'tech-icon ' : ''}size-3.5 object-contain`} src={tech.icon} alt="" aria-hidden="true" />}
+              {tech?.iconLight && !TechIcon && <img class="tech-icon-light size-3.5 object-contain" src={tech.iconLight} alt="" aria-hidden="true" />}
+              {TechIcon && <TechIcon class="size-3.5 shrink-0 text-[var(--color-accent)]" size={14} stroke={1.7} aria-hidden="true" />}
               <span>{tech?.name ?? item}</span>
             </span>
           </li>

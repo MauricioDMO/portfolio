@@ -8,7 +8,7 @@ import {
 import SectionHeader from "../../components/SectionHeader.astro";
 import TechPill from "../../components/TechPill.astro";
 import { getLocale, t } from "../../i18n";
-import { techs } from "../../data/techs";
+import { techs, type Tech } from "../../data/techs";
 import StackCard from "./components/StackCard.astro";
 
 const lang = getLocale(Astro.currentLocale);
@@ -35,11 +35,12 @@ const stack: StackItem[] = [
       class="mb-8 flex flex-wrap [flex-wrap:wrap_balance]! gap-2.5 justify-center"
       aria-label={t("stack.techLabel", lang)}
     >
-      {Object.values(techs).map((tech) => (
+      {(Object.values(techs) as Tech[]).map((tech) => (
         <TechPill
           name={tech.name}
           src={tech.icon}
           lightSrc={tech.iconLight}
+          Icon={tech.Icon}
           href={tech.href}
           color={tech.color}
         />

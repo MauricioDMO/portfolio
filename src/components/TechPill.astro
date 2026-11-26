@@ -1,16 +1,18 @@
 ---
+import { IconCube3dSphere } from '@tabler/icons-astro';
 import { getLocale, t } from '../i18n';
 
 type Props = {
   name: string;
-  src: string;
+  src?: string;
   lightSrc?: string;
+  Icon?: typeof IconCube3dSphere;
   href: string;
   color?: string;
 };
 
 const lang = getLocale(Astro.currentLocale);
-const { name, src, lightSrc, href, color = "var(--color-accent)" } = Astro.props;
+const { name, src, lightSrc, Icon, href, color = "var(--color-accent)" } = Astro.props;
 const iconClass = "h-5 w-5 object-contain transition-transform duration-300 group-hover:scale-110";
 ---
 
@@ -25,16 +27,22 @@ const iconClass = "h-5 w-5 object-contain transition-transform duration-300 grou
   <span
     class="relative grid size-8 place-items-center rounded-lg border border-white/5 bg-gradient-to-br from-[var(--color-card)] to-[var(--color-bg)] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05),0_2px_4px_rgba(0,0,0,0.2)] transition-all duration-300 group-hover:border-[var(--tech-color)]/40 group-hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.08),0_4px_12px_rgba(0,0,0,0.3)]"
   >
-    <img
-      class={`${lightSrc ? "tech-icon " : ""}${iconClass}`}
-      src={src}
-      alt=""
-      loading="lazy"
-      decoding="async"
-      aria-hidden="true"
-    />
     {
-      lightSrc && (
+      Icon ? (
+        <Icon class={`${iconClass} text-[var(--color-accent)]`} size={20} stroke={1.7} aria-hidden="true" />
+      ) : (
+        <img
+          class={`${lightSrc ? "tech-icon " : ""}${iconClass}`}
+          src={src}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          aria-hidden="true"
+        />
+      )
+    }
+    {
+      lightSrc && !Icon && (
         <img
           class={`tech-icon-light ${iconClass}`}
           src={lightSrc}
